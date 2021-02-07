@@ -9,7 +9,7 @@ namespace Demands.API.Repositories.Interfaces
     {
         Task<IEnumerable<Demand>> getDemands();
 
-        Task<Demand> GetDemand(string Id);
+        Task<Demand> GetDemandById(string Id);
 
         Task<IEnumerable<Demand>> getDemandByName(string Name);
 

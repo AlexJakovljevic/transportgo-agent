@@ -13,7 +13,7 @@ namespace Demands.API.Data
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
 
-            Demands = (IMongoCollection<Demand>)database.GetCollection<Demand>(settings.CollectionName);
+            Demands = database.GetCollection<Demand>(settings.CollectionName);
 
         }
 

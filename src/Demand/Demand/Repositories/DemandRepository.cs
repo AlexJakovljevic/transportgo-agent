@@ -33,7 +33,7 @@ namespace Demands.API.Repositories
             return deleted.IsAcknowledged && deleted.DeletedCount > 0;
         }
 
-        public async Task<Demand> GetDemand(string Id)
+        public async Task<Demand> GetDemandById(string Id)
         {
             return await _context.Demands.Find(item => item.Id == Id).FirstOrDefaultAsync();
         }
