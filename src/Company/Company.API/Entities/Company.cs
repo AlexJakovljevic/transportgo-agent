@@ -20,7 +20,8 @@ namespace Company.API.Entities
 
         public Contact Contact { get; set; }
 
-        //public List<Vehicle> Vehicles { get; set; } TODO: When Vehicle Entitie is added
+        // TODO: When Vehicle entitie is added
+        //public List<Entities.Vehicle> Vehicles { get; set; } 
 
         public List<Cargo> Cargos { get; set; }
     }
