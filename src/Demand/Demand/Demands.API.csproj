@@ -2,11 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <DockerComposeProjectPath>../../../docker-compose.dcproj</DockerComposeProjectPath>
+    <UserSecretsId>704cbb46-5df8-42a1-9671-814feb9bdfc4</UserSecretsId>
   </PropertyGroup>
 
 
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Demand' " />
-  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Demand.API' " />
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="Entities\" />
@@ -20,5 +21,6 @@
     <PackageReference Include="MongoDB.Bson" Version="2.11.6" />
     <PackageReference Include="MongoDB.Driver" Version="2.11.6" />
     <PackageReference Include="MongoDB.Driver.Core" Version="2.11.6" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.0" />
   </ItemGroup>
 </Project>

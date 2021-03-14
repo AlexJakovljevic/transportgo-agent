@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+    demanddb:
+        image: mongo
+
+    demands.api:
+        image: ${DOCKER_REGISTRY-}demandsapi
+        build:
+            context: .
+            dockerfile: src/Demand/Demand/Dockerfile
