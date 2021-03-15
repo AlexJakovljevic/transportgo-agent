@@ -2,11 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Demands.API.Data;
-using Demands.API.Data.Interfaces;
-using Demands.API.Repositories;
-using Demands.API.Repositories.Interfaces;
-using Demands.API.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -14,9 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Logging;
 
-namespace Demands.API
+namespace Message.API
 {
     public class Startup
     {
@@ -31,24 +26,6 @@ namespace Demands.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-
-            services.Configure<DemandDatabaseSettings>(Configuration.GetSection(nameof(DemandDatabaseSettings)));
-
-            services.AddSingleton<IDemandDatabaseSettings>(sp => sp.GetRequiredService<IOptions<DemandDatabaseSettings>>().Value);
-
-            services.AddTransient<IDemandContext, DemandContext>();
-            services.AddTransient<IDemandRepository, DemandRepository>();
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
-                {
-                    Title = "Demands API",
-                    Version = "v1"
-                });
-            });
-
-            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,20 +42,10 @@ namespace Demands.API
 
             app.UseAuthorization();
 
-            app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000"));
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
-
-            app.UseSwagger();
-            app.UseSwaggerUI(
-                c =>
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Demands API V1");
-                }
-                );
         }
     }
 }
