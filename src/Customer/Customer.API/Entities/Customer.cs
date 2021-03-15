@@ -16,10 +16,26 @@ namespace Customer.API.Entities
 
         public string LastName { get; set; }
 
-        public string Address { get; set; }
+        public Address Address { get; set; }
 
-        public string Contact { get; set; }
+        public Contact Contact { get; set; }
 
         public List<string> OfferList { get; set; }
     }
+}
+
+public class Address
+{
+    public String State { get; set; }
+    public String City { get; set; }
+    public String Zip { get; set; }
+    public String StreetLine1 { get; set; }
+    public String StreetLine2 { get; set; }
+}
+
+public class Contact
+{
+    public String Phone { get; set; }
+    public String Fax { get; set; }
+    public String Email { get; set; }
 }

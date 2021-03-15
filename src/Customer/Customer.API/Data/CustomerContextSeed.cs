@@ -23,22 +23,46 @@ namespace Customer.API.Data
                 {
                     FirstName = "Pera",
                     LastName = "Peric",
-                    Address = "Neka adresa",
-                    Contact = "011223131231",
+                    Address = new Address
+                    {
+                        City = "Beograd",
+                        State = "Srbija",
+                        StreetLine1 = "Cvijiceva 133",
+                        StreetLine2 = "Palilula",
+                        Zip = "11002"
+                    },
+                    Contact = new Contact
+                    {
+                        Email = "pera.peric@gmail.com",
+                        Fax = "1231231231",
+                        Phone = "23131231231"
+                    },
                     OfferList = new List<string>()
                     {
-                        "Offerid1", "offerid2"
+                        "id2", "id1"
                     }
                 },
-                new Entities.Customer()
+               new Entities.Customer()
                 {
                     FirstName = "Zika",
-                    LastName = "ZZikic",
-                    Address = "Neka adresa2",
-                    Contact = "0112231312331",
+                    LastName = "Zikic",
+                    Address = new Address
+                    {
+                        City = "Beograd",
+                        State = "Srbija",
+                        StreetLine1 = "Kopaonicka 133",
+                        StreetLine2 = "Rakovica",
+                        Zip = "11022"
+                    },
+                    Contact = new Contact
+                    {
+                        Email = "zika.zikic@gmail.com",
+                        Fax = "231241",
+                        Phone = "41241241"
+                    },
                     OfferList = new List<string>()
                     {
-                        "ofer3", "ofer4"
+                        "id13", "id21"
                     }
                 }
             };
