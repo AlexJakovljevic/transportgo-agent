@@ -6,19 +6,38 @@ services:
         container_name: demanddb
         restart: always
         volumes: 
-            - ~/mongo/data:/data/catalogdb
+            - ~/mongo/data:/data/demanddb
         ports:
-            - "27001:27017"
+            - "5001:27017"
 
     demands.api:
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
             - "DemandDatabaseSettings:ConnectionString=mongodb://demanddb:27017"
         ports:
-            - "8000:80"
+            - "8001:80"
         volumes:
             - ~/.aspnet/https:/root/.aspnet/https:ro
             - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
 
         depends_on:
             - "demanddb"
+
+
+    customerdb:
+        container_name: customerdb
+        restart: always
+        volumes: 
+            - ~/mongo/data:/data/customerdb
+        ports:
+            - "5002:27017"
+
+    customer.api:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - "CustomerDatabaseSettings:ConnectionString=mongodb://customerdb:27017"
+        ports:
+            - "8002:80"
+        volumes:
+            - ~/.aspnet/https:/root/.aspnet/https:ro
+            - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro

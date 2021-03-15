@@ -9,3 +9,13 @@ services:
         build:
             context: .
             dockerfile: src/Demand/Demand/Dockerfile
+
+    customerdb:
+        image: mongo
+
+    customer.api:
+        image: ${DOCKER_REGISTRY-}customerapi
+        build:
+            context: .
+            dockerfile: src/Customer/Customer.API/Dockerfile
+
