@@ -24,7 +24,7 @@ namespace Messages.API.Repositories
         {
         }
 
-        public async Task Create(Message Message)
+        public async Task Create(Message message, String FromUserId, String ToUserId)
         {
             await _context.Messages.InsertOneAsync(Message);
         }

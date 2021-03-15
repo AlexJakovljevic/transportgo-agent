@@ -8,7 +8,6 @@ import Demands from './components/demands';
       state = {
         demands: []
       }
-
       componentDidMount() {
         fetch('http://localhost:8000/api/v1/demand/')
         .then(res => res.json())

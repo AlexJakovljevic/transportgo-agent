@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Message.API.Settings
+namespace Messages.API.Settings
 {
     public class MessageDatabaseSettings : IMessageDatabaseSettings
     {
@@ -7,6 +7,8 @@ namespace Message.API.Settings
 
         public string DatabaseName { get; set; }
 
-        public string CollectionName { get; set; }
+        public string MessageCollectionName { get; set; }
+
+        public string ConversationCollectionName { get; set; }
     }
 }

@@ -7,9 +7,16 @@
 
   <ItemGroup>
     <Folder Include="Entities\" />
-    <Folder Include="Repositories\" />
     <Folder Include="Settings\" />
+    <Folder Include="Repositories\" />
+    <Folder Include="Repositories\interfaces\" />
     <Folder Include="Data\" />
-    <Folder Include="Repositories\Interfaces\" />
+    <Folder Include="Data\interfaces\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Driver" Version="2.12.0" />
+    <PackageReference Include="MongoDB.Bson" Version="2.12.0" />
+    <PackageReference Include="MongoDB.Driver.Core" Version="2.12.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.0" />
   </ItemGroup>
 </Project>
