@@ -19,3 +19,12 @@ services:
             context: .
             dockerfile: src/Customer/Customer.API/Dockerfile
 
+    companydb:
+        image: mongo
+
+    company.api:
+        image: ${DOCKER_REGISTRY-}companyapi
+        build:
+            context: .
+            dockerfile: src/Company/Company.API/Dockerfile
+

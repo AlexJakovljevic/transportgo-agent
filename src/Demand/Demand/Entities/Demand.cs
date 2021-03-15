@@ -39,8 +39,8 @@ namespace Demands.API.Entites
 
         public Int32 Zip { get; set; }
 
-        public String AddressLine1 { get; set; }
+        public String StreetLine1 { get; set; }
 
-        public String AddressLine2 { get; set; }
+        public String StreetLine2 { get; set; }
     }
 }

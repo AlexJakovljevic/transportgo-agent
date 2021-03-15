@@ -26,6 +26,7 @@ namespace Customer.API.Entities
 
 public class Address
 {
+    public String Country { get; set; }
     public String State { get; set; }
     public String City { get; set; }
     public String Zip { get; set; }
