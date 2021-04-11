@@ -10,6 +10,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Vehicle.API.Settings;
+using Vehicle.API.Settings.Interfaces;
+using Vehicle.API.Data;
+using Vehicle.API.Data.Interfaces;
+using Vehicle.API.Repositories;
+using Vehicle.API.Repositories.Interfaces;
 
 namespace Vehicle.API
 {
@@ -26,6 +33,24 @@ namespace Vehicle.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.Configure<VehicleDatabaseSettings>(Configuration.GetSection(nameof(VehicleDatabaseSettings)));
+
+            services.AddSingleton<IVehicleDatabaseSettings>(sp => sp.GetRequiredService<IOptions<VehicleDatabaseSettings>>().Value);
+
+            services.AddTransient<IVehicleContext, VehicleContext>();
+            services.AddTransient<IVehicleRepository, VehicleRepository>();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+                {
+                    Title = "Vehicle API",
+                    Version = "v1"
+                });
+            });
+
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +71,16 @@ namespace Vehicle.API
             {
                 endpoints.MapControllers();
             });
+
+            app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000"));
+
+            app.UseSwagger();
+            app.UseSwaggerUI(
+                c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Vehicle API V1");
+                }
+                );
         }
     }
 }

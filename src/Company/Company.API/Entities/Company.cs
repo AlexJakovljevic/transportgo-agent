@@ -33,7 +33,7 @@ namespace Company.API.Entities
         public String City { get; set; }
         public String Zip { get; set; }
         public String StreetLine1 { get; set; }
-        public String StringLine2 { get; set; }
+        public String StreetLine2 { get; set; }
     }
 
     public enum CompanyCategory

@@ -4,7 +4,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:7934",
+      "applicationUrl": "http://localhost:54042",
       "sslPort": 44398
     }
   },
@@ -20,8 +20,16 @@
     "Company.API": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "weatherforecast",
       "applicationUrl": "https://localhost:48611;http://localhost:56165",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "Company": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "applicationUrl": "https://localhost:2583;http://localhost:34944",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

@@ -28,7 +28,7 @@ namespace Company.API.Data
                         City = "Beograd",
                         State = "Srbija",
                         StreetLine1 = "Prva ulica",
-                        StringLine2 = "Podulica",
+                        StreetLine2 = "Podulica",
                         Zip = "11002"
                     },
                     Cargos = new List<Cargo>()
@@ -57,7 +57,7 @@ namespace Company.API.Data
                         City = "Novi Sad",
                         State = "Srbija",
                         StreetLine1 = "Prva ulica",
-                        StringLine2 = "Podulica",
+                        StreetLine2 = "Podulica",
                         Zip = "21004"
                     },
                     Cargos = new List<Cargo>()
