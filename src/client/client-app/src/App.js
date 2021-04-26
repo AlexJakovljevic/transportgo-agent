@@ -9,7 +9,7 @@ import Demands from './components/demands';
         demands: []
       }
       componentDidMount() {
-        fetch('http://localhost:8000/api/v1/demand/')
+        fetch('http://localhost:8001/api/v1/demand/')
         .then(res => res.json())
         .then((data) => {
           this.setState({ demands: data })

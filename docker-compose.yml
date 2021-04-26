@@ -28,3 +28,17 @@ services:
             context: .
             dockerfile: src/Company/Company.API/Dockerfile
 
+    client:
+        build: 
+            context: ./src/client/client-app
+            dockerfile: Dockerfile
+        container_name: client
+        restart: on-failure
+        ports:
+            - '3000:3000'
+        environment:
+            - NODE_ENV=development
+            - CHOKIDAR_USEPOLLING=true
+        volumes:        
+            - ./src/client/client-app/src:/client-app/src
+            - '/client-app/node_modules'
