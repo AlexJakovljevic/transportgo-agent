@@ -1,43 +1,62 @@
-import Demand from "../components/Demand";
+import { useState } from "react";
+import Backdrop from "../components/Backdrop";
+import DemandList from "../components/demands/DemandList";
+import OfferModal from "../components/OfferModal";
 
 const demands = [
-    {
-        "from": "New York",
-        "to": "Los Angeles",
-        "price": "100$",
-        "vehicle": "Truck",
-        "numOfOffers": 5,
-        "expirationDate": "2 days"
-    },
-    {
-        "from": "New York",
-        "to": "Los Angeles",
-        "price": "130$",
-        "vehicle": "What",
-        "numOfOffers": 5,
-        "expirationDate": "2 days"
-    },
-    {
-        "from": "New York",
-        "to": "Los Angeles",
-        "price": "1090$",
-        "vehicle": "Car",
-        "numOfOffers": 5,
-        "expirationDate": "2 days"
-    }
-]
-
+  {
+    id: 10,
+    title: "Transport fruit from America",
+    from: "New York",
+    to: "Stolholm",
+    price: "100$",
+    vehicle: "Truck",
+    numOfOffers: 5,
+    expirationDate: "2 days",
+  },
+  {
+    id: 11,
+    title: "Transport meat from Spain",
+    from: "Ibiza",
+    to: "Los Angeles",
+    price: "130$",
+    vehicle: "What",
+    numOfOffers: 5,
+    expirationDate: "2 days",
+  },
+  {
+    id: 21,
+    title: "Transport car from Germany",
+    from: "Berlin",
+    to: "Space",
+    price: "1090$",
+    vehicle: "Car",
+    numOfOffers: 5,
+    expirationDate: "2 days",
+  },
+];
 
 function DemandPage() {
+  const [isDemandSel, setDemandSel] = useState(false);
+  const [selectedDemId, setSelectedDemId] = useState(0);
 
-    return <div>
-        
-        <Demand demand={demands[0]}></Demand>
-        <Demand demand={demands[1]}></Demand>
-        <Demand demand={demands[2]}></Demand>
-        <Demand demand={demands[0]}></Demand>
+  function openDemand(demandId) {
+      setDemandSel(true);
+      setSelectedDemId(demandId);
+  }
+
+  function closeDemand() {
+      setDemandSel(false);
+      setSelectedDemId(0);
+  }
+  
+  return (
+    <div>
+      <DemandList onOpen={openDemand} onClose={closeDemand} demands={demands}></DemandList>
+      {isDemandSel && <OfferModal onClose={closeDemand} demand={demands.find(el => el.id === selectedDemId)}/>}
+      {isDemandSel && <Backdrop  />}
     </div>
-
+  );
 }
 
 export default DemandPage;

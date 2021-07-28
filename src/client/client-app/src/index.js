@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import "./index.css";
-import Layout from "./components/Layout";
 import App from "./App";
 
 ReactDOM.render(
