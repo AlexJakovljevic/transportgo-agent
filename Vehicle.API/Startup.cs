@@ -17,6 +17,8 @@ using Vehicle.API.Data;
 using Vehicle.API.Data.Interfaces;
 using Vehicle.API.Repositories;
 using Vehicle.API.Repositories.Interfaces;
+using Plain.RabbitMQ;
+using RabbitMQ.Client;
 
 namespace Vehicle.API
 {
@@ -51,6 +53,11 @@ namespace Vehicle.API
             });
 
             services.AddCors();
+
+            services.AddSingleton<IConnectionProvider>(new ConnectionProvider("amqp://guest:guest@localhost:5672"));
+            services.AddScoped<IPublisher>(x => new Publisher(x.GetService<IConnectionProvider>(),
+                "vehicle_exchange",
+                exchangeType: ExchangeType.Topic));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Plain.RabbitMQ;
 using Vehicle.API.Entities;
 using Vehicle.API.Repositories.Interfaces;
 
@@ -16,11 +19,13 @@ namespace Vehicle.API.Controllers
     {
 
         private readonly IVehicleRepository _repository;
+        private readonly IPublisher publisher;
         private readonly ILogger<VehicleController> _logger;
 
-        public VehicleController(IVehicleRepository repository)
+        public VehicleController(IVehicleRepository repository, IPublisher publisher)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            this.publisher = publisher;
         }
 
         [HttpGet]
@@ -105,6 +110,9 @@ namespace Vehicle.API.Controllers
         public async Task<ActionResult<Entities.Vehicle>> CreateVehicle([FromBody] Entities.Vehicle vehicle)
         {
             await _repository.Create(vehicle);
+
+            publisher.Publish(JsonConvert.SerializeObject(vehicle), "vehicle.create", null);
+
             return CreatedAtRoute("GetVehicle", new { id = vehicle.Id }, vehicle);
         }
 

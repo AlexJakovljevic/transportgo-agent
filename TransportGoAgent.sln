@@ -18,17 +18,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Offer.API", "src\Offer\Offe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demand", "Demand", "{92D3BA4C-AB77-4A4B-9764-7E9383206080}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demands.API", "src\Demand\Demand\Demands.API.csproj", "{AA8490D2-23FC-4C95-ABCF-B7B9D2768335}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demands.API", "src\Demand\Demand\Demands.API.csproj", "{AA8490D2-23FC-4C95-ABCF-B7B9D2768335}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Vehicle", "Vehicle", "{300808E7-DDB2-46B3-A343-49B018083C4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vehicle.API", "Vehicle.API\Vehicle.API.csproj", "{CBBA0AFA-AEB9-4882-AFE4-83170FD68514}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vehicle.API", "Vehicle.API\Vehicle.API.csproj", "{CBBA0AFA-AEB9-4882-AFE4-83170FD68514}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{8F4B0CEB-96FA-4678-91A7-249988B20AAD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Message", "Message", "{F99A1CA1-33C0-40C1-BA5F-5271EF6FB974}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Messages.API", "src\Message\Messages.API\Messages.API.csproj", "{390CAD48-1017-41C4-9B98-EE3506B9411A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Messages.API", "src\Message\Messages.API\Messages.API.csproj", "{390CAD48-1017-41C4-9B98-EE3506B9411A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Producer", "..\Producer\Producer.csproj", "{A1CA154B-6DA8-493B-96A5-CAF3E1854C0B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consumer", "..\Consumer\Consumer.csproj", "{FE88655E-B783-4B92-BC64-E0F4B3E1EDEC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -64,6 +68,14 @@ Global
 		{390CAD48-1017-41C4-9B98-EE3506B9411A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{390CAD48-1017-41C4-9B98-EE3506B9411A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{390CAD48-1017-41C4-9B98-EE3506B9411A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1CA154B-6DA8-493B-96A5-CAF3E1854C0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1CA154B-6DA8-493B-96A5-CAF3E1854C0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1CA154B-6DA8-493B-96A5-CAF3E1854C0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1CA154B-6DA8-493B-96A5-CAF3E1854C0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE88655E-B783-4B92-BC64-E0F4B3E1EDEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE88655E-B783-4B92-BC64-E0F4B3E1EDEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE88655E-B783-4B92-BC64-E0F4B3E1EDEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE88655E-B783-4B92-BC64-E0F4B3E1EDEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
