@@ -1,29 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
-import React, {Component} from 'react';
-import Demands from './components/demands';
+import "./App.css";
+import { Route, Switch } from "react-router-dom";
+import React from "react";
+import DemandPage from "./pages/DemandPage";
+import HomePage from "./pages/HomePage";
+import NewDemand from "./pages/NewDemand";
+import Layout from "./components/Layout";
 
-    class App extends Component {
-
-      state = {
-        demands: []
-      }
-      componentDidMount() {
-        fetch('http://localhost:8001/api/v1/demand/')
-        .then(res => res.json())
-        .then((data) => {
-          this.setState({ demands: data })
-        })
-        .catch(console.log)
-      }
-
-      render () {
-        return (
-          <Demands demands={this.state.demands} />
-        );
-      }
-    }
-
-
+function App() {
+  return (
+    <Layout>
+      <Switch>
+        <Route path="/" exact>
+          <HomePage />
+        </Route>
+        <Route path="/demands">
+          <DemandPage />
+        </Route>
+        <Route path="/new-demand">
+          <NewDemand />
+        </Route>
+      </Switch>
+    </Layout>
+  );
+}
 
 export default App;
