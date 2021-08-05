@@ -7,7 +7,6 @@ namespace Demands.API.Entites
     public class Demand
     {
         [BsonId]
-        [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
         public String Id { get; set; }
 
         public Decimal Price { get; set; }

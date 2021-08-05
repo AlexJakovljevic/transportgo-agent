@@ -33,7 +33,7 @@ namespace Company.API.Repositories
             return deleted.IsAcknowledged && deleted.DeletedCount > 0;
         }
 
-        public async Task<Entities.Company> GetCompanyById(string Id)
+        public async Task<Entities.Company> getCompanyById(string Id)
         {
             return await _context.Companies.Find(item => item.Id == Id).FirstOrDefaultAsync();
         }

@@ -9,7 +9,6 @@ namespace Company.API.Entities
     public class Company
     {
         [BsonId]
-        [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
         public String Id { get; set; }
 
         public String Name { get; set; }

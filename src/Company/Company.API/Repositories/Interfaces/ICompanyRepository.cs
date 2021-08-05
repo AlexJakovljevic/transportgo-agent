@@ -9,7 +9,7 @@ namespace Company.API.Repositories.Interfaces
     {
         Task<IEnumerable<Entities.Company>> getCompanies();
 
-        Task<Entities.Company> GetCompanyById(string Id);
+        Task<Entities.Company> getCompanyById(string Id);
 
         Task<IEnumerable<Entities.Company>> getCompanyByName(string Name);
         Task<IEnumerable<Entities.Company>> getCompaniesByState(string State);

@@ -32,16 +32,16 @@ namespace Company.API.Controllers
             return Ok(companies);
         }
 
-
-        [HttpGet("{id:length(24)}", Name = "GetCompany")]
-        [ProducesResponseType(typeof(IEnumerable<Entities.Company>), (int)HttpStatusCode.OK)]
+        [HttpGet("{id}")] //:length(24)}", Name = "GetCompanies")]
+        [ProducesResponseType(typeof(Entities.Company), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<IEnumerable<Entities.Company>>> GetCompanyById(string id)
+        public async Task<ActionResult<Entities.Company>> GetCompanyById(string id)
         {
-            var company = await _repository.GetCompanyById(id);
+            var company = await _repository.getCompanyById(id);
 
             if (company == null)
             {
+                //TODO: Logger is null, fix it
                 _logger.LogError($"Company with id: {id}, not found!");
                 return NotFound();
             }
@@ -49,7 +49,7 @@ namespace Company.API.Controllers
         }
 
 
-        [Route("[action]/{name}")]
+        [Route("[action]/{Name}")]
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Entities.Company>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -65,7 +65,7 @@ namespace Company.API.Controllers
             return Ok(companies);
         }
 
-        [Route("[action]/{state}")]
+        [Route("[action]/{State}")]
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Entities.Company>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -81,7 +81,7 @@ namespace Company.API.Controllers
             return Ok(companies);
         }
 
-        [Route("[action]/{city}")]
+        [Route("[action]/{City}")]
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Entities.Company>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -97,7 +97,7 @@ namespace Company.API.Controllers
             return Ok(companies);
         }
 
-        [Route("[action]/{category}")]
+        [Route("[action]/{Category}")]
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Entities.Company>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -118,7 +118,7 @@ namespace Company.API.Controllers
         public async Task<ActionResult<Entities.Company>> CreateCompany([FromBody] Entities.Company company)
         {
             await _repository.Create(company);
-            return CreatedAtRoute("GetCompany", new { id = company.Id }, company);
+            return CreatedAtAction("GetCompanies", new { company.Id }, company); //CreatedAtRoute("GetCompanies", new { company.Id }, company);
         }
 
         [HttpPut]
