@@ -59,4 +59,22 @@ services:
         volumes:
             - ~/.aspnet/https:/root/.aspnet/https:ro
             - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+
+    vehicledb:
+        container_name: vehicledb
+        restart: always
+        volumes: 
+            - ~/mongo/data:/data/vehicledb
+        ports:
+            - "5005:27017"
+
+    vehicle.api:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - "VehicleDatabaseSettings:ConnectionString=mongodb://vehicledb:27017"
+        ports:
+            - "8005:80"
+        volumes:
+            - ~/.aspnet/https:/root/.aspnet/https:ro
+            - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
             

@@ -28,6 +28,15 @@ services:
             context: .
             dockerfile: src/Company/Company.API/Dockerfile
 
+    vehicledb:
+        image: mongo
+
+    vehicle.api:
+        image: ${DOCKER_REGISTRY-}vehicleapi
+        build:
+            context: .
+            dockerfile: src/Vehicle/Vehicle.API/Dockerfile
+
     client:
         build: 
             context: ./src/client/client-app
