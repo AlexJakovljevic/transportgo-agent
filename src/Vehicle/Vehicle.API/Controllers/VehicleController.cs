@@ -36,10 +36,10 @@ namespace Vehicle.API.Controllers
             return Ok(vehicles);
         }
 
-        [HttpGet("{id:length(24)}", Name = "GetDemand")]
-        [ProducesResponseType(typeof(IEnumerable<Entities.Vehicle>), (int)HttpStatusCode.OK)]
+        [HttpGet("{id}")] //:length(24)}", Name = "GetDemand")]
+        [ProducesResponseType(typeof(Entities.Vehicle), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<IEnumerable<Entities.Vehicle>>> GetVehicleById(string id)
+        public async Task<ActionResult<Entities.Vehicle>> GetVehicleById(string id)
         {
             var vehicle = await _repository.GetVehicleById(id);
 
@@ -52,7 +52,7 @@ namespace Vehicle.API.Controllers
             return Ok(vehicle);
         }
 
-        [Route("[action]/{brand}")]
+        [Route("[action]/{Brand}")]
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Entities.Vehicle>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -70,7 +70,7 @@ namespace Vehicle.API.Controllers
         }
 
 
-        [Route("[action]/{productionYear}")]
+        [Route("[action]/{ProductionYear}")]
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Entities.Vehicle>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -88,7 +88,7 @@ namespace Vehicle.API.Controllers
         }
 
 
-        [Route("[action]/{type}")]
+        [Route("[action]/{Type}")]
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Entities.Vehicle>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -113,7 +113,7 @@ namespace Vehicle.API.Controllers
 
             publisher.Publish(JsonConvert.SerializeObject(vehicle), "vehicle.create", null);
 
-            return CreatedAtRoute("GetVehicle", new { id = vehicle.Id }, vehicle);
+            return CreatedAtAction("GetVehicles", new { vehicle.Id }, vehicle); //CreatedAtRoute("GetVehicle", new { id = vehicle.Id }, vehicle);
         }
 
         [HttpPut]

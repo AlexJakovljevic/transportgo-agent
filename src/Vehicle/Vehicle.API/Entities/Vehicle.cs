@@ -9,7 +9,6 @@ namespace Vehicle.API.Entities
     public class Vehicle
     {
         [BsonId]
-        [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
         public String Id { get; set; }
 
         public VehicleType Type { get; set; }
