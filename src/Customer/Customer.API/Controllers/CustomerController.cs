@@ -33,7 +33,7 @@ namespace Customer.API.Controllers
         }
 
 
-        [HttpGet("{id:length(24)}", Name = "GetCustomer")]
+        [HttpGet("{id}")] //:length(24)}", Name = "GetCustomer")]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(Entities.Customer), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<Entities.Customer>> GetCustomer(string id)
@@ -52,7 +52,7 @@ namespace Customer.API.Controllers
         public async Task<ActionResult<Entities.Customer>> CreateCustomer([FromBody] Entities.Customer customer)
         {
             await _repository.Create(customer);
-            return CreatedAtRoute("GetCustomer", new { id =  customer.Id }, customer);
+            return CreatedAtAction("GetCustomers", new { customer.Id }, customer); //CreatedAtRoute("GetCustomer", new { id =  customer.Id }, customer);
         }
 
         [HttpPut]

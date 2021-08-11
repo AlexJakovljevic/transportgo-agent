@@ -41,7 +41,16 @@ namespace Customer.API
 
             services.AddTransient<ICustomerRepository, CustomerRepository>();
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+                {
+                    Title = "Company API",
+                    Version = "v1"
+                });
+            });
 
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,6 +71,14 @@ namespace Customer.API
             {
                 _ = endpoints.MapControllers();
             });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(
+                c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Customer API V1");
+                }
+                );
         }
     }
 }
