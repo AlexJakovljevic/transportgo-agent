@@ -22,9 +22,10 @@ namespace Vehicle.API.Controllers
         private readonly IPublisher publisher;
         private readonly ILogger<VehicleController> _logger;
 
-        public VehicleController(IVehicleRepository repository, IPublisher publisher)
+        public VehicleController(IVehicleRepository repository, ILogger<VehicleController> logger, IPublisher publisher)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _logger = logger;
             this.publisher = publisher;
         }
 

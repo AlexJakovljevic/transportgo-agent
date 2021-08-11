@@ -19,9 +19,10 @@ namespace Demands.API.Controllers
         private readonly IDemandRepository _repository;
         private readonly ILogger<DemandController> _logger;
 
-        public DemandController(IDemandRepository repository)
+        public DemandController(IDemandRepository repository, ILogger<DemandController> logger)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _logger = logger;
         }
 
 
@@ -33,10 +34,10 @@ namespace Demands.API.Controllers
             return Ok(demands);
         }
 
-        [HttpGet("{id:length(24)}", Name = "GetDemand")]
-        [ProducesResponseType(typeof(IEnumerable<Demand>), (int)HttpStatusCode.OK)]
+        [HttpGet("{id}")] //:length(24)}", Name = "GetDemand")]
+        [ProducesResponseType(typeof(Demand), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<IEnumerable<Demand>>> GetDemandById(string id)
+        public async Task<ActionResult<Demand>> GetDemandById(string id)
         {
             var demand = await _repository.GetDemandById(id);
 
@@ -50,7 +51,7 @@ namespace Demands.API.Controllers
         }
 
 
-        [Route("[action]/{name}")]
+        [Route("[action]/{Name}")]
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Demand>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -73,7 +74,7 @@ namespace Demands.API.Controllers
         public async Task<ActionResult<Demand>> CreateDemand([FromBody] Demand demand)
         {
             await _repository.Create(demand);
-            return CreatedAtRoute("GetDemand", new { id = demand.Id}, demand);
+            return CreatedAtAction("GetDemands", new { demand.Id}, demand); //CreatedAtRoute("GetDemand", new { id = demand.Id}, demand);
         }
 
         [HttpPut]

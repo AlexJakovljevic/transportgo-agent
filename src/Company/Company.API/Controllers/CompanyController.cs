@@ -19,9 +19,10 @@ namespace Company.API.Controllers
         private readonly ICompanyRepository _repository;
         private readonly ILogger<CompanyController> _logger;
 
-        public CompanyController(ICompanyRepository repository)
+        public CompanyController(ICompanyRepository repository, ILogger<CompanyController> logger)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _logger = logger;
         }
 
         [HttpGet]
@@ -41,7 +42,6 @@ namespace Company.API.Controllers
 
             if (company == null)
             {
-                //TODO: Logger is null, fix it
                 _logger.LogError($"Company with id: {id}, not found!");
                 return NotFound();
             }

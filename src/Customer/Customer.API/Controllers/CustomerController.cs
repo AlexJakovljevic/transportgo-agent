@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Customer.API.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Plain.RabbitMQ;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,11 +19,13 @@ namespace Customer.API.Controllers
     {
         private readonly ICustomerRepository _repository;
         private readonly ILogger<CustomerController> _logger;
+        private readonly IPublisher publisher;
 
-        public CustomerController(ICustomerRepository repository, ILogger<CustomerController> logger)
+        public CustomerController(ICustomerRepository repository, ILogger<CustomerController> logger, IPublisher publisher)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            this.publisher = publisher;
         }
 
         [HttpGet]
@@ -52,6 +56,9 @@ namespace Customer.API.Controllers
         public async Task<ActionResult<Entities.Customer>> CreateCustomer([FromBody] Entities.Customer customer)
         {
             await _repository.Create(customer);
+
+            publisher.Publish(JsonConvert.SerializeObject(customer), "customer.create", null);
+
             return CreatedAtAction("GetCustomers", new { customer.Id }, customer); //CreatedAtRoute("GetCustomer", new { id =  customer.Id }, customer);
         }
 

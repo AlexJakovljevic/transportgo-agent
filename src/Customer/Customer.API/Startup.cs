@@ -16,6 +16,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Plain.RabbitMQ;
+using RabbitMQ.Client;
 
 namespace Customer.API
 {
@@ -51,6 +53,11 @@ namespace Customer.API
             });
 
             services.AddCors();
+
+            services.AddSingleton<IConnectionProvider>(new ConnectionProvider("amqp://guest:guest@localhost:5672"));
+            services.AddScoped<IPublisher>(x => new Publisher(x.GetService<IConnectionProvider>(),
+                "vehicle_exchange",
+                exchangeType: ExchangeType.Topic));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
