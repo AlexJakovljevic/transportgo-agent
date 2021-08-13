@@ -6,6 +6,7 @@ using Company.API.Data;
 using Company.API.Data.Interface;
 using Company.API.Repositories;
 using Company.API.Repositories.Interfaces;
+using Company.API.Services;
 using Company.API.Settings;
 using Company.API.Settings.Interfaces;
 using Microsoft.AspNetCore.Builder;
@@ -17,6 +18,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Plain.RabbitMQ;
+using RabbitMQ.Client;
 
 namespace Company.API
 {
@@ -51,6 +54,15 @@ namespace Company.API
             });
 
             services.AddCors();
+
+            services.AddSingleton<IConnectionProvider>(new ConnectionProvider("amqp://guest:guest@localhost:5672"));
+            services.AddSingleton<ISubscriber>(x => new Subscriber(x.GetService<IConnectionProvider>(),
+                "demand_exchange",
+                "demand_queue",
+                "demand.*",
+                exchangeType: ExchangeType.Topic));
+
+            services.AddHostedService<DemandDataCollector>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

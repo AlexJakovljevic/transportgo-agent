@@ -13,7 +13,7 @@ namespace Company.API.Entities
 
         public String Name { get; set; }
 
-        public Address Address { get; set; }
+        public CompanyAddress Address { get; set; }
 
         public CompanyCategory Category { get; set; }
 
@@ -25,7 +25,7 @@ namespace Company.API.Entities
         public List<Cargo> Cargos { get; set; }
     }
 
-    public class Address
+    public class CompanyAddress
     {
         public String Country { get; set; }
         public String State { get; set; }

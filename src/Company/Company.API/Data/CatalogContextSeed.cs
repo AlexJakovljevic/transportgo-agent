@@ -23,7 +23,7 @@ namespace Company.API.Data
                 new Entities.Company()
                 {
                     Name = "Transped",
-                    Address = new Address
+                    Address = new CompanyAddress
                     {
                         City = "Beograd",
                         State = "Srbija",
@@ -52,7 +52,7 @@ namespace Company.API.Data
                 new Entities.Company()
                 {
                     Name = "Voja i sinovi",
-                     Address = new Address
+                     Address = new CompanyAddress
                     {
                         City = "Novi Sad",
                         State = "Srbija",

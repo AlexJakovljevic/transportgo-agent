@@ -7,6 +7,8 @@ using Demands.API.Entites;
 using Demands.API.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Plain.RabbitMQ;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,11 +20,13 @@ namespace Demands.API.Controllers
     {
         private readonly IDemandRepository _repository;
         private readonly ILogger<DemandController> _logger;
+        private readonly IPublisher publisher;
 
-        public DemandController(IDemandRepository repository, ILogger<DemandController> logger)
+        public DemandController(IDemandRepository repository, ILogger<DemandController> logger, IPublisher publisher)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _logger = logger;
+            this.publisher = publisher;
         }
 
 
@@ -74,6 +78,9 @@ namespace Demands.API.Controllers
         public async Task<ActionResult<Demand>> CreateDemand([FromBody] Demand demand)
         {
             await _repository.Create(demand);
+
+            publisher.Publish(JsonConvert.SerializeObject(demand), "demand.create", null);
+
             return CreatedAtAction("GetDemands", new { demand.Id}, demand); //CreatedAtRoute("GetDemand", new { id = demand.Id}, demand);
         }
 
