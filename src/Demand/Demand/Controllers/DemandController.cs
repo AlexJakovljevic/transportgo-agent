@@ -45,7 +45,7 @@ namespace Demands.API.Controllers
         {
             var demand = await _repository.GetDemandById(id);
 
-            if(demand == null)
+            if (demand == null)
             {
                 _logger.LogError($"Demand with id: {id}, not found!");
                 return NotFound();
@@ -79,25 +79,48 @@ namespace Demands.API.Controllers
         {
             await _repository.Create(demand);
 
-            publisher.Publish(JsonConvert.SerializeObject(demand), "demand.create", null);
+            // Dictionary<string, object> headers = new Dictionary<string, object>();
+            // headers.Add("create", "create");
+            // publisher.Publish(JsonConvert.SerializeObject(demand), "demand.create", headers);
+            this.PublishEvent("create", "demand.create", demand: demand);
 
-            return CreatedAtAction("GetDemands", new { demand.Id}, demand); //CreatedAtRoute("GetDemand", new { id = demand.Id}, demand);
+            return CreatedAtAction("GetDemands", new { demand.Id }, demand); //CreatedAtRoute("GetDemand", new { id = demand.Id}, demand);
         }
 
         [HttpPut]
         [ProducesResponseType(typeof(IEnumerable<Demand>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateDemand([FromBody] Demand demand)
         {
-            
+            // Dictionary<string, object> headers = new Dictionary<string, object>();
+            // headers.Add("update", "update");
+            // publisher.Publish(JsonConvert.SerializeObject(demand), "demand.update", headers);
+            this.PublishEvent("update", "demand.update", demand: demand);
+
             return Ok(await _repository.Update(demand));
         }
 
-        [HttpDelete("{id:length(24)}")]
+        [HttpDelete("{id}")] //:length(24)}")]
         [ProducesResponseType(typeof(IEnumerable<Demand>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> DeleteDemandById(string id)
         {
-
+            this.PublishEvent("delete", "demand.delete", id: id);
             return Ok(await _repository.Delete(id));
         }
+
+        private void PublishEvent(string eventString, string topicString, Demand demand = null, string id = null)
+        {
+            Dictionary<string, object> headers = new Dictionary<string, object>();
+            headers.Add(eventString, eventString);
+            if (demand != null)
+            {
+                publisher.Publish(JsonConvert.SerializeObject(demand), topicString, headers);
+            }
+            else
+            {
+                publisher.Publish(JsonConvert.SerializeObject(id ?? ""), topicString, headers);
+            }
+            return;
+        }
+
     }
 }

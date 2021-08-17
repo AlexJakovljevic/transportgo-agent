@@ -27,8 +27,17 @@ namespace Company.API.Services
 
         private bool ProcessDemand(string message, IDictionary<string, object> headers)
         {
-            //TODO: Process demand
-            var demand = JsonConvert.DeserializeObject<Demand>(message);
+            //TODO: Process message
+            
+            var action = headers.Keys.First();
+            if (action == "delete")
+            {
+                var id = JsonConvert.DeserializeObject<string>(message);
+            }
+            else
+            {
+                var demand = JsonConvert.DeserializeObject<Demand>(message);
+            }
             return true; 
         }
 

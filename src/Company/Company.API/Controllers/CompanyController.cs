@@ -129,7 +129,7 @@ namespace Company.API.Controllers
             return Ok(await _repository.Update(company));
         }
 
-        [HttpDelete("{id:length(24)}")]
+        [HttpDelete("{id}")] //:length(24)}")]
         [ProducesResponseType(typeof(IEnumerable<Entities.Company>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> DeleteCompanyById(string id)
         {
