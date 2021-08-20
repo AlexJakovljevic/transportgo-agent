@@ -9,11 +9,11 @@ namespace Vehicle.API.Entities
     public class Vehicle
     {
         [BsonId]
-        public string Id { get; set; }
+        public String Id { get; set; }
 
         public VehicleType Type { get; set; }
 
-        public string Brand { get; set; }
+        public String Brand { get; set; }
 
         public UInt16 ProductionYear { get; set; }
         
@@ -21,10 +21,10 @@ namespace Vehicle.API.Entities
 
         public float MaxWeight { get; set; }
 
-        public Vehicle()
-        {
-            Id = MongoDB.Bson.ObjectId.GenerateNewId().ToString();
-        }
+        //public Vehicle()
+        //{
+        //    Id = MongoDB.Bson.ObjectId.GenerateNewId().ToString();
+        //}
     }
 
     public class VehicleCargoSpace

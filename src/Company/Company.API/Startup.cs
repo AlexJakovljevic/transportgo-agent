@@ -62,7 +62,13 @@ namespace Company.API
                 "demand.*",
                 exchangeType: ExchangeType.Topic));
 
-            services.AddHostedService<DemandDataCollector>();
+            services.AddSingleton<ISubscriber>(x => new Subscriber(x.GetService<IConnectionProvider>(),
+                "vehicle_exchange",
+                "vehicle_queue",
+                "vehicle.*",
+                exchangeType: ExchangeType.Topic));
+
+            services.AddHostedService<CompanyDataCollector>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

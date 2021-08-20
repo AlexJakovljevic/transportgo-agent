@@ -111,6 +111,7 @@ namespace Demands.API.Controllers
         {
             Dictionary<string, object> headers = new Dictionary<string, object>();
             headers.Add(eventString, eventString);
+            headers.Add("Demand", "Demand");
             if (demand != null)
             {
                 publisher.Publish(JsonConvert.SerializeObject(demand), topicString, headers);
