@@ -56,7 +56,7 @@ namespace Vehicle.API
 
             services.AddSingleton<IConnectionProvider>(new ConnectionProvider("amqp://guest:guest@localhost:5672"));
             services.AddScoped<IPublisher>(x => new Publisher(x.GetService<IConnectionProvider>(),
-                "vehicle_exchange",
+                "company_exchange",
                 exchangeType: ExchangeType.Topic));
         }
 

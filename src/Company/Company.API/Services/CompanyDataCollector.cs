@@ -5,6 +5,7 @@ using Plain.RabbitMQ;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -29,10 +30,13 @@ namespace Company.API.Services
         {
             //TODO: Process message
             
-            var action = headers.Keys.First();
-            var os = headers.Keys.Last();
+            var codedAction = (byte[])headers["Action"];
+            var action = Encoding.UTF8.GetString(codedAction, 0, codedAction.Length);
 
-            switch (os)
+            var codedDataClass = (byte[])headers["Class"];
+            var dataClass = Encoding.UTF8.GetString(codedDataClass, 0, codedDataClass.Length);
+
+            switch (dataClass)
             {
                 case "Demand":
                     return ProcessDemand(message, action);

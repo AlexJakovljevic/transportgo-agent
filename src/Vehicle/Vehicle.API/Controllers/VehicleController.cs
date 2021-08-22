@@ -112,7 +112,7 @@ namespace Vehicle.API.Controllers
         {
             await _repository.Create(vehicle);
 
-            this.PublishEvent("create", "vehicle.create", vehicle: vehicle);
+            this.PublishEvent("create", "company.vehicle", vehicle: vehicle);
 
             return CreatedAtAction("GetVehicles", new { vehicle.Id }, vehicle); //CreatedAtRoute("GetVehicle", new { id = vehicle.Id }, vehicle);
         }
@@ -121,7 +121,7 @@ namespace Vehicle.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<Entities.Vehicle>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateVehicle([FromBody] Entities.Vehicle vehicle)
         {
-            this.PublishEvent("update", "vehicle.update", vehicle: vehicle);
+            this.PublishEvent("update", "company.vehicle", vehicle: vehicle);
             return Ok(await _repository.Update(vehicle));
         }
 
@@ -129,15 +129,15 @@ namespace Vehicle.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<Entities.Vehicle>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> DeleteVehicleById(string id)
         {
-            this.PublishEvent("delete", "vehicle.delete", id: id);
+            this.PublishEvent("delete", "company.vehicle", id: id);
             return Ok(await _repository.Delete(id));
         }
 
         private void PublishEvent(string eventString, string topicString, Entities.Vehicle vehicle = null, string id = null)
         {
             Dictionary<string, object> headers = new Dictionary<string, object>();
-            headers.Add(eventString, eventString);
-            headers.Add("Vehicle", "Vehicle");
+            headers.Add("Action", eventString);
+            headers.Add("Class", "Vehicle");
             if (vehicle != null)
             {
                 publisher.Publish(JsonConvert.SerializeObject(vehicle), topicString, headers);

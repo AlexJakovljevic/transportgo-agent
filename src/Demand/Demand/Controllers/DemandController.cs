@@ -82,7 +82,7 @@ namespace Demands.API.Controllers
             // Dictionary<string, object> headers = new Dictionary<string, object>();
             // headers.Add("create", "create");
             // publisher.Publish(JsonConvert.SerializeObject(demand), "demand.create", headers);
-            this.PublishEvent("create", "demand.create", demand: demand);
+            this.PublishEvent("create", "company.demand", demand: demand);
 
             return CreatedAtAction("GetDemands", new { demand.Id }, demand); //CreatedAtRoute("GetDemand", new { id = demand.Id}, demand);
         }
@@ -94,7 +94,7 @@ namespace Demands.API.Controllers
             // Dictionary<string, object> headers = new Dictionary<string, object>();
             // headers.Add("update", "update");
             // publisher.Publish(JsonConvert.SerializeObject(demand), "demand.update", headers);
-            this.PublishEvent("update", "demand.update", demand: demand);
+            this.PublishEvent("update", "company.demand", demand: demand);
 
             return Ok(await _repository.Update(demand));
         }
@@ -103,15 +103,15 @@ namespace Demands.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<Demand>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> DeleteDemandById(string id)
         {
-            this.PublishEvent("delete", "demand.delete", id: id);
+            this.PublishEvent("delete", "company.demand", id: id);
             return Ok(await _repository.Delete(id));
         }
 
         private void PublishEvent(string eventString, string topicString, Demand demand = null, string id = null)
         {
             Dictionary<string, object> headers = new Dictionary<string, object>();
-            headers.Add(eventString, eventString);
-            headers.Add("Demand", "Demand");
+            headers.Add("Action", eventString);
+            headers.Add("Class", "Demand");
             if (demand != null)
             {
                 publisher.Publish(JsonConvert.SerializeObject(demand), topicString, headers);
