@@ -69,7 +69,7 @@ namespace Customer.API.Controllers
             return Ok(await _repository.Update(customer));
         }
 
-        [HttpDelete("{id:length(24)}")]
+        [HttpDelete("{id}")] //:length(24)}")]
         [ProducesResponseType(typeof(Entities.Customer), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> DeleteCustomer(string id)
         {

@@ -83,6 +83,7 @@ namespace Demands.API.Controllers
             // headers.Add("create", "create");
             // publisher.Publish(JsonConvert.SerializeObject(demand), "demand.create", headers);
             this.PublishEvent("create", "company.demand", demand: demand);
+            this.PublishEvent("create", "customer.demand", demand: demand);
 
             return CreatedAtAction("GetDemands", new { demand.Id }, demand); //CreatedAtRoute("GetDemand", new { id = demand.Id}, demand);
         }
@@ -95,6 +96,7 @@ namespace Demands.API.Controllers
             // headers.Add("update", "update");
             // publisher.Publish(JsonConvert.SerializeObject(demand), "demand.update", headers);
             this.PublishEvent("update", "company.demand", demand: demand);
+            this.PublishEvent("update", "customer.demand", demand: demand);
 
             return Ok(await _repository.Update(demand));
         }
@@ -104,6 +106,7 @@ namespace Demands.API.Controllers
         public async Task<IActionResult> DeleteDemandById(string id)
         {
             this.PublishEvent("delete", "company.demand", id: id);
+            this.PublishEvent("delete", "customer.demand", id: id);
             return Ok(await _repository.Delete(id));
         }
 

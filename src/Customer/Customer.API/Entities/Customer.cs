@@ -15,7 +15,7 @@ namespace Customer.API.Entities
 
         public string LastName { get; set; }
 
-        public Address Address { get; set; }
+        public CustomerAddress Address { get; set; }
 
         public Contact Contact { get; set; }
 
@@ -23,7 +23,7 @@ namespace Customer.API.Entities
     }
 }
 
-public class Address
+public class CustomerAddress
 {
     public String Country { get; set; }
     public String State { get; set; }

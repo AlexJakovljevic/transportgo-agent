@@ -56,20 +56,13 @@ namespace Company.API
             services.AddCors();
 
             services.AddSingleton<IConnectionProvider>(new ConnectionProvider("amqp://guest:guest@localhost:5672"));
-
+            
+            //TODO: Change exchange name
             services.AddSingleton<ISubscriber>(x => new Subscriber(x.GetService<IConnectionProvider>(),
                 "company_exchange",
                 "company_queue",
                 "company.*",
                 exchangeType: ExchangeType.Topic));
-
-            /*services.AddSingleton<ISubscriber>(x => new Subscriber(x.GetService<IConnectionProvider>(),
-                "vehicle_exchange",
-                "demand_queue",
-                "demand.*",
-                exchangeType: ExchangeType.Topic));*/
-
-            
 
             services.AddHostedService<CompanyDataCollector>();
         }

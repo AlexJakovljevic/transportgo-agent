@@ -23,7 +23,7 @@ namespace Customer.API.Data
                 {
                     FirstName = "Pera",
                     LastName = "Peric",
-                    Address = new Address
+                    Address = new CustomerAddress
                     {
                         City = "Beograd",
                         State = "Srbija",
@@ -46,7 +46,7 @@ namespace Customer.API.Data
                 {
                     FirstName = "Zika",
                     LastName = "Zikic",
-                    Address = new Address
+                    Address = new CustomerAddress
                     {
                         City = "Beograd",
                         State = "Srbija",

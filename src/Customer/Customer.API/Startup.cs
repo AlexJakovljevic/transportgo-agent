@@ -6,6 +6,7 @@ using Customer.API.Data;
 using Customer.API.Data.Interfaces;
 using Customer.API.Repositories;
 using Customer.API.Repositories.Interfaces;
+using Customer.API.Services;
 using Customer.API.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -47,7 +48,7 @@ namespace Customer.API
             {
                 c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
                 {
-                    Title = "Company API",
+                    Title = "Customer API",
                     Version = "v1"
                 });
             });
@@ -55,9 +56,15 @@ namespace Customer.API
             services.AddCors();
 
             services.AddSingleton<IConnectionProvider>(new ConnectionProvider("amqp://guest:guest@localhost:5672"));
-            services.AddScoped<IPublisher>(x => new Publisher(x.GetService<IConnectionProvider>(),
-                "vehicle_exchange",
+
+            //TODO: Change exchange name
+            services.AddSingleton<ISubscriber>(x => new Subscriber(x.GetService<IConnectionProvider>(),
+                "company_exchange",
+                "customer_queue",
+                "customer.*",
                 exchangeType: ExchangeType.Topic));
+
+            services.AddHostedService<CustomerDataCollector>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
