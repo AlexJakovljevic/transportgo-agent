@@ -37,6 +37,15 @@ services:
             context: .
             dockerfile: src/Vehicle/Vehicle.API/Dockerfile
 
+    offerdb:
+        image: mongo
+
+    offer.api:
+        image: ${DOCKER_REGISTRY-}offerapi
+        build:
+            context: .
+            dockerfile: src/Offer/Offer.API/Dockerfile
+
     client:
         build: 
             context: ./src/client/client-app

@@ -39,6 +39,8 @@ namespace Customer.API.Services
             {
                 case "Demand":
                     return ProcessDemand(message, action);
+                case "Offer":
+                    return ProcessOffer(message, action);
             }
 
             return true;
@@ -53,6 +55,18 @@ namespace Customer.API.Services
             else
             {
                 var demand = JsonConvert.DeserializeObject<Demands.API.Entites.Demand>(message);
+            }
+            return true;
+        }
+        private bool ProcessOffer(string message, string action)
+        {
+            if (action == "delete")
+            {
+                var id = JsonConvert.DeserializeObject<string>(message);
+            }
+            else
+            {
+                //var offer = JsonConvert.DeserializeObject<Offer.API.Entities.Offer>(message);
             }
             return true;
         }

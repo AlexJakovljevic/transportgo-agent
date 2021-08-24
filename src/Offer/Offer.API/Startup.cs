@@ -10,6 +10,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Offer.API.Data;
+using Offer.API.Data.Interfaces;
+using Offer.API.Repositories;
+using Offer.API.Repositories.Interfaces;
+using Offer.API.Settings;
+using Offer.API.Settings.Interfaces;
+using Plain.RabbitMQ;
+using RabbitMQ.Client;
 
 namespace Offer.API
 {
@@ -26,6 +35,29 @@ namespace Offer.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.Configure<OfferDatabaseSettings>(Configuration.GetSection(nameof(OfferDatabaseSettings)));
+
+            services.AddSingleton<IOfferDatabaseSettings>(sp => sp.GetRequiredService<IOptions<OfferDatabaseSettings>>().Value);
+
+            services.AddTransient<IOfferContext, OfferContext>();
+            services.AddTransient<IOfferRepository, OfferRepository>();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+                {
+                    Title = "Offer API",
+                    Version = "v1"
+                });
+            });
+
+            services.AddCors();
+
+            services.AddSingleton<IConnectionProvider>(new ConnectionProvider("amqp://guest:guest@localhost:5672"));
+            services.AddScoped<IPublisher>(x => new Publisher(x.GetService<IConnectionProvider>(),
+                "company_exchange",
+                exchangeType: ExchangeType.Topic));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +78,16 @@ namespace Offer.API
             {
                 endpoints.MapControllers();
             });
+
+            app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000"));
+
+            app.UseSwagger();
+            app.UseSwaggerUI(
+                c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Offer API V1");
+                }
+                );
         }
     }
 }

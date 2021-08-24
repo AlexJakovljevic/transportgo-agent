@@ -42,6 +42,8 @@ namespace Company.API.Services
                     return ProcessDemand(message, action);
                 case "Vehicle":
                     return ProcessVehicle(message, action);
+                case "Offer":
+                    return ProcessOffer(message, action);
             }
             
             return true; 
@@ -69,6 +71,19 @@ namespace Company.API.Services
             else
             {
                 var vehicle = JsonConvert.DeserializeObject<Vehicle.API.Entities.Vehicle>(message);
+            }
+            return true;
+        }
+
+        private bool ProcessOffer(string message, string action)
+        {
+            if (action == "delete")
+            {
+                var id = JsonConvert.DeserializeObject<string>(message);
+            }
+            else
+            {
+                //var offer = JsonConvert.DeserializeObject<Offer.API.Entities.Offer>(message);
             }
             return true;
         }

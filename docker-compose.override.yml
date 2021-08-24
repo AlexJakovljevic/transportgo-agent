@@ -77,4 +77,22 @@ services:
         volumes:
             - ~/.aspnet/https:/root/.aspnet/https:ro
             - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+
+    offerdb:
+        container_name: offerdb
+        restart: always
+        volumes: 
+            - ~/mongo/data:/data/offerdb
+        ports:
+            - "5008:27017"
+
+    offer.api:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - "OfferDatabaseSettings:ConnectionString=mongodb://offerdb:27017"
+        ports:
+            - "8008:80"
+        volumes:
+            - ~/.aspnet/https:/root/.aspnet/https:ro
+            - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
             
