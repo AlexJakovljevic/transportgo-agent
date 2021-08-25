@@ -6,6 +6,8 @@ import HomePage from "./pages/HomePage";
 import NewDemand from "./pages/NewDemand";
 import Layout from "./components/Layout";
 import Profile from "./pages/MyProfilePage";
+import Contact from "./pages/ContactPage";
+import Login from "./components/Login";
 
 function App() {
   return (
@@ -22,6 +24,12 @@ function App() {
         </Route>
         <Route path="/profile">
           <Profile />
+        </Route>
+        <Route path="/contact">
+          <Contact />
+        </Route>
+        <Route path="/login">
+          <Login />
         </Route>
       </Switch>
     </Layout>

@@ -18,16 +18,16 @@ function Navbar() {
           <Link to="/demands" className="mr-5 hover:text-gray-900">
             Demands
           </Link>
-          <Link to="/new-demand" className="mr-5 hover:text-gray-900">
-            Contact
-          </Link>
           <Link to="/profile" className="mr-5 hover:text-gray-900">
             My profile
           </Link>
+          <Link to="/contact" className="mr-5 hover:text-gray-900">
+            Contact
+          </Link>
         </nav>
-        <button className="inline-flex items-center bg-green-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
+        <Link to="/login" className="btn btn-primary inline-flex items-center bg-green-200 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
           Login
-        </button>
+        </Link>
       </div>
     </header>
   );
