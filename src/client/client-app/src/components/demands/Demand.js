@@ -40,7 +40,7 @@ function Demand(props) {
             </div>
           </div>
           <div className="w-full lg:w-2/3">
-            <div className="flex flex-wrap h-full lg:rounded-r-xl rounded-b-xl lg:p-8 bg-gray-200">
+            <div className="flex flex-wrap h-full rounded-xl lg:p-8 bg-gray-200">
               <DemandDetail
                 type="Type of vehicle"
                 value={props.demand.vehicle}
@@ -55,8 +55,8 @@ function Demand(props) {
                 value={props.demand.expirationDate}
               />
 
-              <div className="flex items-end w-full justify-end">
-              <Button text="Make an offer" onClick={props.onOpen}></Button>      
+              <div className="flex items-end w-full justify-center lg:justify-end">
+                <Button text={props.buttonText} onClick={props.onOpen}></Button>
               </div>
             </div>
             <div></div>

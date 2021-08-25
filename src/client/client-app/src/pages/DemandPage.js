@@ -52,7 +52,7 @@ function DemandPage() {
   
   return (
     <div>
-      <DemandList onOpen={openDemand} onClose={closeDemand} demands={demands}></DemandList>
+      <DemandList buttonText="Make an offer" onOpen={openDemand} demands={demands}></DemandList>
       {isDemandSel && <OfferModal onClose={closeDemand} demand={demands.find(el => el.id === selectedDemId)}/>}
       {isDemandSel && <Backdrop  />}
     </div>

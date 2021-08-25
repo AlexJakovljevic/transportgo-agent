@@ -5,6 +5,7 @@ import DemandPage from "./pages/DemandPage";
 import HomePage from "./pages/HomePage";
 import NewDemand from "./pages/NewDemand";
 import Layout from "./components/Layout";
+import Profile from "./pages/MyProfilePage";
 
 function App() {
   return (
@@ -18,6 +19,9 @@ function App() {
         </Route>
         <Route path="/new-demand">
           <NewDemand />
+        </Route>
+        <Route path="/profile">
+          <Profile />
         </Route>
       </Switch>
     </Layout>
