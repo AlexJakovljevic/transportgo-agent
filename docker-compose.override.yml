@@ -2,6 +2,14 @@ version: '3.4'
 
 services:
 
+    rabbitmq:
+        container_name: rabbitmq
+        restart: always
+        hostname: rabbitmq
+        ports:
+            - "5672:5672"
+            - "15672:15672"
+
     demanddb:
         container_name: demanddb
         restart: always
@@ -11,6 +19,7 @@ services:
             - "5001:27017"
 
     demands.api:
+        container_name: demandsapi 
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
             - "DemandDatabaseSettings:ConnectionString=mongodb://demanddb:27017"
@@ -22,6 +31,8 @@ services:
 
         depends_on:
             - "demanddb"
+            - "rabbitmq"
+        restart: on-failure
 
 
     customerdb:
@@ -33,6 +44,7 @@ services:
             - "5002:27017"
 
     customer.api:
+        container_name: customerapi
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
             - "CustomerDatabaseSettings:ConnectionString=mongodb://customerdb:27017"
@@ -41,6 +53,10 @@ services:
         volumes:
             - ~/.aspnet/https:/root/.aspnet/https:ro
             - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+        depends_on:
+            - "customerdb"
+            - "rabbitmq"
+        restart: on-failure
 
     companydb:
         container_name: companydb
@@ -51,6 +67,7 @@ services:
             - "5003:27017"
 
     company.api:
+        container_name: companyapi 
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
             - "CompanyDatabaseSettings:ConnectionString=mongodb://companydb:27017"
@@ -59,6 +76,11 @@ services:
         volumes:
             - ~/.aspnet/https:/root/.aspnet/https:ro
             - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+        depends_on:
+            - "companydb"
+            - "rabbitmq"
+        restart: on-failure
+
 
     vehicledb:
         container_name: vehicledb
@@ -69,6 +91,7 @@ services:
             - "5005:27017"
 
     vehicle.api:
+        container_name: vehicleapi 
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
             - "VehicleDatabaseSettings:ConnectionString=mongodb://vehicledb:27017"
@@ -77,6 +100,10 @@ services:
         volumes:
             - ~/.aspnet/https:/root/.aspnet/https:ro
             - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+        depends_on:
+            - "vehicledb"
+            - "rabbitmq"
+        restart: on-failure
 
     offerdb:
         container_name: offerdb
@@ -87,6 +114,7 @@ services:
             - "5008:27017"
 
     offer.api:
+        container_name: offerapi 
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
             - "OfferDatabaseSettings:ConnectionString=mongodb://offerdb:27017"
@@ -95,4 +123,7 @@ services:
         volumes:
             - ~/.aspnet/https:/root/.aspnet/https:ro
             - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
-            
+        depends_on:
+            - "offerdb"
+            - "rabbitmq"
+        restart: on-failure

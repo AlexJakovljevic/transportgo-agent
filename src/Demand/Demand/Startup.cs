@@ -52,7 +52,7 @@ namespace Demands.API
 
             services.AddCors();
 
-            services.AddSingleton<IConnectionProvider>(new ConnectionProvider("amqp://guest:guest@localhost:5672"));
+            services.AddSingleton<IConnectionProvider>(new ConnectionProvider("amqp://guest:guest@rabbitmq"));
             
             services.AddScoped<IPublisher>(x => new Publisher(x.GetService<IConnectionProvider>(),
                 "company_exchange",

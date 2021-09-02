@@ -55,7 +55,7 @@ namespace Customer.API
 
             services.AddCors();
 
-            services.AddSingleton<IConnectionProvider>(new ConnectionProvider("amqp://guest:guest@localhost:5672"));
+            services.AddSingleton<IConnectionProvider>(new ConnectionProvider("amqp://guest:guest@rabbitmq"));
 
             //TODO: Change exchange name
             services.AddSingleton<ISubscriber>(x => new Subscriber(x.GetService<IConnectionProvider>(),
