@@ -2,6 +2,7 @@ import { useState } from "react";
 import Backdrop from "../components/Backdrop";
 import DemandList from "../components/demands/DemandList";
 import OfferModal from "../components/OfferModal";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const demands = [
   {
@@ -37,24 +38,36 @@ const demands = [
 ];
 
 function DemandPage() {
+  const { user } = useAuth0();
+
   const [isDemandSel, setDemandSel] = useState(false);
   const [selectedDemId, setSelectedDemId] = useState(0);
 
   function openDemand(demandId) {
-      setDemandSel(true);
-      setSelectedDemId(demandId);
+    setDemandSel(true);
+    setSelectedDemId(demandId);
   }
 
   function closeDemand() {
-      setDemandSel(false);
-      setSelectedDemId(0);
+    setDemandSel(false);
+    setSelectedDemId(0);
   }
-  
+
   return (
     <div>
-      <DemandList buttonText="Make an offer" onOpen={openDemand} demands={demands}></DemandList>
-      {isDemandSel && <OfferModal onClose={closeDemand} demand={demands.find(el => el.id === selectedDemId)}/>}
-      {isDemandSel && <Backdrop  />}
+      <div>{JSON.stringify(user, null, 2)}</div>
+      <DemandList
+        buttonText="Make an offer"
+        onOpen={openDemand}
+        demands={demands}
+      ></DemandList>
+      {isDemandSel && (
+        <OfferModal
+          onClose={closeDemand}
+          demand={demands.find((el) => el.id === selectedDemId)}
+        />
+      )}
+      {isDemandSel && <Backdrop />}
     </div>
   );
 }
