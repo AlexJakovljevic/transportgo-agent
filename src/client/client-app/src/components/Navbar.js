@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import TruckLogo from "./Icons/TruckLogo";
+import LoginButton from "./LoginButton";
 
 function Navbar() {
   return (
@@ -25,9 +26,7 @@ function Navbar() {
             Contact
           </Link>
         </nav>
-        <Link to="/login" className="btn btn-primary inline-flex items-center bg-green-200 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
-          Login
-        </Link>
+        <LoginButton></LoginButton>
       </div>
     </header>
   );
