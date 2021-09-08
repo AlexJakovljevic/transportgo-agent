@@ -12,9 +12,8 @@ services:
 
     demanddb:
         container_name: demanddb
-        restart: always
         volumes: 
-            - ~/mongo/data:/data/demanddb
+            - demanddbdata:/data/db
         ports:
             - "5001:27017"
 
@@ -37,9 +36,8 @@ services:
 
     customerdb:
         container_name: customerdb
-        restart: always
         volumes: 
-            - ~/mongo/data:/data/customerdb
+            - customerdbdata:/data/db
         ports:
             - "5002:27017"
 
@@ -60,9 +58,8 @@ services:
 
     companydb:
         container_name: companydb
-        restart: always
         volumes: 
-            - ~/mongo/data:/data/companydb
+            - companydbdata:/data/db
         ports:
             - "5003:27017"
 
@@ -84,9 +81,8 @@ services:
 
     vehicledb:
         container_name: vehicledb
-        restart: always
         volumes: 
-            - ~/mongo/data:/data/vehicledb
+            - vehicledbdata:/data/db
         ports:
             - "5005:27017"
 
@@ -107,9 +103,8 @@ services:
 
     offerdb:
         container_name: offerdb
-        restart: always
         volumes: 
-            - ~/mongo/data:/data/offerdb
+            - offerdbdata:/data/db
         ports:
             - "5008:27017"
 
