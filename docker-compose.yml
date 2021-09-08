@@ -63,3 +63,10 @@ services:
         volumes:        
             - ./src/client/client-app/src:/client-app/src
             - '/client-app/node_modules'
+
+volumes:
+  demanddbdata:
+  customerdbdata:
+  companydbdata:
+  vehicledbdata:
+  offerdbdata:
