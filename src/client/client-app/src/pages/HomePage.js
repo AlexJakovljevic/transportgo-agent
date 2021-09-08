@@ -1,3 +1,7 @@
+import people from "../assets/people.jpg"
+import truckPicture1 from "../assets/truck1.jpg"
+import truckPicture3 from "../assets/truck3.jpg"
+
 function HomePage() {
   const firstText =
     "We strive to connect the best with the best and create a unique platform that helps you deliver fast and make deliveries even faster with the help of our team.";
@@ -27,7 +31,7 @@ function HomePage() {
               <img
                 alt="content"
                 className="object-cover object-center h-full w-full"
-                src="https://dummyimage.com/1203x503"
+                src={people}
               />
             </div>
             <h2 className="text-xl font-medium title-font text-gray-900 mt-5">
@@ -40,7 +44,7 @@ function HomePage() {
               <img
                 alt="content"
                 className="object-cover object-center h-full w-full"
-                src="https://dummyimage.com/1204x504"
+                src={truckPicture3}
               />
             </div>
             <h2 className="text-xl font-medium title-font text-gray-900 mt-5">
@@ -53,7 +57,7 @@ function HomePage() {
               <img
                 alt="content"
                 className="object-cover object-center h-full w-full"
-                src="https://dummyimage.com/1205x505"
+                src={truckPicture1}
               ></img>
             </div>
             <h2 className="text-xl font-medium title-font text-gray-900 mt-5">
