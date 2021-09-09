@@ -59,13 +59,30 @@ namespace Demands.API.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Demand>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<IEnumerable<Demand>>> GetDemandByName(string Name)
+        public async Task<ActionResult<IEnumerable<Demand>>> GetDemandsByName(string Name)
         {
-            var demands = await _repository.getDemandByName(Name);
+            var demands = await _repository.getDemandsByName(Name);
 
             if (demands == null)
             {
                 _logger.LogError($"Demands with name: {Name}, not found!");
+                return NotFound();
+            }
+
+            return Ok(demands);
+        }
+
+        [Route("[action]/{CustomerID}")]
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<Demand>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult<IEnumerable<Demand>>> GetDemandsByCompanyID(string CustomerID)
+        {
+            var demands = await _repository.getDemandsByCustomerID(CustomerID);
+
+            if (demands == null)
+            {
+                _logger.LogError($"Demands with customerID: {CustomerID}, not found!");
                 return NotFound();
             }
 

@@ -26,6 +26,8 @@ namespace Demands.API.Entites
         public Address LoadingAddress { get; set; }
 
         public Address UnloadingAddress { get; set; }
+
+        public String CustomerID { get; set; }
     }
 
     public class Address

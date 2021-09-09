@@ -37,6 +37,14 @@ namespace Offer.API.Controllers
             return Ok(offers);
         }
 
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<Entities.Offer>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IEnumerable<Entities.Offer>>> GetOffersByCompanyID(string CompanyID)
+        {
+            var offers = await _repository.GetOffersByCompanyID(CompanyID);
+            return Ok(offers);
+        }
+
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(Entities.Offer), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]

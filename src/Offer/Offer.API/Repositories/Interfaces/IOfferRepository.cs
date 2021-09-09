@@ -12,6 +12,8 @@ namespace Offer.API.Repositories.Interfaces
 
         Task<Entities.Offer> GetOfferById(string Id);
 
+        Task<IEnumerable<Entities.Offer>> GetOffersByCompanyID(string CompanyID);
+
         Task Create(Entities.Offer offer);
 
         Task<bool> Update(Entities.Offer offer);

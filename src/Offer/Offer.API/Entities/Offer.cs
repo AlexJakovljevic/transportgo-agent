@@ -18,5 +18,6 @@ namespace Offer.API.Entities
         public Vehicle.API.Entities.Vehicle Vehicle { get; set; }
         public int Price { get; set; }
         public String Note { get; set; }
+        public String CompanyID { get; set; }
     }
 }

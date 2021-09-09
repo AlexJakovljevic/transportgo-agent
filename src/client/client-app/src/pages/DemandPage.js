@@ -38,6 +38,7 @@ function DemandPage() {
       })
       .then((data) => {
         setIsLoading(false);
+        //BUG: Error when there's no demands
         formatDemand(data[0]);
         data.forEach((demand) => formatDemand(demand));
         setDemandList(data);

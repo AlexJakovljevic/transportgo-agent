@@ -37,6 +37,11 @@ namespace Offer.API.Repositories
             return await _context.Offers.Find(item => item.Id == Id).FirstOrDefaultAsync();
         }
 
+        public async Task<IEnumerable<Entities.Offer>> GetOffersByCompanyID(string CompanyID)
+        {
+            return await _context.Offers.Find(item => item.CompanyID == CompanyID).ToListAsync();
+        }
+
         public async Task<IEnumerable<Entities.Offer>> GetOffers()
         {
             return await _context.Offers.Find(item => true).ToListAsync();

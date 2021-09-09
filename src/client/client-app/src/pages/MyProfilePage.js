@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import DemandEdit from "../components/demands/DemandEdit";
 import Backdrop from "../components/Backdrop";
 import DemandList from "../components/demands/DemandList";
+
+const IsUserCompany = false;
 
 const Mydemands = [
   {
@@ -50,6 +52,48 @@ function Profile(props) {
     setDemandEditSel(false);
     setSelectedDemId(0);
   }
+  
+  const [isLoading, setIsLoading] = useState(true);
+  const [demandList, setDemandList] = useState([]);
+
+  function getExpDate(expDate) {
+    const oneDayInMs = 1000 * 60 * 60 * 24;
+    let expDateInMs = Date.parse(expDate);
+    let currentMs = Date.now();
+    let differenceMs = expDateInMs - currentMs;
+    return Math.round(differenceMs / oneDayInMs);
+  }
+  
+  function formatDemand(demandResponse) {
+    demandResponse["from"] = demandResponse.loadingAddress.country;
+    demandResponse["to"] = demandResponse.unloadingAddress.country;
+    demandResponse["numOfOffers"] = demandResponse.offerIds.length;
+    demandResponse["expDate"] = getExpDate(demandResponse.expirationDate);
+    demandResponse["vehicle"] = demandResponse.vehicleId;
+    demandResponse["title"] = demandResponse.name;
+    return demandResponse;
+  }
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetch("http://localhost:8001/api/v1/Demand")
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setIsLoading(false);
+        //BUG: Error when there's no demands
+        formatDemand(data[0]);
+        data.forEach((demand) => formatDemand(demand));
+        setDemandList(data);
+        console.log(data[0]);
+      });
+  }, []);
+
+  if (isLoading) {
+    console.log("Loading");
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="min-h-full">
@@ -70,7 +114,7 @@ function Profile(props) {
       <DemandList
         buttonText="Edit"
         onOpen={openEditDemand}
-        demands={Mydemands}
+        demands={demandList}
       ></DemandList>
       {isDemandEditSel && (
         <DemandEdit

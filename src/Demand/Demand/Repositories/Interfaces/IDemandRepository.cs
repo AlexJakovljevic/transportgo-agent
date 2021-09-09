@@ -11,9 +11,11 @@ namespace Demands.API.Repositories.Interfaces
 
         Task<Demand> GetDemandById(string Id);
 
-        Task<IEnumerable<Demand>> getDemandByName(string Name);
+        Task<IEnumerable<Demand>> getDemandsByName(string Name);
 
-        Task<IEnumerable<Demand>> getDemandByPrice(decimal Price);
+        Task<IEnumerable<Demand>> getDemandsByPrice(decimal Price);
+
+        Task<IEnumerable<Demand>> getDemandsByCustomerID(string CustomerID);
 
         Task Create(Demand demand);
 

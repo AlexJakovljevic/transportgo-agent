@@ -38,14 +38,20 @@ namespace Demands.API.Repositories
             return await _context.Demands.Find(item => item.Id == Id).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Demand>> getDemandByName(String Name)
+        public async Task<IEnumerable<Demand>> getDemandsByName(String Name)
         {
             return await _context.Demands.Find(item => item.Name == Name).ToListAsync();
         }
 
-        public async Task<IEnumerable<Demand>> getDemandByPrice(decimal Price)
+        public async Task<IEnumerable<Demand>> getDemandsByPrice(decimal Price)
         {
             return await _context.Demands.Find(item => item.Price == Price).ToListAsync();
+        }
+
+
+        public async Task<IEnumerable<Demand>> getDemandsByCustomerID(string CustomerID)
+        {
+            return await _context.Demands.Find(item => item.CustomerID == CustomerID).ToListAsync();
         }
 
         public async Task<IEnumerable<Demand>> getDemands()
