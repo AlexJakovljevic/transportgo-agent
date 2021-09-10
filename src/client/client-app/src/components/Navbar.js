@@ -1,8 +1,11 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
 import TruckLogo from "./Icons/TruckLogo";
 import LoginButton from "./LoginButton";
 
 function Navbar() {
+  let { user, isLoading } = useAuth0();
+
   return (
     <header className="text-gray-600 body-font">
       <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
@@ -16,12 +19,18 @@ function Navbar() {
           <Link to="/" className="mr-5 hover:text-gray-900">
             Home
           </Link>
-          <Link to="/demands" className="mr-5 hover:text-gray-900">
-            Demands
-          </Link>
-          <Link to="/profile" className="mr-5 hover:text-gray-900">
-            My profile
-          </Link>
+          {!isLoading && user && (
+            <Link to="/demands" className="mr-5 hover:text-gray-900">
+              Demands
+            </Link>
+          )}
+
+          {!isLoading && user && (
+            <Link to="/profile" className="mr-5 hover:text-gray-900">
+              My profile
+            </Link>
+          )}
+
           <Link to="/contact" className="mr-5 hover:text-gray-900">
             Contact
           </Link>
