@@ -7,32 +7,19 @@ import NewDemand from "./pages/NewDemand";
 import Layout from "./components/Layout";
 import Profile from "./pages/MyProfilePage";
 import Contact from "./pages/ContactPage";
-import Auth0ProviderWithHistory from "./auth0Provider.js"
-import Login from "./components/Login";
+import Auth0ProviderWithHistory from "./auth0Provider.js";
+import ProtectedRoute from "./components/auth/protectedRoutes.js";
 
 function App() {
   return (
     <Auth0ProviderWithHistory>
       <Layout>
         <Switch>
-          <Route path="/" exact>
-            <HomePage />
-          </Route>
-          <Route path="/demands">
-            <DemandPage />
-          </Route>
-          <Route path="/new-demand">
-            <NewDemand />
-          </Route>
-          <Route path="/profile">
-            <Profile />
-          </Route>
-          <Route path="/contact">
-            <Contact />
-          </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
+          <Route path="/" exact component={HomePage} />
+          <ProtectedRoute path="/demands" component={DemandPage} />
+          <ProtectedRoute path="/new-demand" component={NewDemand} />
+          <ProtectedRoute path="/profile" component={Profile} />
+          <Route path="/contact" component={Contact} />
         </Switch>
       </Layout>
     </Auth0ProviderWithHistory>

@@ -1,8 +1,21 @@
-import people from "../assets/people.jpg"
-import truckPicture1 from "../assets/truck1.jpg"
-import truckPicture3 from "../assets/truck3.jpg"
+import { useAuth0 } from "@auth0/auth0-react";
+import { useEffect } from "react";
+import people from "../assets/people.jpg";
+import truckPicture1 from "../assets/truck1.jpg";
+import truckPicture3 from "../assets/truck3.jpg";
+import Loader from "../components/Loader";
 
 function HomePage() {
+  let { user, isLoading } = useAuth0();
+
+  if (isLoading) {
+    <Loader></Loader>;
+  }
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
+
   const firstText =
     "We strive to connect the best with the best and create a unique platform that helps you deliver fast and make deliveries even faster with the help of our team.";
 
@@ -11,7 +24,7 @@ function HomePage() {
 
   return (
     <section className="text-gray-600 body-font">
-      <div className="container px-5 py-24 mx-auto">
+      <div className="container px-5 my-12 mx-auto">
         <div className="flex flex-col">
           <div className="h-1 bg-gray-200 rounded overflow-hidden">
             <div className="w-24 h-full bg-green-500"></div>
