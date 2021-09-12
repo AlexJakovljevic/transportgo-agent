@@ -12,8 +12,56 @@ function HomePage() {
     <Loader></Loader>;
   }
 
+  function formatUser(userResponse) {
+    userResponse["id"] = userResponse.contact.email;
+    userResponse["firstName"] = "";
+    userResponse["lastName"] = "";
+    return userResponse;
+  }
+
+  const userBodyForRequest = {
+    id: user != undefined ? user.email : "",
+    firstName: "",
+    lastName: "",
+    address: {
+      country: "",
+      state: "",
+      city: "",
+      zip: "",
+      streetLine1: "",
+      streetLine2: ""
+    },
+    contact: {
+      phone: "",
+      fax: "",
+      email: user != undefined ? user.email : "",
+    }
+  }
+
+  const userBody = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(userBodyForRequest)
+  };
+
+  if (user != undefined) {
+    let apiLink = 'http://localhost:8002/api/v1/Customer/' + user.email;
+    console.log(apiLink);
+    fetch(apiLink)
+    .then((response) => {
+      if(!response.ok) throw new Error(response.status);
+      else console.log("Sve OK: " + response.status);
+    })
+    .catch(error => {
+      console.error("User ne postoji u bazi")
+      console.error("Pravimo user-a: " + userBody);
+      fetch('http://localhost:8002/api/v1/Customer/', userBody);
+    });
+  }
+
   useEffect(() => {
     console.log(user);
+    // console.log("Novak!!!");
   }, [user]);
 
   const firstText =

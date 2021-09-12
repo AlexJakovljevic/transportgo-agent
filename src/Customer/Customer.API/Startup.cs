@@ -81,6 +81,8 @@ namespace Customer.API
 
             app.UseAuthorization();
 
+            app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000"));
+
             app.UseEndpoints(endpoints =>
             {
                 _ = endpoints.MapControllers();
