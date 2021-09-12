@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import DemandEdit from "../components/demands/DemandEdit";
+import DemandCreate from "../components/demands/DemandCreate";
 import Backdrop from "../components/Backdrop";
 import DemandList from "../components/demands/DemandList";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -15,6 +16,7 @@ function Profile(props) {
   let { user } = useAuth0();
 
   const [isDemandEditSel, setDemandEditSel] = useState(false);
+  const [isDemandCreateSel, setDemandCreateSel] = useState(false);
   const [selectedDemId, setSelectedDemId] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [demandList, setDemandList] = useState([]);
@@ -31,6 +33,14 @@ function Profile(props) {
     setSelectedDemId(0);
   }
 
+  function openCreateDemand() {
+    setDemandCreateSel(true);
+  }
+
+  function closeCreateDemand() {
+    setDemandCreateSel(false);
+  }
+
   function getExpDate(expDate) {
     const oneDayInMs = 1000 * 60 * 60 * 24;
     let expDateInMs = Date.parse(expDate);
@@ -42,7 +52,7 @@ function Profile(props) {
   function formatDemand(demandResponse) {
     demandResponse["from"] = demandResponse.loadingAddress.country;
     demandResponse["to"] = demandResponse.unloadingAddress.country;
-    demandResponse["numOfOffers"] = demandResponse.offerIds.length;
+    demandResponse["numOfOffers"] = demandResponse.offerIds != null ? demandResponse.offerIds.length : 0;
     demandResponse["expDate"] = getExpDate(demandResponse.expirationDate);
     demandResponse["vehicle"] = demandResponse.vehicleId;
     demandResponse["title"] = demandResponse.name;
@@ -57,32 +67,40 @@ function Profile(props) {
     return offerResponse;
   }
 
+  function openNewDemandWindow() {
+    
+  }
+
   //Demands list
   useEffect(() => {
-    setIsLoading(true);
-    fetch("http://localhost:8001/api/v1/Demand/GetDemandsByCompanyID/" + user.email)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        setIsLoading(false);
-        data.forEach((demand) => formatDemand(demand));
-        setDemandList(data);
-      });
+    if(!user.isCompany) {
+      setIsLoading(true);
+      fetch("http://localhost:8001/api/v1/Demand/GetDemandsByCompanyID/" + user.email)
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          setIsLoading(false);
+          data.forEach((demand) => formatDemand(demand));
+          setDemandList(data);
+        });
+    }
   }, []);
 
   //Offers list
   useEffect(() => {
-    setIsLoading(true);
-    fetch("http://localhost:8008/api/v1/Offer/GetOffersByCompanyID/" + user.email)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        setIsLoading(false);
-        data.forEach((offer) => formatOffer(offer));
-        setOfferList(data);
-      });
+    if (user.isCompany) {
+      setIsLoading(true);
+      fetch("http://localhost:8008/api/v1/Offer/GetOffersByCompanyID/" + user.email)
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          setIsLoading(false);
+          data.forEach((offer) => formatOffer(offer));
+          setOfferList(data);
+        });
+    }
   }, []);
 
   if (isLoading) {
@@ -107,6 +125,18 @@ function Profile(props) {
       )}
       {!isUsrCompany && (
         <div>
+
+          <div>
+            <button onClick={openCreateDemand}> New demand </button>
+            {isDemandCreateSel && (
+            <DemandCreate
+              onClose={closeCreateDemand}
+              demand={demandList.find((el) => el.id === selectedDemId)}
+            />
+            )}
+            {isDemandCreateSel && <Backdrop />}
+          </div>
+
           <div className="bg-white dark:bg-gray-800">
             <div className="container items-center w-full mx-auto px-5 py-8 sm:px-6 z-20">
               <h2 className="text-3xl font-extrabold text-black dark:text-white sm:text-4xl">

@@ -1,6 +1,7 @@
 import ExitModalIcon from "../Icons/ExitIconModal";
 import Button from "../Icons/Buttons";
 import { useRef } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function DemandField(props) {
   return (
@@ -28,22 +29,75 @@ function DemandField(props) {
   );
 }
 
-function DemandEdit(props) {
+function DemandCreate(props) {
 
+    
+    let { user } = useAuth0();
 
   const titleInput = useRef();
   const fromInput = useRef();
   const toInput = useRef();
   const vehicleInput = useRef();
+  const cargoInput = useRef();
   const priceInput = useRef();
 
 
   function formHandler(event) {
     event.preventDefault();
     const enteredTitle = titleInput.current.value;
-    console.log(enteredTitle);
+    const enteredFrom = fromInput.current.value;
+    const enteredTo = toInput.current.value;
+    const enteredVehicle = vehicleInput.current.value;
+    const enteredCargo = cargoInput.current.value;
+    // console.log(enteredTitle);
     props.onClose();
+
+    const demandBodyForRequest = {
+        id: enteredTitle,
+        cargoId: enteredCargo,
+        vehicleId: enteredVehicle,
+        numOfOffers: 0,
+        loadingAddress: {
+          country: enteredFrom,
+          state: "",
+          city: "",
+          zip: 0,
+          streetLine1: "",
+          streetLine2: ""
+        },
+        unloadingAddress: {
+            country: enteredTo,
+            state: "",
+            city: "",
+            zip: 1,
+            streetLine1: "",
+            streetLine2: ""
+        },
+        offerIds: [],
+        customerID: user != undefined ? user.email : "",
+    }
+
+    const demandBody = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(demandBodyForRequest)
+    };
+
+    console.log("Demand: " + demandBodyForRequest);
+
+    let apiLink = 'http://localhost:8001/api/v1/Demand';
+
+    fetch(apiLink, demandBody)
+    .then((response) => {
+      if(!response.ok) console.error("Greska prilikom dodavanja demand-a");
+      else console.log("Sve OK: " + response.status);
+    })
+    // .catch(error => {
+    //   console.error("Greska prilikom dodavanja demand-a")
+    // });
   }
+
+  
 
 
   return (
@@ -61,18 +115,18 @@ function DemandEdit(props) {
           <div className="flex flex-col w-full mb-8 text-center">
             <h1 className="mx-auto mb-8 text-2xl font-semibold leading-none tracking-tighter text-black lg:w-1/2 sm:text-4xl title-font">
               {" "}
-              Edit demand.{" "}
+              New demand{" "}
             </h1>
             <form onSubmit={formHandler}>
-              <DemandField innerRef={titleInput} id="title" init={props.demand !== undefined ? props.demand.title : ""} type="text"></DemandField>
-              <DemandField innerRef={fromInput} id="from" init={props.demand !== undefined ? props.demand.from : ""} type="text"></DemandField>
-              <DemandField innerRef={toInput} id="to" init={props.demand !== undefined ? props.demand.to : ""} type="text"></DemandField>
-              <DemandField innerRef={vehicleInput} id="vehicle" init={props.demand !== undefined ? props.demand.vehicle : ""} type="text"></DemandField>
-              <DemandField innerRef={priceInput} id="price" init={props.demand !== undefined ? props.demand.price : ""} type="number"></DemandField>
+              <DemandField innerRef={titleInput} id="title" init={"Title"} type="text"></DemandField>
+              <DemandField innerRef={fromInput} id="from" init={"From"} type="text"></DemandField>
+              <DemandField innerRef={toInput} id="to" init={"To"} type="text"></DemandField>
+              <DemandField innerRef={vehicleInput} id="vehicle" init={"Vehicle type"} type="text"></DemandField>
+              <DemandField innerRef={cargoInput} id="cargo" init={"Cargo type"} type="text"></DemandField>
 
               <div className="inline-flex flex-wrap items-center justify-center p-8 space-x-4">
               <Button type="button" onClick={props.onClose} text="Cancel"></Button>
-              <Button text="Submit offer"></Button>
+              <Button text="Submit demand"></Button>
             </div>
             </form>
 
@@ -83,4 +137,4 @@ function DemandEdit(props) {
   );
 }
 
-export default DemandEdit;
+export default DemandCreate;
