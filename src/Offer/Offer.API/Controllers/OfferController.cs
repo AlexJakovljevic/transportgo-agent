@@ -37,7 +37,7 @@ namespace Offer.API.Controllers
             return Ok(offers);
         }
 
-        [HttpGet]
+        [HttpGet("[action]/{CompanyID}")]
         [ProducesResponseType(typeof(IEnumerable<Entities.Offer>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IEnumerable<Entities.Offer>>> GetOffersByCompanyID(string CompanyID)
         {

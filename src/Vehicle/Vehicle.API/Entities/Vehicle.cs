@@ -14,17 +14,13 @@ namespace Vehicle.API.Entities
         public VehicleType Type { get; set; }
 
         public String Brand { get; set; }
+        public String Model { get; set; }
 
         public UInt16 ProductionYear { get; set; }
         
         public VehicleCargoSpace Capacity { get; set; }
 
         public float MaxWeight { get; set; }
-
-        //public Vehicle()
-        //{
-        //    Id = MongoDB.Bson.ObjectId.GenerateNewId().ToString();
-        //}
     }
 
     public class VehicleCargoSpace
