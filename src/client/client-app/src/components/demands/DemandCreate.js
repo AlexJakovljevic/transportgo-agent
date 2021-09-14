@@ -31,15 +31,14 @@ function DemandField(props) {
 
 function DemandCreate(props) {
 
-    
-    let { user } = useAuth0();
+  let { user } = useAuth0();
 
   const titleInput = useRef();
   const fromInput = useRef();
   const toInput = useRef();
   const vehicleInput = useRef();
   const cargoInput = useRef();
-  const priceInput = useRef();
+  // const priceInput = useRef();
 
 
   function formHandler(event) {

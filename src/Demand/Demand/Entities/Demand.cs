@@ -9,7 +9,7 @@ namespace Demands.API.Entites
         [BsonId]
         public String Id { get; set; }
 
-        public Decimal Price { get; set; }
+        // public Decimal Price { get; set; }
 
         [BsonElement]
         [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]

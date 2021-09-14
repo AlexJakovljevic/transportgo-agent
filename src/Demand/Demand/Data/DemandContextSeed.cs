@@ -20,13 +20,13 @@ namespace Demands.API.Data
             {
                 new Demand()
                 {
-                    Price = 9.99M,
+                    // Price = 9.99M,
                     ExpirationDate = DateTime.Now,
                     Name = "Prva ponuda"
                 },
                 new Demand()
                 {
-                    Price = 12.99M,
+                    // Price = 12.99M,
                     ExpirationDate = DateTime.Now,
                     Name = "Druga ponuda"
                 }

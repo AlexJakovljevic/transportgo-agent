@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import Backdrop from "../components/Backdrop";
 import DemandList from "../components/demands/DemandList";
 import OfferModal from "../components/OfferModal";
+import { useAuth0 } from "@auth0/auth0-react";
 import Loader from "../components/Loader";
+import OfferList from "../components/offers/OfferList";
 
 function getExpDate(expDate) {
   const oneDayInMs = 1000 * 60 * 60 * 24;
@@ -22,11 +24,20 @@ function formatDemand(demandResponse) {
   return demandResponse;
 }
 
+function isCompany(user) {
+  return user["http://user/type"] === "company";
+}
+
 function DemandPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isDemandSel, setDemandSel] = useState(false);
+  const [isDemandWithOffersSelected, setDemandWithOffersSelected] = useState(false);
   const [selectedDemId, setSelectedDemId] = useState(0);
   const [demandList, setDemandList] = useState([]);
+
+  let { user } = useAuth0();
+
+  let isUsrCompany = isCompany(user);
 
   useEffect(() => {
     setIsLoading(true);
@@ -51,6 +62,16 @@ function DemandPage() {
     setSelectedDemId(0);
   }
 
+  function openDemandWithOffers(demandId) {
+    setDemandWithOffersSelected(true);
+    setSelectedDemId(demandId);
+  }
+
+  function closeDemandWithOffers() {
+    setDemandWithOffersSelected(false);
+    setSelectedDemId(0);
+  }
+
   if (isLoading) {
     return <Loader></Loader>;
   }
@@ -68,7 +89,13 @@ function DemandPage() {
           demand={demandList.find((el) => el.id === selectedDemId)}
         />
       )}
-      {isDemandSel && <Backdrop />}
+      {isDemandWithOffersSelected && (
+        <OfferModal
+          onClose={closeDemandWithOffers}
+          demand={demandList.find((el) => el.id === selectedDemId)}
+        />
+      )}
+      {/* {isDemandSel && <Backdrop />} */}
     </div>
   );
 }

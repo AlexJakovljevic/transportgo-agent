@@ -20,5 +20,8 @@ namespace Offer.API.Entities
         public int Price { get; set; }
         public String Note { get; set; }
         public String CompanyID { get; set; }
+        public String DemandID { get; set; }
+        public bool isAccepted { get; set; }
+        public bool isDeclined { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 import Button from "../Icons/Buttons";
 import LocationIcon from "../Icons/LocationIcon";
 import TruckIcon from "../Icons/TruckIcon";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function DemandLocation(props) {
   return (
@@ -25,8 +26,17 @@ function DemandDetail(props) {
   );
 }
 
+function isCompany(user) {
+  return user["http://user/type"] === "company";
+}
+
 function Demand(props) {
-  console.log(props.demand);
+  //console.log(props.demand);
+
+  let { user } = useAuth0();
+
+  let isUsrCompany = isCompany(user);
+
   return (
     <li>
       <div className="container items-center px-5 py-4 mx-auto w-3/4">
@@ -46,7 +56,7 @@ function Demand(props) {
                 type="Type of vehicle"
                 value={props.demand.vehicle}
               />
-              <DemandDetail type="Current price" value={props.demand.price} />
+              {/* <DemandDetail type="Current price" value={props.demand.price} /> */}
               <DemandDetail
                 type="Num of offers"
                 value={props.demand.numOfOffers}
@@ -55,10 +65,11 @@ function Demand(props) {
                 type="Expiring in"
                 value={props.demand.expDate + " days"}
               />
-
-              <div className="flex items-end w-full justify-center lg:justify-end">
-                <Button text={props.buttonText} onClick={props.onOpen}></Button>
-              </div>
+              {isUsrCompany && (
+                <div className="flex items-end w-full justify-center lg:justify-end">
+                  <Button text={props.buttonText} onClick={props.onOpen}></Button>
+                </div>
+              )}
             </div>
             <div></div>
           </div>

@@ -43,10 +43,10 @@ namespace Demands.API.Repositories
             return await _context.Demands.Find(item => item.Name == Name).ToListAsync();
         }
 
-        public async Task<IEnumerable<Demand>> getDemandsByPrice(decimal Price)
-        {
-            return await _context.Demands.Find(item => item.Price == Price).ToListAsync();
-        }
+        //public async Task<IEnumerable<Demand>> getDemandsByPrice(decimal Price)
+        //{
+        //    return await _context.Demands.Find(item => item.Price == Price).ToListAsync();
+        //}
 
 
         public async Task<IEnumerable<Demand>> getDemandsByCustomerID(string CustomerID)

@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Demands.API.Controllers;
 using Demands.API.Data;
 using Demands.API.Data.Interfaces;
 using Demands.API.Repositories;
 using Demands.API.Repositories.Interfaces;
+using Demands.API.Services;
 using Demands.API.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -54,9 +56,17 @@ namespace Demands.API
 
             services.AddSingleton<IConnectionProvider>(new ConnectionProvider("amqp://guest:guest@rabbitmq"));
             
-            services.AddScoped<IPublisher>(x => new Publisher(x.GetService<IConnectionProvider>(),
+            services.AddSingleton<IPublisher>(x => new Publisher(x.GetService<IConnectionProvider>(),
                 "company_exchange",
                 exchangeType: ExchangeType.Topic));
+
+            services.AddSingleton<ISubscriber>(x => new Subscriber(x.GetService<IConnectionProvider>(),
+                "company_exchange",
+                "demand_queue",
+                "demand.*",
+                exchangeType: ExchangeType.Topic));
+
+            services.AddHostedService<DemandDataCollector>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -29,7 +29,6 @@ namespace Demands.API.Controllers
             this.publisher = publisher;
         }
 
-
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Demand>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IEnumerable<Demand>>> GetDemands()

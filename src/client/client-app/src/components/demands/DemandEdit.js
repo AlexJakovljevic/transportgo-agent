@@ -35,7 +35,7 @@ function DemandEdit(props) {
   const fromInput = useRef();
   const toInput = useRef();
   const vehicleInput = useRef();
-  const priceInput = useRef();
+  // const priceInput = useRef();
 
 
   function formHandler(event) {
@@ -68,7 +68,7 @@ function DemandEdit(props) {
               <DemandField innerRef={fromInput} id="from" init={props.demand !== undefined ? props.demand.from : ""} type="text"></DemandField>
               <DemandField innerRef={toInput} id="to" init={props.demand !== undefined ? props.demand.to : ""} type="text"></DemandField>
               <DemandField innerRef={vehicleInput} id="vehicle" init={props.demand !== undefined ? props.demand.vehicle : ""} type="text"></DemandField>
-              <DemandField innerRef={priceInput} id="price" init={props.demand !== undefined ? props.demand.price : ""} type="number"></DemandField>
+              {/* <DemandField innerRef={priceInput} id="price" init={props.demand !== undefined ? props.demand.price : ""} type="number"></DemandField> */}
 
               <div className="inline-flex flex-wrap items-center justify-center p-8 space-x-4">
               <Button type="button" onClick={props.onClose} text="Cancel"></Button>

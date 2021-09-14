@@ -13,7 +13,7 @@ namespace Demands.API.Repositories.Interfaces
 
         Task<IEnumerable<Demand>> getDemandsByName(string Name);
 
-        Task<IEnumerable<Demand>> getDemandsByPrice(decimal Price);
+        //Task<IEnumerable<Demand>> getDemandsByPrice(decimal Price);
 
         Task<IEnumerable<Demand>> getDemandsByCustomerID(string CustomerID);
 

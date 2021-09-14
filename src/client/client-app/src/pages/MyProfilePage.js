@@ -6,9 +6,10 @@ import DemandList from "../components/demands/DemandList";
 import { useAuth0 } from "@auth0/auth0-react";
 import Loader from "../components/Loader";
 import OfferList from "../components/offers/OfferList";
+import OfferForDemandList from "../components/offers/OfferForDemandList";
 
 function isCompany(user) {
-  console.log(user["http://user/type"]);
+  // console.log(user["http://user/type"]);
   return user["http://user/type"] === "company";
 }
 
@@ -17,6 +18,7 @@ function Profile(props) {
 
   const [isDemandEditSel, setDemandEditSel] = useState(false);
   const [isDemandCreateSel, setDemandCreateSel] = useState(false);
+  const [isDemandWithOffersSelected, setDemandWithOffersSelected] = useState(false);
   const [selectedDemId, setSelectedDemId] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [demandList, setDemandList] = useState([]);
@@ -39,6 +41,16 @@ function Profile(props) {
 
   function closeCreateDemand() {
     setDemandCreateSel(false);
+  }
+
+  function openDemandWithOffers(demandId) {
+    setDemandWithOffersSelected(true);
+    setSelectedDemId(demandId);
+  }
+
+  function closeDemandWithOffers() {
+    setDemandWithOffersSelected(false);
+    setSelectedDemId(0);
   }
 
   function getExpDate(expDate) {
@@ -73,7 +85,7 @@ function Profile(props) {
 
   //Demands list
   useEffect(() => {
-    if(!user.isCompany) {
+    if(!isUsrCompany) {
       setIsLoading(true);
       fetch("http://localhost:8001/api/v1/Demand/GetDemandsByCompanyID/" + user.email)
         .then((response) => {
@@ -89,8 +101,9 @@ function Profile(props) {
 
   //Offers list
   useEffect(() => {
-    if (user.isCompany) {
+    if (isUsrCompany) {
       setIsLoading(true);
+      console.log(user.email);
       fetch("http://localhost:8008/api/v1/Offer/GetOffersByCompanyID/" + user.email)
         .then((response) => {
           return response.json();
@@ -118,7 +131,7 @@ function Profile(props) {
               </h2>
             </div>
           </div>
-          <OfferList
+          <OfferList isForDemand={false}
             offers={offerList}
           ></OfferList>
         </div>
@@ -145,17 +158,24 @@ function Profile(props) {
             </div>
           </div>
           <DemandList
-            buttonText="Edit"
-            onOpen={openEditDemand}
+            buttonText="See all offers"
+            onOpen={openDemandWithOffers}
             demands={demandList}
           ></DemandList>
-          {isDemandEditSel && (
+          {/* {isDemandEditSel && (
             <DemandEdit
               onClose={closeEditDemand}
               demand={demandList.find((el) => el.id === selectedDemId)}
             />
+          )} */}
+          {isDemandWithOffersSelected && (
+            <OfferForDemandList
+              onClose={closeDemandWithOffers}
+              offers={demandList}
+            />
           )}
-          {isDemandEditSel && <Backdrop />}
+          {/* {isDemandEditSel && <Backdrop />} */}
+          {isDemandWithOffersSelected && <Backdrop />}
         </div>
       )}
 

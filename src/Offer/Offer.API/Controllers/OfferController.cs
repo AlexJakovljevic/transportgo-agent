@@ -69,6 +69,7 @@ namespace Offer.API.Controllers
 
             this.PublishEvent("create", "company.offer", offer: offer);
             this.PublishEvent("create", "customer.offer", offer: offer);
+            this.PublishEvent("create", "demand.offer", offer: offer);
 
             return CreatedAtAction("GetOffers", new { offer.Id }, offer);
         }
@@ -79,6 +80,8 @@ namespace Offer.API.Controllers
         {
             this.PublishEvent("update", "company.offer", offer: offer);
             this.PublishEvent("update", "customer.offer", offer: offer);
+            this.PublishEvent("update", "demand.offer", offer: offer);
+
             return Ok(await _repository.Update(offer));
         }
 
@@ -88,6 +91,8 @@ namespace Offer.API.Controllers
         {
             this.PublishEvent("delete", "company.offer", id: id);
             this.PublishEvent("delete", "customer.offer", id: id);
+            this.PublishEvent("delete", "demand.offer", id: id);
+
             return Ok(await _repository.Delete(id));
         }
 

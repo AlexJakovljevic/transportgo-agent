@@ -19,7 +19,7 @@ namespace Customer.API.Entities
 
         public Contact Contact { get; set; }
 
-        public List<string> OfferList { get; set; }
+        // public List<string> OfferList { get; set; }
     }
 }
 

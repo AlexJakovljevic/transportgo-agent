@@ -36,10 +36,6 @@ namespace Customer.API.Data
                         Email = "pera.peric@gmail.com",
                         Fax = "1231231231",
                         Phone = "23131231231"
-                    },
-                    OfferList = new List<string>()
-                    {
-                        "id2", "id1"
                     }
                 },
                new Entities.Customer()
@@ -59,10 +55,6 @@ namespace Customer.API.Data
                         Email = "zika.zikic@gmail.com",
                         Fax = "231241",
                         Phone = "41241241"
-                    },
-                    OfferList = new List<string>()
-                    {
-                        "id13", "id21"
                     }
                 }
             };
