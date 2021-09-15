@@ -65,7 +65,7 @@ function Demand(props) {
                 type="Expiring in"
                 value={props.demand.expDate + " days"}
               />
-              {isUsrCompany && (
+              {props.shouldShowButton && (
                 <div className="flex items-end w-full justify-center lg:justify-end">
                   <Button text={props.buttonText} onClick={props.onOpen}></Button>
                 </div>

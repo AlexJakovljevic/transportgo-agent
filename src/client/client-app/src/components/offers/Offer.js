@@ -26,10 +26,12 @@
             </div> */}
             <div className="w-full lg:w-2/3">
               <div className="flex flex-wrap h-full rounded-xl lg:p-8 bg-gray-200">
-                <OfferDetail
-                  type="Demand"
-                  value={"Link ka demandu"}//props.offer.demand}
-                />
+                {props.shouldDisplaylink && (
+                  <OfferDetail
+                    type="Demand"
+                    value={"Link ka demandu"}//props.offer.demand}
+                  />
+                )}
                 <OfferDetail
                   type="Vehicle : number"
                   value={props.offer.vehicle + " : " + props.offer.numOfVehicles}

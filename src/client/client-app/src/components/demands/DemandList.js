@@ -14,7 +14,13 @@ function DemandList(props) {
                     const onOpenDemand = () => {
                         props.onOpen(demandItem.id);
                     };
-                    return <Demand key={demandItem.id} demand={demandItem} buttonText={props.buttonText} onOpen={onOpenDemand} onClose={props.onClose}></Demand>
+                    return  <Demand key={demandItem.id} 
+                                    demand={demandItem} 
+                                    buttonText={props.buttonText} 
+                                    onOpen={onOpenDemand} 
+                                    onClose={props.onClose} 
+                                    shouldShowButton={props.shouldShowButton}>
+                            </Demand>
                 })}
             </ul>
 

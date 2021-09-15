@@ -7,6 +7,7 @@ import NewDemand from "./pages/NewDemand";
 import Layout from "./components/Layout";
 import Profile from "./pages/MyProfilePage";
 import Contact from "./pages/ContactPage";
+import OfferPage from "./pages/OfferPage";
 import Auth0ProviderWithHistory from "./auth0Provider.js";
 import ProtectedRoute from "./components/auth/protectedRoutes.js";
 
@@ -19,6 +20,7 @@ function App() {
           <ProtectedRoute path="/demands" component={DemandPage} />
           <ProtectedRoute path="/new-demand" component={NewDemand} />
           <ProtectedRoute path="/profile" component={Profile} />
+          <ProtectedRoute path="/offers" component={OfferPage} />
           <Route path="/contact" component={Contact} />
         </Switch>
       </Layout>

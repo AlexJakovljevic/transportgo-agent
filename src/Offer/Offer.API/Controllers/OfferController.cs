@@ -36,12 +36,20 @@ namespace Offer.API.Controllers
             var offers = await _repository.GetOffers();
             return Ok(offers);
         }
-
+        
         [HttpGet("[action]/{CompanyID}")]
         [ProducesResponseType(typeof(IEnumerable<Entities.Offer>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IEnumerable<Entities.Offer>>> GetOffersByCompanyID(string CompanyID)
         {
             var offers = await _repository.GetOffersByCompanyID(CompanyID);
+            return Ok(offers);
+        }
+
+        [HttpGet("[action]/{DemandID}")]
+        [ProducesResponseType(typeof(IEnumerable<Entities.Offer>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IEnumerable<Entities.Offer>>> GetOffersByDemandID(string DemandID)
+        {
+            var offers = await _repository.GetOffersByDemandID(DemandID);
             return Ok(offers);
         }
 

@@ -7,6 +7,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Loader from "../components/Loader";
 import OfferList from "../components/offers/OfferList";
 import OfferForDemandList from "../components/offers/OfferForDemandList";
+import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 function isCompany(user) {
   // console.log(user["http://user/type"]);
@@ -43,9 +45,14 @@ function Profile(props) {
     setDemandCreateSel(false);
   }
 
+  const history = useHistory();
+
   function openDemandWithOffers(demandId) {
-    setDemandWithOffersSelected(true);
-    setSelectedDemId(demandId);
+    console.log("MPP: " + demandId);
+    history.push({
+      pathname: '/offers',
+      state: {demandId: demandId}
+    });
   }
 
   function closeDemandWithOffers() {
@@ -161,6 +168,7 @@ function Profile(props) {
             buttonText="See all offers"
             onOpen={openDemandWithOffers}
             demands={demandList}
+            shouldShowButton={true}
           ></DemandList>
           {/* {isDemandEditSel && (
             <DemandEdit

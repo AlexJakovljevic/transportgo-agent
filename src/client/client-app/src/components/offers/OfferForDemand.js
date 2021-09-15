@@ -1,4 +1,5 @@
- 
+import Button from "../Icons/Buttons";
+
   function OfferDetail(props) {
     return (
       <div className="mx-5">
@@ -30,13 +31,13 @@
                   type="Note"
                   value={props.offer.note}
                 />
-                <button>
-                    Accept
-                </button>
+                <div className="flex items-end w-full justify-center lg:justify-end">
+                  <Button text={"Accept"} onClick={props.onAccept}></Button>
+                </div>
                 
-                <button>
-                    Decline
-                </button>
+                <div className="flex items-end w-full justify-center lg:justify-end">
+                  <Button text={"Decline"} onClick={props.onDecline}></Button>
+                </div>
 
               </div>
               <div></div>

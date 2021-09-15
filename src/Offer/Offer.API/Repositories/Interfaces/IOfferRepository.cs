@@ -13,6 +13,7 @@ namespace Offer.API.Repositories.Interfaces
         Task<Entities.Offer> GetOfferById(string Id);
 
         Task<IEnumerable<Entities.Offer>> GetOffersByCompanyID(string CompanyID);
+        Task<IEnumerable<Entities.Offer>> GetOffersByDemandID(string DemandID);
 
         Task Create(Entities.Offer offer);
 

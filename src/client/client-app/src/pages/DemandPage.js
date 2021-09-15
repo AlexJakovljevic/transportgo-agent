@@ -82,6 +82,7 @@ function DemandPage() {
         buttonText="Make an offer"
         onOpen={openDemand}
         demands={demandList}
+        shouldShowButton={isUsrCompany}
       ></DemandList>
       {isDemandSel && (
         <OfferModal
