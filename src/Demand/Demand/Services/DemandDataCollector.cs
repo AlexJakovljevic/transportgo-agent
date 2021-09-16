@@ -88,7 +88,7 @@ namespace Demands.API.Services
             {
                 var id = JsonConvert.DeserializeObject<string>(message);
             }
-            else
+            else if (action == "create")
             {
                 var offer = JsonConvert.DeserializeObject<Offer.API.Entities.Offer>(message);
 
@@ -109,6 +109,10 @@ namespace Demands.API.Services
 
                 await _repository.Update(demand);
                 //await demandController.UpdateDemand(demand);
+            }
+            else
+            {
+                //Update action
             }
             return true;
         }

@@ -24,6 +24,7 @@ function formatDemand(demandResponse) {
     demandResponse["expDate"] = getExpDate(demandResponse.expirationDate);
     demandResponse["vehicle"] = demandResponse.vehicleId;
     demandResponse["title"] = demandResponse.name;
+    demandResponse["offerIds"] = demandResponse.offerIds;
     return demandResponse;
 }
 
@@ -32,6 +33,8 @@ function formatOffer(offerResponse) {
     offerResponse["numOfVehicles"] = offerResponse.numOfVehicles;
     offerResponse["price"] = offerResponse.price;
     offerResponse["note"] = offerResponse.note;
+    offerResponse["companyID"] = offerResponse.companyID;
+    offerResponse["demandID"] = offerResponse.demandID;
     return offerResponse;
 }
 
@@ -41,9 +44,10 @@ function isCompany(user) {
 
 function OfferPage() {
   const [isLoading, setIsLoading] = useState(true);
-  const [isDemandWithOffersSelected, setDemandWithOffersSelected] = useState(false);
   const [demandItem, setDemandItem] = useState([]);
+  const [offerItem, setOfferItem] = useState(null);
   const [offerList, setOfferList] = useState([]);
+  // const [selectedOfferId, setSelectedOfferId] = useState(0);
 
   let { user } = useAuth0();
 
@@ -54,11 +58,105 @@ function OfferPage() {
   console.log("OP: " + demandId)
 
   function onAcceptOffer(offerId) {
-    console.log("To A:" + offerId)
+    //Dohvatamo offer koji je prihvacen
+    fetch("http://localhost:8008/api/v1/Offer/" + offerId)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setIsLoading(false);
+        let tmp = formatOffer(data);
+        //Postavljamo polje isAccepted na true
+        tmp.isAccepted = true;
+        
+        const offerBody = {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(tmp)
+        };
+
+        let apiLink = 'http://localhost:8008/api/v1/Offer';
+        //Saljemo PUT zahtev za promenjen offer
+        fetch(apiLink, offerBody)
+          .then((response) => {
+            if(!response.ok) console.error("Greska prilikom izmene offer-a");
+            else console.log("Sve OK: " + response.status);
+          })
+        //Dohvatamo demand na koji se prihvaceni offer odnosi
+        fetch("http://localhost:8001/api/v1/Demand/" + tmp.demandID)
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          setIsLoading(false);
+          let tmp = formatDemand(data);
+          //Izdvajamo id-eve svih offer-a iz ovog demanda
+          var localOfferIDs = tmp.offerIds;
+          let indexOfCurrentOffer = localOfferIDs.indexOf(offerId);
+          //Iz niza id-eva brisemo id trenutnog offera
+          localOfferIDs.splice(indexOfCurrentOffer, 1);
+
+          tmp.offerIds = [offerId];
+          //Pravimo PUT zahtev za demand, postavljamo niz offerId-eva na samo jedan element
+          //ID offer-a koji je upravo prihvacen
+          const demandBody = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(tmp)
+          };
+  
+          let apiLink = 'http://localhost:8001/api/v1/Demand';
+  
+          fetch(apiLink, demandBody)
+            .then((response) => {
+              if(!response.ok) console.error("Greska prilikom izmene demand-a");
+              else console.log("Sve OK: " + response.status);
+            })
+
+          return localOfferIDs;
+          // console.log("Offers: " + localOfferIDs);
+          // console.log("Ejected: " + ejected);
+        })
+        //Saljemo zahtev da se obrisu svi Offer-i koji nisu prihvaceni za trenutni Demand
+        .then((data) => {
+          data.forEach((localOfferID) => deleteOffer(localOfferID));
+        })
+      })
+  }
+  //TODO: Ne radi fja, ne brise offer-e
+  function deleteOffer(offerID) {
+    fetch("http://localhost:8008/api/v1/Offer/" + offerID, { method: 'DELETE' })
+      .then((response) => {
+        if(!response.ok) console.error("Greska prilikom izmene offer-a");
+        else console.log("Sve OK: " + response.status); 
+      });
   }
 
   function onDeclineOffer(offerId) {
-    console.log("To D:" + offerId)    
+    //TODO: refresh page after this
+    fetch("http://localhost:8008/api/v1/Offer/" + offerId)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setIsLoading(false);
+        let tmp = formatOffer(data);
+        tmp.isDeclined = true;
+        
+        const offerBody = {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(tmp)
+        };
+
+        let apiLink = 'http://localhost:8008/api/v1/Offer';
+
+        fetch(apiLink, offerBody)
+          .then((response) => {
+            if(!response.ok) console.error("Greska prilikom izmene offer-a");
+            else console.log("Sve OK: " + response.status);
+          })
+      })
   }
 
   useEffect(() => {
