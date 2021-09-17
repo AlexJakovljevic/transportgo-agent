@@ -119,17 +119,36 @@ function OfferPage() {
         })
         //Saljemo zahtev da se obrisu svi Offer-i koji nisu prihvaceni za trenutni Demand
         .then((data) => {
-          data.forEach((localOfferID) => deleteOffer(localOfferID));
+          data.forEach((localOfferID) => changeOfferDemandID(localOfferID));
         })
       })
   }
-  //TODO: Ne radi fja, ne brise offer-e
-  function deleteOffer(offerID) {
-    fetch("http://localhost:8008/api/v1/Offer/" + offerID, { method: 'DELETE' })
+  
+  function changeOfferDemandID(offerID) {
+    fetch("http://localhost:8008/api/v1/Offer/" + offerID)
       .then((response) => {
-        if(!response.ok) console.error("Greska prilikom izmene offer-a");
-        else console.log("Sve OK: " + response.status); 
-      });
+        return response.json();
+      })
+      .then((data) => {
+        setIsLoading(false);
+        let tmp = formatOffer(data);
+        //Postavljamo polje demandID na null
+        tmp.demandID = null;
+        
+        const offerBody = {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(tmp)
+        };
+
+        let apiLink = 'http://localhost:8008/api/v1/Offer';
+        //Saljemo PUT zahtev za promenjen offer
+        fetch(apiLink, offerBody)
+          .then((response) => {
+            if(!response.ok) console.error("Greska prilikom izmene offer-a");
+            else console.log("Sve OK: " + response.status);
+          })
+      })
   }
 
   function onDeclineOffer(offerId) {
