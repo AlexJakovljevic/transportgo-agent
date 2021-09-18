@@ -15,6 +15,7 @@ using Offer.API.Data;
 using Offer.API.Data.Interfaces;
 using Offer.API.Repositories;
 using Offer.API.Repositories.Interfaces;
+using Offer.API.Services;
 using Offer.API.Settings;
 using Offer.API.Settings.Interfaces;
 using Plain.RabbitMQ;
@@ -58,6 +59,14 @@ namespace Offer.API
             services.AddScoped<IPublisher>(x => new Publisher(x.GetService<IConnectionProvider>(),
                 "company_exchange",
                 exchangeType: ExchangeType.Topic));
+
+            services.AddSingleton<ISubscriber>(x => new Subscriber(x.GetService<IConnectionProvider>(),
+                "company_exchange",
+                "offer_queue",
+                "offer.*",
+                exchangeType: ExchangeType.Topic));
+
+            services.AddHostedService<OfferDataCollector>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -123,6 +123,7 @@ namespace Demands.API.Controllers
         {
             this.PublishEvent("delete", "company.demand", id: id);
             this.PublishEvent("delete", "customer.demand", id: id);
+            this.PublishEvent("delete", "offer.demand", id: id);
             return Ok(await _repository.Delete(id));
         }
 

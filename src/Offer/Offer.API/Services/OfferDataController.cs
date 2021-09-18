@@ -1,23 +1,22 @@
-﻿using Demands.API.Controllers;
-using Demands.API.Repositories.Interfaces;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Offer.API.Repositories.Interfaces;
 using Plain.RabbitMQ;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Demands.API.Services
+namespace Offer.API.Services
 {
-    public class DemandDataCollector : IHostedService
+    public class OfferDataCollector : IHostedService
     {
         private readonly ISubscriber _subscriber;
-        private readonly IDemandRepository _repository;
+        private readonly IOfferRepository _repository;
 
-        public DemandDataCollector(ISubscriber subscriber, IDemandRepository repository)
+        public OfferDataCollector(ISubscriber subscriber, IOfferRepository repository)
         {
             this._subscriber = subscriber;
             this._repository = repository;
@@ -41,28 +40,18 @@ namespace Demands.API.Services
 
             switch (dataClass)
             {
-                case "Offer":
-                    return ProcessOfferAsync(message, action).Result;
+                case "Demand":
+                    return ProcessDemandAsync(message, action).Result;
             }
 
             return true;
         }
 
-        private async Task<bool> ProcessOfferAsync(string message, string action)
+        private async Task<bool> ProcessDemandAsync(string message, string action)
         {
             switch (action)
             {
                 case "create":
-                    var offer = JsonConvert.DeserializeObject<Offer.API.Entities.Offer>(message);
-
-                    var demand = await _repository.GetDemandById(offer.DemandID);
-
-                    var offerIDs = demand.OfferIds;
-
-                    offerIDs.Add(offer.Id);
-                    demand.OfferIds = offerIDs;
-
-                    await _repository.Update(demand);
 
                     break;
 
@@ -73,20 +62,12 @@ namespace Demands.API.Services
                 case "delete":
                     var id = JsonConvert.DeserializeObject<string>(message);
 
-                    var demands = await _repository.getDemands();
+                    var offers = await _repository.GetOffersByDemandID(id);
 
-                    foreach (var oneDemand in demands)
+                    foreach (var offer in offers)
                     {
-                        if (oneDemand.OfferIds.Contains(id))
-                        {
-                            var demandsOfferIDs = oneDemand.OfferIds;
-                            demandsOfferIDs.Remove(id);
-                            oneDemand.OfferIds = demandsOfferIDs;
+                        await _repository.Delete(offer.Id);
 
-                            await _repository.Update(oneDemand);
-
-                            break;
-                        }
                     }
 
                     break;
