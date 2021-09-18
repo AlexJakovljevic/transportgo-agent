@@ -44,7 +44,7 @@ function Demand(props) {
           <div className="w-full lg:w-1/3">
             <div className="lg:p-4 lg:pl-2 bg-white">
               <h1 className="justify-center mx-auto mb-8 text-xl font-semibold leading-none tracking-tighter text-black lg:text-2xl title-font">
-                {props.demand.title}
+                {props.demand.title || props.demand.id}
               </h1>
               <DemandLocation from location={props.demand.from} />
               <DemandLocation to location={props.demand.to} />

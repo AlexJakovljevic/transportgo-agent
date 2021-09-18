@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
-import Backdrop from "../components/Backdrop";
 import DemandList from "../components/demands/DemandList";
 import OfferModal from "../components/OfferModal";
 import { useAuth0 } from "@auth0/auth0-react";
 import Loader from "../components/Loader";
-import OfferList from "../components/offers/OfferList";
 
 function getExpDate(expDate) {
   const oneDayInMs = 1000 * 60 * 60 * 24;

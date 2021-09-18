@@ -2,6 +2,7 @@ import ExitModalIcon from "../Icons/ExitIconModal";
 import Button from "../Icons/Buttons";
 import { useRef } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { getExpirationDate } from "../../helpers";
 
 function DemandField(props) {
   return (
@@ -30,7 +31,6 @@ function DemandField(props) {
 }
 
 function DemandCreate(props) {
-
   let { user } = useAuth0();
 
   const titleInput = useRef();
@@ -38,109 +38,61 @@ function DemandCreate(props) {
   const toInput = useRef();
   const vehicleInput = useRef();
   const cargoInput = useRef();
-  // const priceInput = useRef();
-
-  // let today = new Date();
-  //   let year = today.getFullYear().toString();
-  //   let month = today.getMonth() + 1;
-  //   let monthString = (month > 9 ? month : "0" + month).toString(); 
-  //   let day = today.getDate() + 5;
-  //   let dayString = (day > 9 ? day : "0" + day).toString();
-    
-  //   let hour = today.getHours();
-  //   let hourString = (hour > 9 ? hour : "0" + hour).toString();
-     
-  //   let minutes = today.getMinutes();
-  //   let minutesString = (minutes > 9 ? minutes : "0" + minutes).toString();
-     
-  //   let seconds = today.getSeconds();
-  //   let secondsString = (seconds > 9 ? seconds : "0" + seconds).toString();
-
-  //   let miliseconds = today.getMilliseconds();
-  //   let milisecondsString = (miliseconds > 99 ? miliseconds : (miliseconds > 9 ? "0" + miliseconds : "00" + miliseconds)).toString();
-
-  //   let stringDate = year + "-" + monthString + "-" + dayString + "T" + hourString + ":" + minutesString + ":" + secondsString + "." + milisecondsString + "Z";
-  // console.log("Datum: " + stringDate.toString());
 
   function formHandler(event) {
     event.preventDefault();
+    const apiLink = "http://localhost:8001/api/v1/Demand";
     const enteredTitle = titleInput.current.value;
     const enteredFrom = fromInput.current.value;
     const enteredTo = toInput.current.value;
     const enteredVehicle = vehicleInput.current.value;
     const enteredCargo = cargoInput.current.value;
-    // console.log(enteredTitle);
-    props.onClose();
-
-    let today = new Date();
-    let year = today.getFullYear().toString();
-    let month = today.getMonth() + 1;
-    let monthString = (month > 9 ? month : "0" + month).toString(); 
-    let day = today.getDate() + 5;
-    let dayString = (day > 9 ? day : "0" + day).toString();
-    
-    let hour = today.getHours();
-    let hourString = (hour > 9 ? hour : "0" + hour).toString();
-     
-    let minutes = today.getMinutes();
-    let minutesString = (minutes > 9 ? minutes : "0" + minutes).toString();
-     
-    let seconds = today.getSeconds();
-    let secondsString = (seconds > 9 ? seconds : "0" + seconds).toString();
-
-    let miliseconds = today.getMilliseconds();
-    let milisecondsString = (miliseconds > 99 ? miliseconds : (miliseconds > 9 ? "0" + miliseconds : "00" + miliseconds)).toString();
-
-    let stringDate = year + "-" + monthString + "-" + dayString + "T" + hourString + ":" + minutesString + ":" + secondsString + "." + milisecondsString + "Z";
+    const stringDate = getExpirationDate();
 
     const demandBodyForRequest = {
-        id: enteredTitle,
-        expirationDate: stringDate.toString(),
-        cargoId: enteredCargo,
-        vehicleId: enteredVehicle,
-        numOfOffers: 0,
-        loadingAddress: {
-          country: enteredFrom,
-          state: "",
-          city: "",
-          zip: 0,
-          streetLine1: "",
-          streetLine2: ""
-        },
-        unloadingAddress: {
-            country: enteredTo,
-            state: "",
-            city: "",
-            zip: 1,
-            streetLine1: "",
-            streetLine2: ""
-        },
-        offerIds: [],
-        customerID: user != undefined ? user.email : "",
-    }
-
-    const demandBody = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(demandBodyForRequest)
+      id: enteredTitle,
+      expirationDate: stringDate.toString(),
+      cargoId: enteredCargo,
+      vehicleId: enteredVehicle,
+      numOfOffers: 0,
+      loadingAddress: {
+        country: enteredFrom,
+        state: "",
+        city: "",
+        zip: 0,
+        streetLine1: "",
+        streetLine2: "",
+      },
+      unloadingAddress: {
+        country: enteredTo,
+        state: "",
+        city: "",
+        zip: 1,
+        streetLine1: "",
+        streetLine2: "",
+      },
+      offerIds: [],
+      customerID: user !== undefined ? user.email : "",
     };
 
-    console.log("Demand: " + demandBodyForRequest);
-
-    let apiLink = 'http://localhost:8001/api/v1/Demand';
+    const demandBody = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(demandBodyForRequest),
+    };
 
     fetch(apiLink, demandBody)
-    .then((response) => {
-      if(!response.ok) console.error("Greska prilikom dodavanja demand-a");
-      else console.log("Sve OK: " + response.status);
-    })
-    // .catch(error => {
-    //   console.error("Greska prilikom dodavanja demand-a")
-    // });
+      .then((response) => {
+        if (!response.ok) {
+          console.error("Error while proccessing new demand");
+        } else {
+          console.log("Successful demand creation" + response.status);
+        }
+      })
+      .then(() => {
+        props.onClose();
+      });
   }
-
-  
-
 
   return (
     <div className="fixed top-0 left-0 w-full h-full z-20">
@@ -160,18 +112,46 @@ function DemandCreate(props) {
               New demand{" "}
             </h1>
             <form onSubmit={formHandler}>
-              <DemandField innerRef={titleInput} id="title" init={"Title"} type="text"></DemandField>
-              <DemandField innerRef={fromInput} id="from" init={"From"} type="text"></DemandField>
-              <DemandField innerRef={toInput} id="to" init={"To"} type="text"></DemandField>
-              <DemandField innerRef={vehicleInput} id="vehicle" init={"Vehicle type"} type="text"></DemandField>
-              <DemandField innerRef={cargoInput} id="cargo" init={"Cargo type"} type="text"></DemandField>
+              <DemandField
+                innerRef={titleInput}
+                id="title"
+                init={"Title"}
+                type="text"
+              ></DemandField>
+              <DemandField
+                innerRef={fromInput}
+                id="from"
+                init={"From"}
+                type="text"
+              ></DemandField>
+              <DemandField
+                innerRef={toInput}
+                id="to"
+                init={"To"}
+                type="text"
+              ></DemandField>
+              <DemandField
+                innerRef={vehicleInput}
+                id="vehicle"
+                init={"Vehicle type"}
+                type="text"
+              ></DemandField>
+              <DemandField
+                innerRef={cargoInput}
+                id="cargo"
+                init={"Cargo type"}
+                type="text"
+              ></DemandField>
 
               <div className="inline-flex flex-wrap items-center justify-center p-8 space-x-4">
-              <Button type="button" onClick={props.onClose} text="Cancel"></Button>
-              <Button text="Submit demand"></Button>
-            </div>
+                <Button
+                  type="button"
+                  onClick={props.onClose}
+                  text="Cancel"
+                ></Button>
+                <Button text="Submit demand"></Button>
+              </div>
             </form>
-
           </div>
         </div>
       </div>

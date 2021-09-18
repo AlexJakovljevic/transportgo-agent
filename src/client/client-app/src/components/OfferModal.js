@@ -54,12 +54,12 @@ function OfferModal(props) {
     console.log(enteredNote)
     
     const offerBodyForRequest = {
-      id: (user != undefined ? user.email : "") + "_" + props.demand.id + "_" + enteredVehicle + "_" + enteredNoV + "_" + enteredPrice,
+      id: (user !== undefined ? user.email : "") + "_" + props.demand.id + "_" + enteredVehicle + "_" + enteredNoV + "_" + enteredPrice,
       numOfVehicles: Number(enteredNoV),
       vehicle: enteredVehicle,
       price: Number(enteredPrice),
       note: enteredNote,
-      companyID: user != undefined ? user.email : "",
+      companyID: user !== undefined ? user.email : "",
       demandID: props.demand.id,
       isAccepted: false,
       isDeclined: false

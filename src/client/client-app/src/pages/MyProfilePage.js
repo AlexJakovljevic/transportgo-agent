@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import DemandEdit from "../components/demands/DemandEdit";
 import DemandCreate from "../components/demands/DemandCreate";
 import Backdrop from "../components/Backdrop";
 import DemandList from "../components/demands/DemandList";
@@ -7,8 +6,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Loader from "../components/Loader";
 import OfferList from "../components/offers/OfferList";
 import OfferForDemandList from "../components/offers/OfferForDemandList";
-import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import Button from "../components/Icons/Buttons";
 
 function isCompany(user) {
   // console.log(user["http://user/type"]);
@@ -18,7 +17,6 @@ function isCompany(user) {
 function Profile(props) {
   let { user } = useAuth0();
 
-  const [isDemandEditSel, setDemandEditSel] = useState(false);
   const [isDemandCreateSel, setDemandCreateSel] = useState(false);
   const [isDemandWithOffersSelected, setDemandWithOffersSelected] = useState(false);
   const [selectedDemId, setSelectedDemId] = useState(0);
@@ -26,16 +24,6 @@ function Profile(props) {
   const [demandList, setDemandList] = useState([]);
   const [offerList, setOfferList] = useState([]);
   let isUsrCompany = isCompany(user);
-
-  function openEditDemand(demandId) {
-    setDemandEditSel(true);
-    setSelectedDemId(demandId);
-  }
-
-  function closeEditDemand() {
-    setDemandEditSel(false);
-    setSelectedDemId(0);
-  }
 
   function openCreateDemand() {
     setDemandCreateSel(true);
@@ -48,10 +36,9 @@ function Profile(props) {
   const history = useHistory();
 
   function openDemandWithOffers(demandId) {
-    console.log("MPP: " + demandId);
     history.push({
-      pathname: '/offers',
-      state: {demandId: demandId}
+      pathname: "/offers",
+      state: { demandId: demandId },
     });
   }
 
@@ -71,7 +58,8 @@ function Profile(props) {
   function formatDemand(demandResponse) {
     demandResponse["from"] = demandResponse.loadingAddress.country;
     demandResponse["to"] = demandResponse.unloadingAddress.country;
-    demandResponse["numOfOffers"] = demandResponse.offerIds != null ? demandResponse.offerIds.length : 0;
+    demandResponse["numOfOffers"] =
+      demandResponse.offerIds != null ? demandResponse.offerIds.length : 0;
     demandResponse["expDate"] = getExpDate(demandResponse.expirationDate);
     demandResponse["vehicle"] = demandResponse.vehicleId;
     demandResponse["title"] = demandResponse.name;
@@ -86,15 +74,14 @@ function Profile(props) {
     return offerResponse;
   }
 
-  function openNewDemandWindow() {
-    
-  }
-
   //Demands list
   useEffect(() => {
-    if(!isUsrCompany) {
+    if (!isUsrCompany) {
       setIsLoading(true);
-      fetch("http://localhost:8001/api/v1/Demand/GetDemandsByCompanyID/" + user.email)
+      fetch(
+        "http://localhost:8001/api/v1/Demand/GetDemandsByCompanyID/" +
+          user.email
+      )
         .then((response) => {
           return response.json();
         })
@@ -104,14 +91,16 @@ function Profile(props) {
           setDemandList(data);
         });
     }
-  }, []);
+  }, [isDemandCreateSel]);
 
   //Offers list
   useEffect(() => {
     if (isUsrCompany) {
       setIsLoading(true);
       console.log(user.email);
-      fetch("http://localhost:8008/api/v1/Offer/GetOffersByCompanyID/" + user.email)
+      fetch(
+        "http://localhost:8008/api/v1/Offer/GetOffersByCompanyID/" + user.email
+      )
         .then((response) => {
           return response.json();
         })
@@ -129,65 +118,75 @@ function Profile(props) {
 
   return (
     <div className="min-h-full">
+      {/**
+       * If the user is a company
+       */}
       {isUsrCompany && (
         <div>
           <div className="bg-white dark:bg-gray-800">
             <div className="container items-center w-full mx-auto px-5 py-8 sm:px-6 z-20">
-              <h2 className="text-3xl font-extrabold text-black dark:text-white sm:text-4xl">
+              <h2 className="h2-title">
                 <span className="block">My offers</span>
               </h2>
             </div>
           </div>
-          <OfferList isForDemand={false}
-            offers={offerList}
-          ></OfferList>
+          <OfferList isForDemand={false} offers={offerList}></OfferList>
         </div>
       )}
+
+      {/**
+       * If the user is a regular user
+       */}
       {!isUsrCompany && (
         <div>
-
-          <div>
-            <button onClick={openCreateDemand}> New demand </button>
-            {isDemandCreateSel && (
-            <DemandCreate
-              onClose={closeCreateDemand}
-              demand={demandList.find((el) => el.id === selectedDemId)}
-            />
-            )}
-            {isDemandCreateSel && <Backdrop />}
-          </div>
-
           <div className="bg-white dark:bg-gray-800">
             <div className="container items-center w-full mx-auto px-5 py-8 sm:px-6 z-20">
-              <h2 className="text-3xl font-extrabold text-black dark:text-white sm:text-4xl">
-                <span className="block">My demands</span>
-              </h2>
+              <div className="flex justify-between">
+                <h2 className="h2-title">
+                  <span className="block">My demands</span>
+                </h2>
+                <div className="flex justify-end">
+                  <Button text="New Demand" onClick={openCreateDemand} />
+                </div>
+              </div>
+              <div>
+                {isDemandCreateSel && (
+                  <DemandCreate onClose={closeCreateDemand} />
+                )}
+                {isDemandCreateSel && <Backdrop />}
+              </div>
             </div>
           </div>
-          <DemandList
-            buttonText="See all offers"
-            onOpen={openDemandWithOffers}
-            demands={demandList}
-            shouldShowButton={true}
-          ></DemandList>
-          {/* {isDemandEditSel && (
-            <DemandEdit
-              onClose={closeEditDemand}
-              demand={demandList.find((el) => el.id === selectedDemId)}
-            />
-          )} */}
+
+          {demandList.length === 0 && (
+            <div className="container py-44">
+              <div className="flex justify-center items-center">
+                <h2 className="h2-title">You have no demands at the moment</h2>
+              </div>
+              <div className="flex justify-center items-center">
+                <Button text="Make a new demand " onClick={openCreateDemand} />
+              </div>
+            </div>
+          )}
+
+          {demandList !== 0 && (
+            <DemandList
+              buttonText="See all offers"
+              onOpen={openDemandWithOffers}
+              demands={demandList}
+              shouldShowButton={true}
+            ></DemandList>
+          )}
+
           {isDemandWithOffersSelected && (
             <OfferForDemandList
               onClose={closeDemandWithOffers}
               offers={demandList}
             />
           )}
-          {/* {isDemandEditSel && <Backdrop />} */}
           {isDemandWithOffersSelected && <Backdrop />}
         </div>
       )}
-
-      {isDemandEditSel && <Backdrop />}
     </div>
   );
 }

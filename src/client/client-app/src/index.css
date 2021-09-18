@@ -12,9 +12,13 @@
 }
 
 .loader {
-  border-top-color: #3498db;
+  border-top-color: #4a4b4b;
   -webkit-animation: spinner 1.5s linear infinite;
   animation: spinner 1.5s linear infinite;
+}
+
+.h2-title {
+  @apply text-3xl font-extrabold text-black sm:text-4xl;
 }
 
 @-webkit-keyframes spinner {

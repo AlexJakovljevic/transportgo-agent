@@ -4,7 +4,7 @@ function Button(props) {
     typeBtn = props.type;
   }
 
-  if (props.color == "red") {
+  if (props.color === "red") {
     return (
       <button
         type={typeBtn}
