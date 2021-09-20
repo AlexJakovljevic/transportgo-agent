@@ -43,6 +43,7 @@ function OfferPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [demandItem, setDemandItem] = useState([]);
   const [offerItem, setOfferItem] = useState(null);
+  const [offerChange, setOfferChange] = useState(false);
   const [offerList, setOfferList] = useState([]);
   // const [selectedOfferId, setSelectedOfferId] = useState(0);
 
@@ -104,14 +105,15 @@ function OfferPage() {
             let apiLink = "http://localhost:8001/api/v1/Demand";
 
             fetch(apiLink, demandBody).then((response) => {
-              if (!response.ok)
+              if (!response.ok) {
                 console.error("Greska prilikom izmene demand-a");
-              else console.log("Sve OK: " + response.status);
+              } else {
+                setOfferChange(!offerChange);
+                console.log("Sve OK: " + response.status);
+              }
             });
 
             return localOfferIDs;
-            // console.log("Offers: " + localOfferIDs);
-            // console.log("Ejected: " + ejected);
           })
           //Saljemo zahtev da se obrisu svi Offer-i koji nisu prihvaceni za trenutni Demand
           .then((data) => {
@@ -167,11 +169,15 @@ function OfferPage() {
 
         fetch(apiLink, offerBody)
           .then((response) => {
-            if (!response.ok) console.error("Greska prilikom izmene offer-a");
-            else console.log("Sve OK: " + response.status);
+            if (!response.ok) {
+              console.error("Greska prilikom izmene offer-a");
+            } else {
+              setOfferChange(!offerChange);
+              console.log("Sve OK: " + response.status);
+            }
           })
           .then(() => {
-            // update offer 
+            // update offer
           });
       });
   }
@@ -203,7 +209,7 @@ function OfferPage() {
         data.forEach((offer) => formatOffer(offer));
         setOfferList(data);
       });
-  }, []);
+  }, [offerChange]);
 
   if (isLoading) {
     return <Loader></Loader>;
@@ -231,19 +237,6 @@ function OfferPage() {
           onDecline={onDeclineOffer}
         ></OfferList>
       </div>
-      {/* {isDemandSel && (
-        <OfferModal
-          onClose={closeDemand}
-          demand={demandList.find((el) => el.id === selectedDemId)}
-        />
-      )}
-      {isDemandWithOffersSelected && (
-        <OfferModal
-          onClose={closeDemandWithOffers}
-          demand={demandList.find((el) => el.id === selectedDemId)}
-        />
-      )} */}
-      {/* {isDemandSel && <Backdrop />} */}
     </div>
   );
 }

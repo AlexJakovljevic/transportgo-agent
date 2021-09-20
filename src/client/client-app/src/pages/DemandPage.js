@@ -62,11 +62,6 @@ function DemandPage() {
     setSelectedDemId(0);
   }
 
-  function openDemandWithOffers(demandId) {
-    setDemandWithOffersSelected(true);
-    setSelectedDemId(demandId);
-  }
-
   function closeDemandWithOffers() {
     setDemandWithOffersSelected(false);
     setSelectedDemId(0);
