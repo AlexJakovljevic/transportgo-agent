@@ -56,12 +56,12 @@ export function getExpDate(expDate) {
 }
 
 export function formatOffer(offerResponse) {
-  offerResponse["vehicle"] = offerResponse.vehicle;
-  offerResponse["numOfVehicles"] = offerResponse.numOfVehicles;
-  offerResponse["price"] = offerResponse.price;
-  offerResponse["note"] = offerResponse.note;
-  offerResponse["companyID"] = offerResponse.companyID;
-  offerResponse["demandID"] = offerResponse.demandID;
+  // offerResponse["vehicle"] = offerResponse.vehicle;
+  // offerResponse["numOfVehicles"] = offerResponse.numOfVehicles;
+  // offerResponse["price"] = offerResponse.price;
+  // offerResponse["note"] = offerResponse.note;
+  // offerResponse["companyID"] = offerResponse.companyID;
+  // offerResponse["demandID"] = offerResponse.demandID;
   offerResponse["demand"] = offerResponse.demandID;
   return offerResponse;
 }
@@ -74,6 +74,6 @@ export function formatDemand(demandResponse) {
   demandResponse["expDate"] = getExpDate(demandResponse.expirationDate);
   demandResponse["vehicle"] = demandResponse.vehicleId;
   demandResponse["title"] = demandResponse.name;
-  demandResponse["offerIds"] = demandResponse.offerIds;
+  // demandResponse["offerIds"] = demandResponse.offerIds;
   return demandResponse;
 }

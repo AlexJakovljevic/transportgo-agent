@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import DemandList from "../components/demands/DemandList";
+import searchDemandImg from "../assets/searchDemands.jpeg";
 import OfferModal from "../components/OfferModal";
 import { useAuth0 } from "@auth0/auth0-react";
 import Loader from "../components/Loader";
@@ -9,7 +10,6 @@ import { isCompany, formatDemand } from "../helpers";
 function DemandPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isDemandSel, setDemandSel] = useState(false);
-  const [isDemandWithOffersSelected, setDemandWithOffersSelected] = useState(false);
   const [selectedDemId, setSelectedDemId] = useState(0);
   const [demandList, setDemandList] = useState([]);
 
@@ -41,23 +41,40 @@ function DemandPage() {
     setSelectedDemId(0);
   }
 
-  function closeDemandWithOffers() {
-    setDemandWithOffersSelected(false);
-    setSelectedDemId(0);
-  }
-
   if (isLoading) {
     return <Loader></Loader>;
   }
 
   return (
     <div className="min-h-screen">
-      <DemandList
-        buttonText="Make an offer"
-        onOpen={openDemand}
-        demands={demandList}
-        shouldShowButton={isUsrCompany}
-      ></DemandList>
+      {demandList.length == 0 && (
+        <div className="container py-20">
+          <div className="flex justify-center items-center">
+            <h2 className="h2-title">
+              Looks like we couldn't find any demands{" "}
+            </h2>
+          </div>
+          <div class="flex flex-wrap items-center justify-center p-20">
+            <div class="px-4">
+              <img
+                src={searchDemandImg}
+                alt="..."
+                class="shadow rounded-full max-w-full h-auto align-middle border-none"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {demandList.length > 0 && (
+        <DemandList
+          buttonText="Make an offer"
+          onOpen={openDemand}
+          demands={demandList}
+          shouldShowButton={isUsrCompany}
+        ></DemandList>
+      )}
+
       {isDemandSel && (
         <OfferModal
           onClose={closeDemand}
@@ -65,12 +82,6 @@ function DemandPage() {
         />
       )}
       {isDemandSel && <Backdrop />}
-      {isDemandWithOffersSelected && (
-        <OfferModal
-          onClose={closeDemandWithOffers}
-          demand={demandList.find((el) => el.id === selectedDemId)}
-        />
-      )}
     </div>
   );
 }

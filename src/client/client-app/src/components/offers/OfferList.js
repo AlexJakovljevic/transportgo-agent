@@ -1,9 +1,6 @@
 import OfferForDemand from "./OfferForDemand";
-import { useAuth0 } from "@auth0/auth0-react";
 
 function OfferList(props) {
-  let { user } = useAuth0();
-
   return (
     <section>
       <ul>

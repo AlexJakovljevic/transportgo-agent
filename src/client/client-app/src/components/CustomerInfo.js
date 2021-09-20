@@ -31,11 +31,11 @@ import Button from "./Icons/Buttons";
                                 />
                                 <CustomerDetail
                                     type="Phone"
-                                    value={props.customerInfo.phone != "" ? props.customerInfo.phone : "No number"}
+                                    value={props.customerInfo.phone !== "" ? props.customerInfo.phone : "No number"}
                                 />
                                 <CustomerDetail
                                     type="Fax"
-                                    value={props.customerInfo.fax != "" ? props.customerInfo.fax : "No fax"}
+                                    value={props.customerInfo.fax !== "" ? props.customerInfo.fax : "No fax"}
                                 />
                                 <div className="inline-flex flex-wrap items-center justify-center p-8 space-x-4">
                                     <Button

@@ -13,15 +13,8 @@ function HomePage() {
     <Loader></Loader>;
   }
 
-  function formatUser(userResponse) {
-    userResponse["id"] = userResponse.contact.email;
-    userResponse["firstName"] = "";
-    userResponse["lastName"] = "";
-    return userResponse;
-  }
-
   const customerBodyForRequest = {
-    id: user != undefined ? user.email : "",
+    id: user !== undefined ? user.email : "",
     firstName: "",
     lastName: "",
     address: {
@@ -35,7 +28,7 @@ function HomePage() {
     contact: {
       phone: "",
       fax: "",
-      email: user != undefined ? user.email : "",
+      email: user !== undefined ? user.email : "",
     },
   };
 
@@ -46,7 +39,7 @@ function HomePage() {
   };
 
   const companyBodyForRequest = {
-    id: user != undefined ? user.email : "",
+    id: user !== undefined ? user.email : "",
     name: "",
     address: {
       country: "",
@@ -60,7 +53,7 @@ function HomePage() {
     contact: {
       phone: "",
       fax: "",
-      email: user != undefined ? user.email : "",
+      email: user !== undefined ? user.email : "",
     },
     cargos: [],
   };
@@ -71,7 +64,7 @@ function HomePage() {
     body: JSON.stringify(companyBodyForRequest),
   };
 
-  if (user != undefined && !isCompany(user)) {
+  if (user !== undefined && !isCompany(user)) {
     let apiLink = "http://localhost:8002/api/v1/Customer/" + user.email;
     console.log(apiLink);
     fetch(apiLink)
@@ -86,7 +79,7 @@ function HomePage() {
       });
   }
 
-  if (user != undefined && isCompany(user)) {
+  if (user !== undefined && isCompany(user)) {
     let apiLink = "http://localhost:8003/api/v1/Company/" + user.email;
     console.log(apiLink);
     fetch(apiLink)

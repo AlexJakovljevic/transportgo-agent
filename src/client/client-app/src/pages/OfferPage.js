@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import DemandList from "../components/demands/DemandList";
-import { useAuth0 } from "@auth0/auth0-react";
 import Loader from "../components/Loader";
 import OfferList from "../components/offers/OfferList";
 import React from "react";
@@ -13,8 +12,6 @@ function OfferPage() {
   const [offerChange, setOfferChange] = useState(false);
   const [offerList, setOfferList] = useState([]);
   // const [selectedOfferId, setSelectedOfferId] = useState(0);
-
-  let { user } = useAuth0();
 
   const location = useLocation();
   const demandId = location.state.demandId;
@@ -159,12 +156,11 @@ function OfferPage() {
         [data].forEach((demand) => formatDemand(demand));
         setDemandItem(data);
       });
-  }, []);
+  }, [demandId]);
 
   // Get offers for current demand
   useEffect(() => {
     setIsLoading(true);
-    console.log(user.email);
     fetch("http://localhost:8008/api/v1/Offer/GetOffersByDemandID/" + demandId)
       .then((response) => {
         return response.json();
@@ -174,7 +170,7 @@ function OfferPage() {
         data.forEach((offer) => formatOffer(offer));
         setOfferList(data);
       });
-  }, [offerChange]);
+  }, [offerChange, demandId]);
 
   if (isLoading) {
     return <Loader></Loader>;

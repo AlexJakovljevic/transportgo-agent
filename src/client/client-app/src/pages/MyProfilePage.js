@@ -119,7 +119,7 @@ function Profile(props) {
           setDemandList(data);
         });
     }
-  }, [isDemandCreateSel, updateBoardOnDelete]);
+  }, [isDemandCreateSel, updateBoardOnDelete, user]);
 
   //Offers list
   useEffect(() => {
