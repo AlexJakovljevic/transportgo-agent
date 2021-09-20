@@ -3,16 +3,12 @@ import DemandCreate from "../components/demands/DemandCreate";
 import Backdrop from "../components/Backdrop";
 import DemandList from "../components/demands/DemandList";
 import { useAuth0 } from "@auth0/auth0-react";
+import { isCompany } from "../helpers";
 import Loader from "../components/Loader";
 import OfferList from "../components/offers/OfferList";
 import { Link, useHistory } from "react-router-dom";
 import Button from "../components/Icons/Buttons";
 import CustomerInfo from "../components/CustomerInfo";
-
-function isCompany(user) {
-  // console.log(user["http://user/type"]);
-  return user["http://user/type"] === "company";
-}
 
 function Profile(props) {
   let { user } = useAuth0();

@@ -1,6 +1,7 @@
 import Button from "../Icons/Buttons";
 import LocationIcon from "../Icons/LocationIcon";
 import TruckIcon from "../Icons/TruckIcon";
+import { isCompany } from "../../helpers";
 import { useAuth0 } from "@auth0/auth0-react";
 
 function DemandLocation(props) {
@@ -24,10 +25,6 @@ function DemandDetail(props) {
       </div>
     </div>
   );
-}
-
-function isCompany(user) {
-  return user["http://user/type"] === "company";
 }
 
 function Demand(props) {
@@ -63,14 +60,26 @@ function Demand(props) {
               />
               <DemandDetail
                 type="Expiring in"
-                value={props.demand.expDate > 0 ? (props.demand.expDate + " days") : "Expired"}
+                value={
+                  props.demand.expDate > 0
+                    ? props.demand.expDate + " days"
+                    : "Expired"
+                }
               />
               <div className="flex items-end w-full justify-center lg:justify-end">
-                {props.shouldShowButton && (props.demand.expDate > 0 || !isUsrCompany) && (
-                  <Button text={props.buttonText} onClick={props.onOpen}></Button>
-                )}
+                {props.shouldShowButton &&
+                  (props.demand.expDate > 0 || !isUsrCompany) && (
+                    <Button
+                      text={props.buttonText}
+                      onClick={props.onOpen}
+                    ></Button>
+                  )}
                 {props.shouldShowDeleteButton && (
-                  <Button text={"Delete"} onClick={props.onDelete} color={"red"}></Button>
+                  <Button
+                    text={"Delete"}
+                    onClick={props.onDelete}
+                    color={"red"}
+                  ></Button>
                 )}
               </div>
             </div>

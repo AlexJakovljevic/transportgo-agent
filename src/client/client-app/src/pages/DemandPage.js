@@ -4,6 +4,7 @@ import OfferModal from "../components/OfferModal";
 import { useAuth0 } from "@auth0/auth0-react";
 import Loader from "../components/Loader";
 import Backdrop from "../components/Backdrop";
+import { isCompany } from "../helpers";
 
 function getExpDate(expDate) {
   const oneDayInMs = 1000 * 60 * 60 * 24;
@@ -21,10 +22,6 @@ function formatDemand(demandResponse) {
   demandResponse["vehicle"] = demandResponse.vehicleId;
   demandResponse["title"] = demandResponse.name;
   return demandResponse;
-}
-
-function isCompany(user) {
-  return user["http://user/type"] === "company";
 }
 
 function DemandPage() {

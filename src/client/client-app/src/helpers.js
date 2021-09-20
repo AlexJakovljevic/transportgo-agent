@@ -41,3 +41,8 @@ export function getExpirationDate() {
     "Z";
   return stringDate;
 }
+
+export function isCompany(user) {
+  // console.log(user["http://user/type"]);
+  return user["http://user/type"] === "company";
+}

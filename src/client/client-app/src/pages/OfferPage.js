@@ -35,21 +35,14 @@ function formatOffer(offerResponse) {
   return offerResponse;
 }
 
-function isCompany(user) {
-  return user["http://user/type"] === "company";
-}
-
 function OfferPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [demandItem, setDemandItem] = useState([]);
-  const [offerItem, setOfferItem] = useState(null);
   const [offerChange, setOfferChange] = useState(false);
   const [offerList, setOfferList] = useState([]);
   // const [selectedOfferId, setSelectedOfferId] = useState(0);
 
   let { user } = useAuth0();
-
-  let isUsrCompany = isCompany(user);
 
   const location = useLocation();
   const demandId = location.state.demandId;

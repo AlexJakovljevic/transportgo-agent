@@ -1,6 +1,7 @@
 import Button from "../Icons/Buttons";
 import { useAuth0 } from "@auth0/auth0-react";
 import TruckIcon from "../Icons/TruckIcon";
+import { isCompany } from "../../helpers";
 
 function OfferDetail(props) {
   return (
@@ -13,10 +14,6 @@ function OfferDetail(props) {
       </div>
     </div>
   );
-}
-
-function isCompany(user) {
-  return user["http://user/type"] === "company";
 }
 
 function OfferForDemand(props) {
@@ -47,26 +44,23 @@ function OfferForDemand(props) {
               <OfferDetail type="Price" value={props.offer.price} />
               <OfferDetail type="Note" value={props.offer.note} />
               {/* {isUserCompany && ( */}
-                <div>
-                  <OfferDetail
-                    type="Status"
-                    value={
-                      props.isAccepted
-                        ? "Accepted"
-                        : props.isDeclined
-                        ? "Declined"
-                        : "Pending"
-                    }
-                  />
-                </div>
+              <div>
+                <OfferDetail
+                  type="Status"
+                  value={
+                    props.isAccepted
+                      ? "Accepted"
+                      : props.isDeclined
+                      ? "Declined"
+                      : "Pending"
+                  }
+                />
+              </div>
               {/* )} */}
               {!isUserCompany && !(props.isAccepted || props.isDeclined) && (
                 <div className="flex items-center justify-center lg:justify-end">
                   <div className="w-full">
-                    <Button 
-                      text={"Accept"} 
-                      onClick={props.onAccept}>
-                    </Button>
+                    <Button text={"Accept"} onClick={props.onAccept}></Button>
                     <Button
                       text={"Decline"}
                       onClick={props.onDecline}
@@ -77,19 +71,19 @@ function OfferForDemand(props) {
               )}
               {isUserCompany && !props.isAccepted && (
                 <div className="flex items-end w-full justify-center lg:justify-end">
-                  <Button 
-                    text={"Delete"} 
-                    onClick={props.onDelete} 
-                    color={"red"}>
-                  </Button>
+                  <Button
+                    text={"Delete"}
+                    onClick={props.onDelete}
+                    color={"red"}
+                  ></Button>
                 </div>
               )}
               {isUserCompany && props.isAccepted && (
                 <div className="flex items-end w-full justify-center lg:justify-end">
-                  <Button 
-                    text={"Customer info"} 
-                    onClick={props.onCustomerInfo}>
-                  </Button>
+                  <Button
+                    text={"Customer info"}
+                    onClick={props.onCustomerInfo}
+                  ></Button>
                 </div>
               )}
             </div>

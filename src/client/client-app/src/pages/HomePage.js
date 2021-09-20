@@ -4,6 +4,7 @@ import people from "../assets/people.jpg";
 import truckPicture1 from "../assets/truck1.jpg";
 import truckPicture3 from "../assets/truck3.jpg";
 import Loader from "../components/Loader";
+import { isCompany } from "../helpers";
 
 function HomePage() {
   let { user, isLoading } = useAuth0();
@@ -19,10 +20,6 @@ function HomePage() {
     return userResponse;
   }
 
-  function isCompany(user) {
-    return user["http://user/type"] === "company";
-  }
-
   const customerBodyForRequest = {
     id: user != undefined ? user.email : "",
     firstName: "",
@@ -33,19 +30,19 @@ function HomePage() {
       city: "",
       zip: "",
       streetLine1: "",
-      streetLine2: ""
+      streetLine2: "",
     },
     contact: {
       phone: "",
       fax: "",
       email: user != undefined ? user.email : "",
-    }
-  }
-  
+    },
+  };
+
   const customerBody = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(customerBodyForRequest)
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(customerBodyForRequest),
   };
 
   const companyBodyForRequest = {
@@ -57,7 +54,7 @@ function HomePage() {
       city: "",
       zip: "",
       streetLine1: "",
-      streetLine2: ""
+      streetLine2: "",
     },
     category: 0,
     contact: {
@@ -65,43 +62,43 @@ function HomePage() {
       fax: "",
       email: user != undefined ? user.email : "",
     },
-    cargos: []
-  }
+    cargos: [],
+  };
 
   const companyBody = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(companyBodyForRequest)
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(companyBodyForRequest),
   };
 
   if (user != undefined && !isCompany(user)) {
-    let apiLink = 'http://localhost:8002/api/v1/Customer/' + user.email;
+    let apiLink = "http://localhost:8002/api/v1/Customer/" + user.email;
     console.log(apiLink);
     fetch(apiLink)
-    .then((response) => {
-      if(!response.ok) throw new Error(response.status);
-      else console.log("Sve OK: " + response.status);
-    })
-    .catch(error => {
-      console.error("User ne postoji u bazi")
-      console.error("Pravimo user-a: " + customerBody);
-      fetch('http://localhost:8002/api/v1/Customer/', customerBody);
-    });
+      .then((response) => {
+        if (!response.ok) throw new Error(response.status);
+        else console.log("Sve OK: " + response.status);
+      })
+      .catch((error) => {
+        console.error("User ne postoji u bazi");
+        console.error("Pravimo user-a: " + customerBody);
+        fetch("http://localhost:8002/api/v1/Customer/", customerBody);
+      });
   }
 
   if (user != undefined && isCompany(user)) {
-    let apiLink = 'http://localhost:8003/api/v1/Company/' + user.email;
+    let apiLink = "http://localhost:8003/api/v1/Company/" + user.email;
     console.log(apiLink);
     fetch(apiLink)
-    .then((response) => {
-      if(!response.ok) throw new Error(response.status);
-      else console.log("Sve OK: " + response.status);
-    })
-    .catch(error => {
-      console.error("User ne postoji u bazi")
-      console.error("Pravimo user-a: " + companyBody);
-      fetch('http://localhost:8003/api/v1/Company/', companyBody);
-    });
+      .then((response) => {
+        if (!response.ok) throw new Error(response.status);
+        else console.log("Sve OK: " + response.status);
+      })
+      .catch((error) => {
+        console.error("User ne postoji u bazi");
+        console.error("Pravimo user-a: " + companyBody);
+        fetch("http://localhost:8003/api/v1/Company/", companyBody);
+      });
   }
 
   useEffect(() => {
