@@ -42,11 +42,6 @@ function Profile(props) {
     });
   }
 
-  function closeDemandWithOffers() {
-    setDemandWithOffersSelected(false);
-    setSelectedDemId(0);
-  }
-
   function getExpDate(expDate) {
     const oneDayInMs = 1000 * 60 * 60 * 24;
     let expDateInMs = Date.parse(expDate);
@@ -68,6 +63,7 @@ function Profile(props) {
 
   function formatOffer(offerResponse) {
     offerResponse["vehicle"] = offerResponse.vehicle;
+    offerResponse["demand"] = offerResponse.demandID;
     offerResponse["numOfVehicles"] = offerResponse.numOfVehicles;
     offerResponse["price"] = offerResponse.price;
     offerResponse["note"] = offerResponse.note;
@@ -117,7 +113,7 @@ function Profile(props) {
   }
 
   return (
-    <div className="min-h-full">
+    <div className="min-h-screen">
       {/**
        * If the user is a company
        */}
@@ -178,13 +174,6 @@ function Profile(props) {
             ></DemandList>
           )}
 
-          {isDemandWithOffersSelected && (
-            <OfferForDemandList
-              onClose={closeDemandWithOffers}
-              offers={demandList}
-            />
-          )}
-          {isDemandWithOffersSelected && <Backdrop />}
         </div>
       )}
     </div>
