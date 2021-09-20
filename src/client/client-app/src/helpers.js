@@ -54,3 +54,26 @@ export function getExpDate(expDate) {
   let differenceMs = expDateInMs - currentMs;
   return Math.round(differenceMs / oneDayInMs);
 }
+
+export function formatOffer(offerResponse) {
+  offerResponse["vehicle"] = offerResponse.vehicle;
+  offerResponse["numOfVehicles"] = offerResponse.numOfVehicles;
+  offerResponse["price"] = offerResponse.price;
+  offerResponse["note"] = offerResponse.note;
+  offerResponse["companyID"] = offerResponse.companyID;
+  offerResponse["demandID"] = offerResponse.demandID;
+  offerResponse["demand"] = offerResponse.demandID;
+  return offerResponse;
+}
+
+export function formatDemand(demandResponse) {
+  demandResponse["from"] = demandResponse.loadingAddress.country;
+  demandResponse["to"] = demandResponse.unloadingAddress.country;
+  demandResponse["numOfOffers"] =
+    demandResponse.offerIds != null ? demandResponse.offerIds.length : 0;
+  demandResponse["expDate"] = getExpDate(demandResponse.expirationDate);
+  demandResponse["vehicle"] = demandResponse.vehicleId;
+  demandResponse["title"] = demandResponse.name;
+  demandResponse["offerIds"] = demandResponse.offerIds;
+  return demandResponse;
+}

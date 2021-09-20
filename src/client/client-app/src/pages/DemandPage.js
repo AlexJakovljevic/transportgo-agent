@@ -4,17 +4,7 @@ import OfferModal from "../components/OfferModal";
 import { useAuth0 } from "@auth0/auth0-react";
 import Loader from "../components/Loader";
 import Backdrop from "../components/Backdrop";
-import { isCompany, getExpDate } from "../helpers";
-
-function formatDemand(demandResponse) {
-  demandResponse["from"] = demandResponse.loadingAddress.country;
-  demandResponse["to"] = demandResponse.unloadingAddress.country;
-  demandResponse["numOfOffers"] = demandResponse.offerIds.length;
-  demandResponse["expDate"] = getExpDate(demandResponse.expirationDate);
-  demandResponse["vehicle"] = demandResponse.vehicleId;
-  demandResponse["title"] = demandResponse.name;
-  return demandResponse;
-}
+import { isCompany, formatDemand } from "../helpers";
 
 function DemandPage() {
   const [isLoading, setIsLoading] = useState(true);

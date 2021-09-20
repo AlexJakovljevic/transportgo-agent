@@ -47,11 +47,6 @@ function OfferModal(props) {
     const enteredVehicle = vehicleInput.current.value;
     const enteredNoV = numOfVehiclesInput.current.value;
     const enteredNote = noteInput.current.value;
-
-    console.log(enteredPrice)
-    console.log(enteredVehicle)
-    console.log(enteredNoV)
-    console.log(enteredNote)
     
     const offerBodyForRequest = {
       id: (user !== undefined ? user.email : "") + "_" + props.demand.id + "_" + enteredVehicle + "_" + enteredNoV + "_" + enteredPrice,

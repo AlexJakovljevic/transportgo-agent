@@ -3,7 +3,7 @@ import DemandCreate from "../components/demands/DemandCreate";
 import Backdrop from "../components/Backdrop";
 import DemandList from "../components/demands/DemandList";
 import { useAuth0 } from "@auth0/auth0-react";
-import { isCompany, getExpDate } from "../helpers";
+import { isCompany, formatDemand, formatOffer } from "../helpers";
 import Loader from "../components/Loader";
 import OfferList from "../components/offers/OfferList";
 import { Link, useHistory } from "react-router-dom";
@@ -38,26 +38,6 @@ function Profile(props) {
       pathname: "/offers",
       state: { demandId: demandId },
     });
-  }
-
-  function formatDemand(demandResponse) {
-    demandResponse["from"] = demandResponse.loadingAddress.country;
-    demandResponse["to"] = demandResponse.unloadingAddress.country;
-    demandResponse["numOfOffers"] =
-      demandResponse.offerIds != null ? demandResponse.offerIds.length : 0;
-    demandResponse["expDate"] = getExpDate(demandResponse.expirationDate);
-    demandResponse["vehicle"] = demandResponse.vehicleId;
-    demandResponse["title"] = demandResponse.name;
-    return demandResponse;
-  }
-
-  function formatOffer(offerResponse) {
-    offerResponse["vehicle"] = offerResponse.vehicle;
-    offerResponse["demand"] = offerResponse.demandID;
-    offerResponse["numOfVehicles"] = offerResponse.numOfVehicles;
-    offerResponse["price"] = offerResponse.price;
-    offerResponse["note"] = offerResponse.note;
-    return offerResponse;
   }
 
   // function formatCustomerInfo(customerResponse) {

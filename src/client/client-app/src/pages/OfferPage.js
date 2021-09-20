@@ -4,29 +4,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Loader from "../components/Loader";
 import OfferList from "../components/offers/OfferList";
 import React from "react";
-import { getExpDate } from "../helpers";
+import { formatOffer, formatDemand } from "../helpers";
 import { useLocation } from "react-router";
-
-function formatDemand(demandResponse) {
-  demandResponse["from"] = demandResponse.loadingAddress.country;
-  demandResponse["to"] = demandResponse.unloadingAddress.country;
-  demandResponse["numOfOffers"] = demandResponse.offerIds.length;
-  demandResponse["expDate"] = getExpDate(demandResponse.expirationDate);
-  demandResponse["vehicle"] = demandResponse.vehicleId;
-  demandResponse["title"] = demandResponse.name;
-  demandResponse["offerIds"] = demandResponse.offerIds;
-  return demandResponse;
-}
-
-function formatOffer(offerResponse) {
-  offerResponse["vehicle"] = offerResponse.vehicle;
-  offerResponse["numOfVehicles"] = offerResponse.numOfVehicles;
-  offerResponse["price"] = offerResponse.price;
-  offerResponse["note"] = offerResponse.note;
-  offerResponse["companyID"] = offerResponse.companyID;
-  offerResponse["demandID"] = offerResponse.demandID;
-  return offerResponse;
-}
 
 function OfferPage() {
   const [isLoading, setIsLoading] = useState(true);

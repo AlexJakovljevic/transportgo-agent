@@ -1,4 +1,3 @@
-import Offer from "./Offer";
 import OfferForDemand from "./OfferForDemand";
 import { useAuth0 } from "@auth0/auth0-react";
 
