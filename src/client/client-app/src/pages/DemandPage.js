@@ -37,6 +37,7 @@ function DemandPage() {
 
   let isUsrCompany = isCompany(user);
 
+  // Get all demands
   useEffect(() => {
     setIsLoading(true);
     fetch("http://localhost:8001/api/v1/Demand")
@@ -75,7 +76,7 @@ function DemandPage() {
   }
 
   return (
-    <div>
+    <div className="min-h-screen">
       <DemandList
         buttonText="Make an offer"
         onOpen={openDemand}
@@ -94,7 +95,6 @@ function DemandPage() {
           demand={demandList.find((el) => el.id === selectedDemId)}
         />
       )}
-      {/* {isDemandSel && <Backdrop />} */}
     </div>
   );
 }
