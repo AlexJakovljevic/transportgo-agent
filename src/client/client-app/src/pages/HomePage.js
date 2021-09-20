@@ -19,7 +19,11 @@ function HomePage() {
     return userResponse;
   }
 
-  const userBodyForRequest = {
+  function isCompany(user) {
+    return user["http://user/type"] === "company";
+  }
+
+  const customerBodyForRequest = {
     id: user != undefined ? user.email : "",
     firstName: "",
     lastName: "",
@@ -37,14 +41,40 @@ function HomePage() {
       email: user != undefined ? user.email : "",
     }
   }
-
-  const userBody = {
+  
+  const customerBody = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(userBodyForRequest)
+    body: JSON.stringify(customerBodyForRequest)
   };
 
-  if (user != undefined) {
+  const companyBodyForRequest = {
+    id: user != undefined ? user.email : "",
+    name: "",
+    address: {
+      country: "",
+      state: "",
+      city: "",
+      zip: "",
+      streetLine1: "",
+      streetLine2: ""
+    },
+    category: 0,
+    contact: {
+      phone: "",
+      fax: "",
+      email: user != undefined ? user.email : "",
+    },
+    cargos: []
+  }
+
+  const companyBody = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(companyBodyForRequest)
+  };
+
+  if (user != undefined && !isCompany(user)) {
     let apiLink = 'http://localhost:8002/api/v1/Customer/' + user.email;
     console.log(apiLink);
     fetch(apiLink)
@@ -54,14 +84,28 @@ function HomePage() {
     })
     .catch(error => {
       console.error("User ne postoji u bazi")
-      console.error("Pravimo user-a: " + userBody);
-      fetch('http://localhost:8002/api/v1/Customer/', userBody);
+      console.error("Pravimo user-a: " + customerBody);
+      fetch('http://localhost:8002/api/v1/Customer/', customerBody);
+    });
+  }
+
+  if (user != undefined && isCompany(user)) {
+    let apiLink = 'http://localhost:8003/api/v1/Company/' + user.email;
+    console.log(apiLink);
+    fetch(apiLink)
+    .then((response) => {
+      if(!response.ok) throw new Error(response.status);
+      else console.log("Sve OK: " + response.status);
+    })
+    .catch(error => {
+      console.error("User ne postoji u bazi")
+      console.error("Pravimo user-a: " + companyBody);
+      fetch('http://localhost:8003/api/v1/Company/', companyBody);
     });
   }
 
   useEffect(() => {
     console.log(user);
-    // console.log("Novak!!!");
   }, [user]);
 
   const firstText =

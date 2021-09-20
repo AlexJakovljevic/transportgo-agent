@@ -8,6 +8,7 @@ import OfferList from "../components/offers/OfferList";
 import OfferForDemandList from "../components/offers/OfferForDemandList";
 import { useHistory } from "react-router-dom";
 import Button from "../components/Icons/Buttons";
+import CustomerInfo from "../components/CustomerInfo";
 
 function isCompany(user) {
   // console.log(user["http://user/type"]);
@@ -23,6 +24,9 @@ function Profile(props) {
   const [isLoading, setIsLoading] = useState(true);
   const [demandList, setDemandList] = useState([]);
   const [offerList, setOfferList] = useState([]);
+  const [isCustomerInfoSelected, setCustomerInfoSelected] = useState(false);
+  const [selectedOfferItem, setSelectedOfferItem] = useState(null);
+  const [customerInfo, setCustomerInfo] = useState(null);
   let isUsrCompany = isCompany(user);
 
   function openCreateDemand() {
@@ -69,6 +73,56 @@ function Profile(props) {
     offerResponse["note"] = offerResponse.note;
     return offerResponse;
   }
+
+  // function formatCustomerInfo(customerResponse) {
+
+  // }
+
+  function onDeleteOffer(offerId) {
+    setIsLoading(true);
+    fetch("http://localhost:8008/api/v1/Offer/" + offerId, {method: "DELETE"})
+    .then((response) => {
+      setIsLoading(false);
+      return response.json();
+    });
+    }
+    
+  function onCustomerInfo(offerItem) {
+    setSelectedOfferItem(offerItem);
+    
+  }
+    
+  function closeCustomerInfo() {
+    setSelectedOfferItem(null);
+    setCustomerInfoSelected(false);
+  }
+
+  useEffect(() => {
+    if (selectedOfferItem != null) {
+      // setCustomerInfoSelected(false);
+      setIsLoading(true);
+      fetch("http://localhost:8001/api/v1/Demand/" + selectedOfferItem.demandID)
+      .then((response) => {
+        // setIsLoading(false);
+        return response.json();
+      })
+      .then((data) => {
+        // console.log(data.customerID);
+        fetch("http://localhost:8002/api/v1/Customer/" + data.customerID)
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          setIsLoading(false);
+          setCustomerInfo(data.contact);
+        })
+        .then(() => {
+          setCustomerInfoSelected(true);
+          // console.log(customerInfo.email);
+        })
+      });
+    }
+  }, [selectedOfferItem]);
 
   //Demands list
   useEffect(() => {
@@ -124,9 +178,17 @@ function Profile(props) {
               <h2 className="h2-title">
                 <span className="block">My offers</span>
               </h2>
+              <OfferList 
+                isForDemand={false} offers={offerList} onDelete = {onDeleteOffer} onCustomerInfo = {onCustomerInfo}>
+              </OfferList>
+              <div>
+                {isCustomerInfoSelected && (
+                  <CustomerInfo customerInfo={customerInfo} onClose={closeCustomerInfo}/>
+                )}
+                {isCustomerInfoSelected && <Backdrop />}
+              </div>
             </div>
           </div>
-          <OfferList isForDemand={false} offers={offerList}></OfferList>
         </div>
       )}
 

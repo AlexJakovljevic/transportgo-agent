@@ -15,12 +15,20 @@ function OfferList(props) {
           const onDeclineOffer = () => {
             props.onDecline(offerItem.id);
           };
+          const onDeleteOffer = () => {
+            props.onDelete(offerItem.id);
+          };
+          const onCustomerInfo = () => {
+            props.onCustomerInfo(offerItem);
+          };
           return (
             <OfferForDemand
               key={offerItem.id}
               offer={offerItem}
               onAccept={onAcceptOffer}
               onDecline={onDeclineOffer}
+              onDelete={onDeleteOffer}
+              onCustomerInfo={onCustomerInfo}
               isAccepted={offerItem.isAccepted}
               isDeclined={offerItem.isDeclined}
             ></OfferForDemand>

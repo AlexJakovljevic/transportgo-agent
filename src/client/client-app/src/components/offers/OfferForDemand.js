@@ -22,6 +22,8 @@ function isCompany(user) {
 function OfferForDemand(props) {
   let { user } = useAuth0();
 
+  let isUserCompany = isCompany(user);
+
   return (
     <li>
       <div className="container items-center px-5 py-4 mx-auto w-full">
@@ -44,7 +46,7 @@ function OfferForDemand(props) {
               />
               <OfferDetail type="Price" value={props.offer.price} />
               <OfferDetail type="Note" value={props.offer.note} />
-              {isCompany(user) && (
+              {isUserCompany && (
                 <div>
                   <OfferDetail
                     type="Status"
@@ -58,16 +60,36 @@ function OfferForDemand(props) {
                   />
                 </div>
               )}
-              {!isCompany(user) && (
+              {!isUserCompany && (
                 <div className="flex items-center justify-center lg:justify-end">
                   <div className="w-full">
-                    <Button text={"Accept"} onClick={props.onAccept}></Button>
+                    <Button 
+                      text={"Accept"} 
+                      onClick={props.onAccept}>
+                    </Button>
                     <Button
                       text={"Decline"}
                       onClick={props.onDecline}
                       color={"red"}
                     ></Button>
                   </div>
+                </div>
+              )}
+              {isUserCompany && !props.isAccepted && (
+                <div className="flex items-end w-full justify-center lg:justify-end">
+                  <Button 
+                    text={"Delete"} 
+                    onClick={props.onDelete} 
+                    color={"red"}>
+                  </Button>
+                </div>
+              )}
+              {props.isAccepted && (
+                <div className="flex items-end w-full justify-center lg:justify-end">
+                  <Button 
+                    text={"Customer info"} 
+                    onClick={props.onCustomerInfo}>
+                  </Button>
                 </div>
               )}
             </div>
