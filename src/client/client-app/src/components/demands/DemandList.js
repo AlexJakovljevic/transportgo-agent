@@ -14,12 +14,17 @@ function DemandList(props) {
                     const onOpenDemand = () => {
                         props.onOpen(demandItem.id);
                     };
+                    const onDeleteDemand = () => {
+                        props.onDelete(demandItem.id);
+                    };
                     return  <Demand key={demandItem.id} 
                                     demand={demandItem} 
                                     buttonText={props.buttonText} 
                                     onOpen={onOpenDemand} 
                                     onClose={props.onClose} 
-                                    shouldShowButton={props.shouldShowButton}>
+                                    onDelete={onDeleteDemand}  
+                                    shouldShowButton={props.shouldShowButton}
+                                    shouldShowDeleteButton={props.shouldShowDeleteButton}>
                             </Demand>
                 })}
             </ul>

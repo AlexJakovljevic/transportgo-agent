@@ -46,7 +46,7 @@ function OfferForDemand(props) {
               />
               <OfferDetail type="Price" value={props.offer.price} />
               <OfferDetail type="Note" value={props.offer.note} />
-              {isUserCompany && (
+              {/* {isUserCompany && ( */}
                 <div>
                   <OfferDetail
                     type="Status"
@@ -59,8 +59,8 @@ function OfferForDemand(props) {
                     }
                   />
                 </div>
-              )}
-              {!isUserCompany && (
+              {/* )} */}
+              {!isUserCompany && !(props.isAccepted || props.isDeclined) && (
                 <div className="flex items-center justify-center lg:justify-end">
                   <div className="w-full">
                     <Button 
@@ -84,7 +84,7 @@ function OfferForDemand(props) {
                   </Button>
                 </div>
               )}
-              {props.isAccepted && (
+              {isUserCompany && props.isAccepted && (
                 <div className="flex items-end w-full justify-center lg:justify-end">
                   <Button 
                     text={"Customer info"} 

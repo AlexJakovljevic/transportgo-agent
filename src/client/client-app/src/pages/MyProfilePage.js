@@ -85,8 +85,17 @@ function Profile(props) {
       setIsLoading(false);
       return response.json();
     });
-    }
-    
+  }
+  
+  function onDeleteDemand(demandId) {
+    setIsLoading(true);
+    fetch("http://localhost:8001/api/v1/Demand/" + demandId, {method: "DELETE"})
+    .then((response) => {
+      setIsLoading(false);
+      return response.json();
+    });
+  }
+  
   function onCustomerInfo(offerItem) {
     setSelectedOfferItem(offerItem);
     
@@ -193,7 +202,7 @@ function Profile(props) {
       )}
 
       {/**
-       * If the user is a regular user
+       * If the user is a customer
        */}
       {!isUsrCompany && (
         <div>
@@ -233,6 +242,8 @@ function Profile(props) {
               onOpen={openDemandWithOffers}
               demands={demandList}
               shouldShowButton={true}
+              shouldShowDeleteButton={true}
+              onDelete = {onDeleteDemand}
             ></DemandList>
           )}
 

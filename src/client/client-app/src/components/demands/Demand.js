@@ -65,11 +65,14 @@ function Demand(props) {
                 type="Expiring in"
                 value={props.demand.expDate > 0 ? (props.demand.expDate + " days") : "Expired"}
               />
-              {props.shouldShowButton && props.demand.expDate > 0 && (
-                <div className="flex items-end w-full justify-center lg:justify-end">
+              <div className="flex items-end w-full justify-center lg:justify-end">
+                {props.shouldShowButton && (props.demand.expDate > 0 || !isUsrCompany) && (
                   <Button text={props.buttonText} onClick={props.onOpen}></Button>
-                </div>
-              )}
+                )}
+                {props.shouldShowDeleteButton && (
+                  <Button text={"Delete"} onClick={props.onDelete} color={"red"}></Button>
+                )}
+              </div>
             </div>
             <div></div>
           </div>
