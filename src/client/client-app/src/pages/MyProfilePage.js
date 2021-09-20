@@ -3,7 +3,7 @@ import DemandCreate from "../components/demands/DemandCreate";
 import Backdrop from "../components/Backdrop";
 import DemandList from "../components/demands/DemandList";
 import { useAuth0 } from "@auth0/auth0-react";
-import { isCompany } from "../helpers";
+import { isCompany, getExpDate } from "../helpers";
 import Loader from "../components/Loader";
 import OfferList from "../components/offers/OfferList";
 import { Link, useHistory } from "react-router-dom";
@@ -38,14 +38,6 @@ function Profile(props) {
       pathname: "/offers",
       state: { demandId: demandId },
     });
-  }
-
-  function getExpDate(expDate) {
-    const oneDayInMs = 1000 * 60 * 60 * 24;
-    let expDateInMs = Date.parse(expDate);
-    let currentMs = Date.now();
-    let differenceMs = expDateInMs - currentMs;
-    return Math.round(differenceMs / oneDayInMs);
   }
 
   function formatDemand(demandResponse) {

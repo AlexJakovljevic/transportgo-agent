@@ -46,3 +46,11 @@ export function isCompany(user) {
   // console.log(user["http://user/type"]);
   return user["http://user/type"] === "company";
 }
+
+export function getExpDate(expDate) {
+  const oneDayInMs = 1000 * 60 * 60 * 24;
+  let expDateInMs = Date.parse(expDate);
+  let currentMs = Date.now();
+  let differenceMs = expDateInMs - currentMs;
+  return Math.round(differenceMs / oneDayInMs);
+}
