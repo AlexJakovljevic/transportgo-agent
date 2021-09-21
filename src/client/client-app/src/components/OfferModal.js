@@ -70,8 +70,11 @@ function OfferModal(props) {
 
     fetch(apiLink, offerBody)
     .then((response) => {
-      if(!response.ok) console.error("Greska prilikom dodavanja demand-a");
-      else console.log("Sve OK: " + response.status);
+      if(!response.ok) console.error("Greska prilikom dodavanja offer-a");
+      else {
+        console.log("Sve OK: " + response.status);
+        alert("Your offer is sent")
+      }
     })
   }
 

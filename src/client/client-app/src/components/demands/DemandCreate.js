@@ -91,6 +91,7 @@ function DemandCreate(props) {
       })
       .then(() => {
         props.onClose();
+        alert("New demand is created");
       });
   }
 

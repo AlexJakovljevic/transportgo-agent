@@ -51,6 +51,7 @@ function Profile(props) {
     }).then((response) => {
       setIsLoading(false);
       setUpdateBoard(!updateBoardOnDelete);
+      alert("Your offer is deleted")
       return response.json();
     });
   }
@@ -62,6 +63,7 @@ function Profile(props) {
     }).then((response) => {
       setIsLoading(false);
       setUpdateBoard(!updateBoardOnDelete);
+      alert("Your demand is deleted")
       return response.json();
     });
   }
@@ -77,26 +79,20 @@ function Profile(props) {
 
   useEffect(() => {
     if (selectedOfferItem != null) {
-      // setCustomerInfoSelected(false);
-      setIsLoading(true);
       fetch("http://localhost:8001/api/v1/Demand/" + selectedOfferItem.demandID)
         .then((response) => {
-          // setIsLoading(false);
           return response.json();
         })
         .then((data) => {
-          // console.log(data.customerID);
           fetch("http://localhost:8002/api/v1/Customer/" + data.customerID)
             .then((response) => {
               return response.json();
             })
             .then((data) => {
-              setIsLoading(false);
               setCustomerInfo(data.contact);
             })
             .then(() => {
               setCustomerInfoSelected(true);
-              // console.log(customerInfo.email);
             });
         });
     }
