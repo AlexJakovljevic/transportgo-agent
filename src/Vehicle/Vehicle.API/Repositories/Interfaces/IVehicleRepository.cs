@@ -16,6 +16,8 @@ namespace Vehicle.API.Repositories.Interfaces
         Task<IEnumerable<Entities.Vehicle>> getVehiclesByBrand(string Brand);
         Task<IEnumerable<Entities.Vehicle>> getVehiclesByProductionYear(UInt16 ProductionYear);
 
+        Task<IEnumerable<Entities.Vehicle>> getVehiclesByCompanyID(string CompanyID);
+
         Task Create(Entities.Vehicle vehicle);
 
         Task<bool> Update(Entities.Vehicle vehicle);
