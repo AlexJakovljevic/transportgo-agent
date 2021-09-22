@@ -51,6 +51,10 @@ namespace Vehicle.API.Repositories
         {
             return await _context.Vehicles.Find(item => item.ProductionYear == ProductionYear).ToListAsync();
         }
+        public async Task<IEnumerable<Entities.Vehicle>> getVehiclesByCompanyID(string CompanyID)
+        {
+            return await _context.Vehicles.Find(item => item.CompanyID == CompanyID).ToListAsync();
+        }
 
         public async Task<IEnumerable<Entities.Vehicle>> getVehiclesByType(VehicleType Type)
         {

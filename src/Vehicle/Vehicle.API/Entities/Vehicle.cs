@@ -21,6 +21,7 @@ namespace Vehicle.API.Entities
         public VehicleCargoSpace Capacity { get; set; }
 
         public float MaxWeight { get; set; }
+        public String CompanyID { get; set; }
     }
 
     public class VehicleCargoSpace
@@ -36,12 +37,8 @@ namespace Vehicle.API.Entities
         BoxTruck, 
         CarCarrier, 
         CateringTruck, 
-        DeliveryVan, 
-        DumpTruck, 
-        FlatbedTruck, 
-        RefrigeratedTruck, 
-        StakeBodyTruck, 
-        StepVan, 
+        DeliveryVan,
+        RefrigeratedTruck,
         TankTruck, 
         TruckTractor
     }

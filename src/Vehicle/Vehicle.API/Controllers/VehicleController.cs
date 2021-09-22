@@ -88,6 +88,23 @@ namespace Vehicle.API.Controllers
             return Ok(vehicles);
         }
 
+        [Route("[action]/{CompanyID}")]
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<Entities.Vehicle>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult<IEnumerable<Entities.Vehicle>>> GetVehiclesByCompanyID(string CompanyID)
+        {
+            var vehicles = await _repository.getVehiclesByCompanyID(CompanyID);
+
+            if (vehicles == null)
+            {
+                _logger.LogError($"Vehicle with brand: {CompanyID}, not found!");
+                return NotFound();
+            }
+
+            return Ok(vehicles);
+        }
+
 
         [Route("[action]/{Type}")]
         [HttpGet]
