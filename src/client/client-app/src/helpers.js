@@ -72,8 +72,29 @@ export function formatDemand(demandResponse) {
   demandResponse["numOfOffers"] =
     demandResponse.offerIds != null ? demandResponse.offerIds.length : 0;
   demandResponse["expDate"] = getExpDate(demandResponse.expirationDate);
-  demandResponse["vehicle"] = demandResponse.vehicleId;
+  demandResponse["vehicle"] = vehicleTypes[demandResponse.vehicleId] ?? "Unspecified";
+  demandResponse["cargo"] = cargoTypes[demandResponse.cargoId] ?? "Unspecified";
   demandResponse["title"] = demandResponse.name;
   // demandResponse["offerIds"] = demandResponse.offerIds;
+  // console.log("U demandu: " + vehicleTypes["refrigeratedtruck"]);
   return demandResponse;
+}
+
+export const vehicleTypes = {
+  "agriculturaltruck": "Agricultural Truck",
+  "carcarrier": "Car Carrier",
+  "cateringtruck": "Catering Truck Truck",
+  "deliveryvan": "Delivery Van",
+  "boxtruck": "Box Truck",
+  "refrigeratedtruck": "Refrigerated Truck",
+  "tanktruck": "Tank Truck",
+  "trucktractor": "Truck Tractor"
+}
+
+
+export const cargoTypes = {
+  "glass": "Glass",
+  "onpalettes": "On Palettes",
+  "frozen": "Frozen",
+  "fragile": "Fragile"
 }

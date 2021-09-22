@@ -53,7 +53,10 @@ function Demand(props) {
                 type="Type of vehicle"
                 value={props.demand.vehicle}
               />
-              {/* <DemandDetail type="Current price" value={props.demand.price} /> */}
+              <DemandDetail
+                type="Type of cargo"
+                value={props.demand.cargo}
+              />
               <DemandDetail
                 type="Num of offers"
                 value={props.demand.numOfOffers}

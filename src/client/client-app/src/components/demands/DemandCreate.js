@@ -1,8 +1,8 @@
 import ExitModalIcon from "../Icons/ExitIconModal";
 import Button from "../Icons/Buttons";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { getExpirationDate } from "../../helpers";
+import { getExpirationDate, vehicleTypes, cargoTypes } from "../../helpers";
 
 function DemandField(props) {
   return (
@@ -30,14 +30,40 @@ function DemandField(props) {
   );
 }
 
+function DemandFieldSelect(props) {
+  return (
+    <div className="justify-center items-center w-1/2 mx-auto my-1">
+      <label htmlFor={"vehicletype"} className="block text-sm font-medium text-gray-700" id="label">
+        {props.labelText}
+        <select id="vehicletype" 
+            className="block w-52 text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500" 
+            name="animals"
+            value={props.forValue ?? ""}
+            onChange={props.function}
+            required
+            >
+          <option value="" id="">
+              Select an option
+          </option>
+          {
+            Object.entries(props.options).map(([key, value]) => (
+              <option value={key} key={key}> {value} </option>
+            ))
+          }
+      </select>
+    </label>
+  </div>
+  )
+}
+
 function DemandCreate(props) {
   let { user } = useAuth0();
 
   const titleInput = useRef();
   const fromInput = useRef();
   const toInput = useRef();
-  const vehicleInput = useRef();
-  const cargoInput = useRef();
+  const [vehicleInput, setVehicleInput] = useState(null);
+  const [cargoInput, setCargoInput] = useState(null);
 
   function formHandler(event) {
     event.preventDefault();
@@ -45,15 +71,18 @@ function DemandCreate(props) {
     const enteredTitle = titleInput.current.value;
     const enteredFrom = fromInput.current.value;
     const enteredTo = toInput.current.value;
-    const enteredVehicle = vehicleInput.current.value;
-    const enteredCargo = cargoInput.current.value;
+    // const enteredVehicle = vehicleInput.current.value;
+    // const enteredCargo = cargoInput.current.value;
     const stringDate = getExpirationDate();
+
+    console.log(cargoInput);
+    console.log(vehicleInput);
 
     const demandBodyForRequest = {
       id: enteredTitle,
       expirationDate: stringDate.toString(),
-      cargoId: enteredCargo,
-      vehicleId: enteredVehicle,
+      cargoId: cargoInput,
+      vehicleId: vehicleInput,
       numOfOffers: 0,
       loadingAddress: {
         country: enteredFrom,
@@ -95,6 +124,16 @@ function DemandCreate(props) {
       });
   }
 
+  function handleVehicleChange(e) {
+    console.log(e.target.value);
+    setVehicleInput(e.target.value);
+  }
+
+  function handleCargoChange(e) {
+    console.log(e.target.value);
+    setCargoInput(e.target.value);
+  }
+
   return (
     <div className="fixed top-0 left-0 w-full h-full z-20">
       <div>
@@ -131,18 +170,19 @@ function DemandCreate(props) {
                 init={"To"}
                 type="text"
               ></DemandField>
-              <DemandField
-                innerRef={vehicleInput}
-                id="vehicle"
-                init={"Vehicle type"}
-                type="text"
-              ></DemandField>
-              <DemandField
-                innerRef={cargoInput}
-                id="cargo"
-                init={"Cargo type"}
-                type="text"
-              ></DemandField>
+              
+              <DemandFieldSelect
+                options={vehicleTypes}
+                labelText={"Vehicle type"}
+                function={handleVehicleChange}
+                forValue={vehicleInput}
+              > </DemandFieldSelect>             
+              <DemandFieldSelect
+                options={cargoTypes}
+                labelText={"Cargo type"}
+                function={handleCargoChange}
+                forValue={cargoInput}
+              > </DemandFieldSelect>
 
               <div className="inline-flex flex-wrap items-center justify-center p-8 space-x-4">
                 <Button
