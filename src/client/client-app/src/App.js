@@ -9,6 +9,7 @@ import Contact from "./pages/ContactPage";
 import OfferPage from "./pages/OfferPage";
 import Auth0ProviderWithHistory from "./auth0Provider.js";
 import ProtectedRoute from "./components/auth/protectedRoutes.js";
+import VehiclePage from "./pages/VehiclePage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <ProtectedRoute path="/demands" component={DemandPage} />
           <ProtectedRoute path="/profile" component={Profile} />
           <ProtectedRoute path="/offers" component={OfferPage} />
+          <ProtectedRoute path="/vehicle" component={VehiclePage} />
           <Route path="/contact" component={Contact} />
         </Switch>
       </Layout>

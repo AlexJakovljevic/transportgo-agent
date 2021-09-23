@@ -1,5 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
+import { isCompany } from "../helpers";
 import TruckLogo from "./Icons/TruckLogo";
 import LoginButton from "./LoginButton";
 
@@ -22,6 +23,12 @@ function Navbar() {
           {!isLoading && user && (
             <Link to="/demands" className="mr-5 hover:text-gray-900">
               Demands
+            </Link>
+          )}
+
+          {!isLoading && user && isCompany(user) && (
+            <Link to="/vehicle" className="mr-5 hover:text-gray-900">
+              Vehicles
             </Link>
           )}
 

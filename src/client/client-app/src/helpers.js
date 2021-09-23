@@ -72,7 +72,8 @@ export function formatDemand(demandResponse) {
   demandResponse["numOfOffers"] =
     demandResponse.offerIds != null ? demandResponse.offerIds.length : 0;
   demandResponse["expDate"] = getExpDate(demandResponse.expirationDate);
-  demandResponse["vehicle"] = vehicleTypes[demandResponse.vehicleId] ?? "Unspecified";
+  demandResponse["vehicle"] =
+    vehicleTypes[demandResponse.vehicleId] ?? "Unspecified";
   demandResponse["cargo"] = cargoTypes[demandResponse.cargoId] ?? "Unspecified";
   demandResponse["title"] = demandResponse.name;
   // demandResponse["offerIds"] = demandResponse.offerIds;
@@ -81,20 +82,36 @@ export function formatDemand(demandResponse) {
 }
 
 export const vehicleTypes = {
-  "agriculturaltruck": "Agricultural Truck",
-  "carcarrier": "Car Carrier",
-  "cateringtruck": "Catering Truck Truck",
-  "deliveryvan": "Delivery Van",
-  "boxtruck": "Box Truck",
-  "refrigeratedtruck": "Refrigerated Truck",
-  "tanktruck": "Tank Truck",
-  "trucktractor": "Truck Tractor"
+  agriculturaltruck: "Agricultural Truck",
+  carcarrier: "Car Carrier",
+  cateringtruck: "Catering Truck Truck",
+  deliveryvan: "Delivery Van",
+  boxtruck: "Box Truck",
+  refrigeratedtruck: "Refrigerated Truck",
+  tanktruck: "Tank Truck",
+  trucktractor: "Truck Tractor",
+};
+
+export const cargoTypes = {
+  glass: "Glass",
+  onpalettes: "On Palettes",
+  frozen: "Frozen",
+  fragile: "Fragile",
+};
+
+export function createBody(methodValue, bodyValue) {
+  return {
+    method: methodValue,
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(bodyValue),
+  };
 }
 
 
-export const cargoTypes = {
-  "glass": "Glass",
-  "onpalettes": "On Palettes",
-  "frozen": "Frozen",
-  "fragile": "Fragile"
+export function checkStatus(response) {
+  if (!response.ok) {
+    console.error("Error while processing request");
+  } else {
+    console.log("Successful request" + response.status);
+  }
 }

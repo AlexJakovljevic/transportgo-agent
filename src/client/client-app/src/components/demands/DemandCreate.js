@@ -32,27 +32,27 @@ function DemandField(props) {
 
 function DemandFieldSelect(props) {
   return (
-    <div className="justify-center items-center w-1/2 mx-auto my-1">
-      <label htmlFor={"vehicletype"} className="block text-sm font-medium text-gray-700" id="label">
-        {props.labelText}
-        <select id="vehicletype" 
-            className="block w-52 text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500" 
-            name="animals"
-            value={props.forValue ?? ""}
-            onChange={props.function}
-            required
-            >
-          <option value="" id="">
-              Select an option
-          </option>
-          {
-            Object.entries(props.options).map(([key, value]) => (
-              <option value={key} key={key}> {value} </option>
-            ))
-          }
-      </select>
-    </label>
-  </div>
+      <div className="justify-center items-center mx-auto my-1 w-1/2">
+        <label htmlFor={"vehicletype"} className="block text-sm font-medium text-gray-700" id="label">
+          {props.labelText}
+          <select id="vehicletype" 
+              className="block w-full text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500" 
+              name="animals"
+              value={props.forValue ?? ""}
+              onChange={props.function}
+              required
+              >
+            <option value="" id="">
+                Select an option
+            </option>
+            {
+              Object.entries(props.options).map(([key, value]) => (
+                <option value={key} key={key}> {value} </option>
+              ))
+            }
+        </select>
+      </label>
+    </div>
   )
 }
 
