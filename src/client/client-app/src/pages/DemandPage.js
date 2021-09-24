@@ -27,7 +27,8 @@ function DemandPage() {
       .then((data) => {
         setIsLoading(false);
         data.forEach((demand) => formatDemand(demand));
-        setDemandList(data);
+        let sortedData = data.sort((a, b) => { return a.expDate - b.expDate}).reverse();
+        setDemandList(sortedData);
       });
   }, []);
 
