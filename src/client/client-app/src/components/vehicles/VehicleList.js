@@ -16,6 +16,7 @@ function VehicleList(props) {
               brand={vehicle.brand}
               model={vehicle.model}
               productionYear={vehicle.productionYear}
+              quantity={vehicle.quantity}
               capacity={vehicle.capacity}
               maxWeight={vehicle.maxWeight}
               onDelete={onDeleteVehicle}

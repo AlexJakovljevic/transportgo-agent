@@ -69,7 +69,7 @@ function VehiclePage() {
 
   return (
     <div className="min-h-screen">
-      {vehicleData.length == 0 && (
+      {vehicleData.length === 0 && (
         <EmptyVehiclePage onOpen={openCreateVehicle}></EmptyVehiclePage>
       )}
       {vehicleData.length > 0 && (

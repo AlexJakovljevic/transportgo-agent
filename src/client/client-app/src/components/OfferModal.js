@@ -51,7 +51,6 @@ function DemandFieldSelect(props) {
                   {vehicle.brand + " " + vehicle.model + " " + vehicle.productionYear} 
                 </option>
               ))
-              //nov = {vehicle.numberOfVehicles}
             }
         </select>
       </label>
@@ -71,8 +70,6 @@ function OfferModal(props) {
   const [vehicleData, setVehicleData] = useState([]);
 
   function formHandler() {
-    // console.log(priceInput.current.value);
-    console.log(props.demand.id);
     props.onClose();
 
     const enteredPrice = priceInput.current.value;
@@ -99,8 +96,11 @@ function OfferModal(props) {
     };
 
     let apiLink = 'http://localhost:8008/api/v1/Offer';
+    
+    let vehicleIndex = vehicleData.findIndex(obj => obj.id === vehicleInput);
+    let vehicleCount = vehicleData[vehicleIndex].quantity;
 
-    if (Number(enteredNoV) < 5) { //vehicle.numberOfVehicles
+    if (Number(enteredNoV) <= vehicleCount) { 
 
       fetch(apiLink, offerBody)
       .then((response) => {
@@ -112,7 +112,7 @@ function OfferModal(props) {
       })
     }
     else {
-      alert("You don't have that many vehicles");
+      alert("You don't have that many vehicles, you have: " + vehicleCount + ", but you entered: " + Number(enteredNoV));
     }
   }
 
@@ -123,7 +123,7 @@ function OfferModal(props) {
       })
       .then((data) => {
         let filteredData = data.filter((vehicle) => {
-          return vehicle.typeID == props.demand.vehicleId; 
+          return vehicle.typeID === props.demand.vehicleId; 
         });
         console.log(filteredData);
         setVehicleData(filteredData);
@@ -131,7 +131,6 @@ function OfferModal(props) {
   }, []);
 
   function handleVehicleChange(e) {
-    console.log(e.target.value);
     setVehicleInput(e.target.value);
   }
 

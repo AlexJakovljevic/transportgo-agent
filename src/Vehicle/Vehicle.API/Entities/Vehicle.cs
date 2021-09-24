@@ -17,7 +17,9 @@ namespace Vehicle.API.Entities
         public String Model { get; set; }
 
         public UInt16 ProductionYear { get; set; }
-        
+
+        public UInt16 Quantity { get; set; }
+
         public VehicleCargoSpace Capacity { get; set; }
 
         public float MaxWeight { get; set; }

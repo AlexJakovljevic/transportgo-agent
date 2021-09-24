@@ -47,7 +47,7 @@ function DemandPage() {
 
   return (
     <div className="min-h-screen">
-      {demandList.length == 0 && (
+      {demandList.length === 0 && (
         <div className="container py-20">
           <div className="flex justify-center items-center">
             <h2 className="h2-title">

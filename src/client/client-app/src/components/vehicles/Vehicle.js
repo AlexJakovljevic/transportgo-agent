@@ -33,6 +33,7 @@ function Vehicle(props) {
           value={props.productionYear}
         />
         <VehicleItem type="Capacity" value={capacityString}></VehicleItem>
+        <VehicleItem type="Quantity" value={props.quantity ?? "-"}></VehicleItem>
         <div className="flex">
           <span className="title-font font-medium text-3xl text-gray-900">
             {props.maxWeight + " kg"}

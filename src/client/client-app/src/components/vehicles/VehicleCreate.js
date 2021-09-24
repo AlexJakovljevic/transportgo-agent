@@ -21,7 +21,7 @@ function VehicleField(props) {
             ref={props.innerRef}
             name={props.id}
             id={props.id}
-            className="focus:ring-green-500 border border-gray-300 py-2 px-4 focus:border-green-500 block w-full pl-7 pr-12 sm:text-sm rounded-md"
+            className="focus:ring-green-500 border border-gray-300 py-2 px-4 focus:border-green-500 block w-full pl-2 pr-17 sm:text-sm rounded-md"
             placeholder={props.init}
           />
         </div>
@@ -42,7 +42,7 @@ function VehicleFieldSelect(props) {
         <div className="mt-1 relative rounded-md shadow-sm">
           <select
             id="vehicletype"
-            className="block w-full text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+            className="block w-full text-gray-700 py-2 px-1 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
             name="Vehicle type"
             value={props.forValue ?? ""}
             onChange={props.function}
@@ -74,6 +74,7 @@ function VehicleCreate(props) {
   const capacityWidth = useRef();
   const capacityHeight = useRef();
   const maxWeight = useRef();
+  const quantity = useRef();
   const [vehicleInput, setVehicleInput] = useState(null);
 
   function handleVehicleChange(e) {
@@ -88,6 +89,7 @@ function VehicleCreate(props) {
       brand: brand.current.value,
       model: model.current.value,
       productionYear: parseInt(productionYear.current.value),
+      quantity: parseInt(quantity.current.value),
       typeID: vehicleInput,
       capacity: {
         length: parseFloat(capacityLength.current.value),
@@ -133,7 +135,7 @@ function VehicleCreate(props) {
                 <VehicleField
                   innerRef={brand}
                   id="brand"
-                  init={"Brand:"}
+                  init={"Brand"}
                   type="text"
                 ></VehicleField>
                 <VehicleField
@@ -153,19 +155,19 @@ function VehicleCreate(props) {
                 <VehicleField
                   innerRef={capacityLength}
                   id="Capacity lenght"
-                  init={"length"}
+                  init={"Length"}
                   type="number"
                 ></VehicleField>
                 <VehicleField
                   innerRef={capacityHeight}
                   id="Capacity height"
-                  init={"height"}
+                  init={"Height"}
                   type="number"
                 ></VehicleField>
                 <VehicleField
                   innerRef={capacityWidth}
                   id="Capacity width"
-                  init={"width"}
+                  init={"Width"}
                   type="number"
                 ></VehicleField>
               </div>
@@ -181,7 +183,13 @@ function VehicleCreate(props) {
                 <VehicleField
                   innerRef={maxWeight}
                   id="Maximum weight"
-                  init={"weight"}
+                  init={"Weight"}
+                  type="number"
+                ></VehicleField>
+                <VehicleField
+                  innerRef={quantity}
+                  id="Quantity"
+                  init={"Quantity"}
                   type="number"
                 ></VehicleField>
               </div>
@@ -191,7 +199,7 @@ function VehicleCreate(props) {
                   onClick={props.onClose}
                   text="Cancel"
                 ></Button>
-                <Button text="Submit demand"></Button>
+                <Button text="Create vehicle"></Button>
               </div>
             </form>
           </div>
