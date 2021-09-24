@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "./Icons/Buttons";
 import ExitModalIcon from "./Icons/ExitIconModal";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -11,7 +11,8 @@ function DemandField(props) {
           htmlFor={props.id}
           className="block text-sm font-medium text-gray-700"
         >
-          {props.id.charAt(0).toUpperCase() + props.id.slice(1)}
+          {props.init}
+          {/* {props.id.charAt(0).toUpperCase() + props.id.slice(1)} */}
         </label>
         <div className="mt-1 relative rounded-md shadow-sm">
           <input
@@ -29,14 +30,45 @@ function DemandField(props) {
   );
 }
 
+function DemandFieldSelect(props) {
+  return (
+      <div className="justify-center items-center mx-auto my-1 w-1/2">
+        <label htmlFor={"vehicletype"} className="block text-sm font-medium text-gray-700" id="label">
+          {props.labelText}
+          <select id="vehicletype" 
+              className="block w-full text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500" 
+              name="Vehicle"
+              value={props.forValue ?? ""}
+              onChange={props.function}
+              required
+              >
+            <option value="" id="">
+                Select an option
+            </option>
+            {
+              props.options.map((vehicle) => (
+                <option value={vehicle.id} key={vehicle.id}> 
+                  {vehicle.brand + " " + vehicle.model + " " + vehicle.productionYear} 
+                </option>
+              ))
+              //nov = {vehicle.numberOfVehicles}
+            }
+        </select>
+      </label>
+    </div>
+  )
+}
+
 function OfferModal(props) {
 
   let { user } = useAuth0();
 
   const priceInput = useRef();
-  const vehicleInput = useRef();
+  // const vehicleInput = useRef();
   const numOfVehiclesInput = useRef();
   const noteInput = useRef();
+  const [vehicleInput, setVehicleInput] = useState(null);
+  const [vehicleData, setVehicleData] = useState([]);
 
   function formHandler() {
     // console.log(priceInput.current.value);
@@ -44,7 +76,7 @@ function OfferModal(props) {
     props.onClose();
 
     const enteredPrice = priceInput.current.value;
-    const enteredVehicle = vehicleInput.current.value;
+    const enteredVehicle = vehicleInput;
     const enteredNoV = numOfVehiclesInput.current.value;
     const enteredNote = noteInput.current.value;
     
@@ -68,14 +100,39 @@ function OfferModal(props) {
 
     let apiLink = 'http://localhost:8008/api/v1/Offer';
 
-    fetch(apiLink, offerBody)
-    .then((response) => {
-      if(!response.ok) console.error("Greska prilikom dodavanja offer-a");
-      else {
-        console.log("Sve OK: " + response.status);
-        alert("Your offer is sent")
-      }
-    })
+    if (Number(enteredNoV) < 5) { //vehicle.numberOfVehicles
+
+      fetch(apiLink, offerBody)
+      .then((response) => {
+        if(!response.ok) console.error("Greska prilikom dodavanja offer-a");
+        else {
+          console.log("Sve OK: " + response.status);
+          alert("Your offer is sent")
+        }
+      })
+    }
+    else {
+      alert("You don't have that many vehicles");
+    }
+  }
+
+  useEffect(() => {
+    fetch("http://localhost:8005/api/v1/Vehicle/GetVehiclesByCompanyID/" + user.email)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        let filteredData = data.filter((vehicle) => {
+          return vehicle.typeID == props.demand.vehicleId; 
+        });
+        console.log(filteredData);
+        setVehicleData(filteredData);
+      });
+  }, []);
+
+  function handleVehicleChange(e) {
+    console.log(e.target.value);
+    setVehicleInput(e.target.value);
   }
 
   return (
@@ -97,9 +154,14 @@ function OfferModal(props) {
             </h1>
             <form onSubmit={formHandler}>
               <DemandField innerRef={priceInput} id="price" init={"Price"} type="number"></DemandField>
-              <DemandField innerRef={vehicleInput} id="vehicle" init={"Vehicle"} type="text"></DemandField>
+              <DemandFieldSelect
+                options={vehicleData}
+                labelText={"Vehicle"}
+                function={handleVehicleChange}
+                forValue={vehicleInput}
+              > </DemandFieldSelect>
               <DemandField innerRef={numOfVehiclesInput} id="numOfVehicles" init={"Number of vehicles"} type="number"></DemandField>
-              <DemandField innerRef={noteInput} id="note" init={"Vehicle type"} type="text"></DemandField>
+              <DemandField innerRef={noteInput} id="note" init={"Note"} type="text"></DemandField>
 
               <div className="inline-flex flex-wrap items-center justify-center p-8 space-x-4">
               <Button type="button" onClick={props.onClose} text="Cancel"></Button>

@@ -54,12 +54,12 @@ function DemandPage() {
               Looks like we couldn't find any demands{" "}
             </h2>
           </div>
-          <div class="flex flex-wrap items-center justify-center p-20">
-            <div class="px-4">
+          <div className="flex flex-wrap items-center justify-center p-20">
+            <div className="px-4">
               <img
                 src={searchDemandImg}
                 alt="..."
-                class="shadow rounded-full max-w-full h-auto align-middle border-none"
+                className="shadow rounded-full max-w-full h-auto align-middle border-none"
               />
             </div>
           </div>

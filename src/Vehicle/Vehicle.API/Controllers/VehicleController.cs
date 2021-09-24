@@ -110,13 +110,13 @@ namespace Vehicle.API.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Entities.Vehicle>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<IEnumerable<Entities.Vehicle>>> GetVehiclesByType(VehicleType Type)
+        public async Task<ActionResult<IEnumerable<Entities.Vehicle>>> GetVehiclesByType(String TypeID)
         {
-            var vehicles = await _repository.getVehiclesByType(Type);
+            var vehicles = await _repository.getVehiclesByType(TypeID);
 
             if (vehicles == null)
             {
-                _logger.LogError($"Vehicle with type: {Type}, not found!");
+                _logger.LogError($"Vehicle with type: {TypeID}, not found!");
                 return NotFound();
             }
 

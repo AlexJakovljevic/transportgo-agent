@@ -11,7 +11,8 @@ function VehicleList(props) {
           };
           return (
             <Vehicle
-              type={vehicle.type}
+              key={vehicle.id}
+              type={vehicle.typeID}
               brand={vehicle.brand}
               model={vehicle.model}
               productionYear={vehicle.productionYear}

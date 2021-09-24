@@ -11,7 +11,7 @@ namespace Vehicle.API.Entities
         [BsonId]
         public String Id { get; set; }
 
-        public VehicleType Type { get; set; }
+        public String TypeID { get; set; }
 
         public String Brand { get; set; }
         public String Model { get; set; }
@@ -31,6 +31,7 @@ namespace Vehicle.API.Entities
         public float Height { get; set; }
     }
 
+    /*
     public enum VehicleType
     {
         AgriculturalTruck, 
@@ -42,4 +43,5 @@ namespace Vehicle.API.Entities
         TankTruck, 
         TruckTractor
     }
+    */
 }

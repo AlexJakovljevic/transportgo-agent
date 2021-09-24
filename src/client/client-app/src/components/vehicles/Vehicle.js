@@ -1,4 +1,5 @@
 import Button from "../Icons/Buttons";
+import { vehicleTypes } from "../../helpers";
 
 function VehicleItem(props) {
   return (
@@ -20,7 +21,7 @@ function Vehicle(props) {
     <div className="lg:w-3/5 mx-auto flex flex-wrap">
       <div className="w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
         <h2 className="text-sm title-font text-gray-500 tracking-widest">
-          Vehicle type : {props.type}
+          Vehicle type : {vehicleTypes[props.type]}
         </h2>
         <h1 className="text-gray-900 text-3xl title-font font-medium mb-4">
           {props.brand + " " + props.model}

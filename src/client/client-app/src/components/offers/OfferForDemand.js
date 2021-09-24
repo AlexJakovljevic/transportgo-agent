@@ -2,6 +2,7 @@ import Button from "../Icons/Buttons";
 import { useAuth0 } from "@auth0/auth0-react";
 import TruckIcon from "../Icons/TruckIcon";
 import { isCompany } from "../../helpers";
+import { useEffect, useState } from "react";
 
 function OfferDetail(props) {
   return (
@@ -18,8 +19,19 @@ function OfferDetail(props) {
 
 function OfferForDemand(props) {
   let { user } = useAuth0();
+  const [vehicle, setVehicle] = useState(null);
 
   let isUserCompany = isCompany(user);
+
+  useEffect(() => {
+    fetch("http://localhost:8005/api/v1/Vehicle/" + props.offer.vehicle)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setVehicle(data);
+      })
+  }, []);
 
   return (
     <li>
@@ -38,8 +50,8 @@ function OfferForDemand(props) {
             >
               <OfferDetail type="For demand:" value={props.offer.demand} />
               <OfferDetail
-                type="Vehicle : number"
-                value={props.offer.vehicle + " : " + props.offer.numOfVehicles}
+                type="Vehicle : NoV"
+                value={(vehicle ? vehicle.brand + " " + vehicle.model + " " + vehicle.productionYear : "") + " : " + props.offer.numOfVehicles}
               />
               <OfferDetail type="Price" value={props.offer.price} />
               <OfferDetail type="Note" value={props.offer.note} />

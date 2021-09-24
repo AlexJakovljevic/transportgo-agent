@@ -82,14 +82,13 @@ function VehicleCreate(props) {
 
   function handleVehicleCreate(e) {
     e.preventDefault();
-
+    
     const vehicleData = {
       id: user.email + "_" + vehicleInput + "_" + model.current.value,
       brand: brand.current.value,
       model: model.current.value,
       productionYear: parseInt(productionYear.current.value),
-      type: 0,
-      //   type: vehicleInput ,
+      typeID: vehicleInput,
       capacity: {
         length: parseFloat(capacityLength.current.value),
         width: parseFloat(capacityWidth.current.value),
@@ -112,7 +111,6 @@ function VehicleCreate(props) {
         console.error(error);
       });
   }
-
   return (
     <div className="fixed top-0 left-0 w-full h-full z-20">
       <div>

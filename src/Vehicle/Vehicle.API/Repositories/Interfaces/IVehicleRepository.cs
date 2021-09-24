@@ -12,7 +12,7 @@ namespace Vehicle.API.Repositories.Interfaces
 
         Task<Entities.Vehicle> GetVehicleById(string Id);
 
-        Task<IEnumerable<Entities.Vehicle>> getVehiclesByType(VehicleType Type);
+        Task<IEnumerable<Entities.Vehicle>> getVehiclesByType(String TypeID);
         Task<IEnumerable<Entities.Vehicle>> getVehiclesByBrand(string Brand);
         Task<IEnumerable<Entities.Vehicle>> getVehiclesByProductionYear(UInt16 ProductionYear);
 

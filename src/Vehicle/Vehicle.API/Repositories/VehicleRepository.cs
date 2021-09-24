@@ -56,9 +56,9 @@ namespace Vehicle.API.Repositories
             return await _context.Vehicles.Find(item => item.CompanyID == CompanyID).ToListAsync();
         }
 
-        public async Task<IEnumerable<Entities.Vehicle>> getVehiclesByType(VehicleType Type)
+        public async Task<IEnumerable<Entities.Vehicle>> getVehiclesByType(String TypeID)
         {
-            return await _context.Vehicles.Find(item => item.Type == Type).ToListAsync();
+            return await _context.Vehicles.Find(item => item.TypeID == TypeID).ToListAsync();
         }
 
         public async Task<bool> Update(Entities.Vehicle vehicle)

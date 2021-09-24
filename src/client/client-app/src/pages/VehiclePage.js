@@ -74,8 +74,8 @@ function VehiclePage() {
       )}
       {vehicleData.length > 0 && (
         <div>
-          <section class="text-gray-600 body-font overflow-hidden">
-            <div class="container px-5 py-12 mx-auto">
+          <section className="text-gray-600 body-font overflow-hidden">
+            <div className="container px-5 py-12 mx-auto">
               <VehicleList
                 onDelete={onDeleteVehicle}
                 vehicles={vehicleData}
